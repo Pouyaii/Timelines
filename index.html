@@ -332,6 +332,248 @@
             background: #1e293b;
         }
 
+        .utility-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 85;
+            display: grid;
+            place-items: center;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.38);
+            backdrop-filter: blur(6px);
+        }
+
+        .utility-panel {
+            width: min(680px, 100%);
+            max-height: min(760px, calc(100vh - 36px));
+            overflow: auto;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 24px 64px rgba(15, 23, 42, 0.25);
+        }
+
+        .dark .utility-panel {
+            border-color: #475569;
+            color: #f1f5f9;
+            background: rgba(30, 41, 59, 0.98);
+        }
+
+        .utility-input {
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0 13px;
+            color: #0f172a;
+            background: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .utility-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+        }
+
+        .dark .utility-input {
+            border-color: #475569;
+            color: #f8fafc;
+            background: #0f172a;
+        }
+
+        .result-row {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: left;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .result-row:hover,
+        .result-row:focus-visible {
+            background: #f1f5f9;
+            outline: none;
+            transform: translateX(2px);
+        }
+
+        .dark .result-row:hover,
+        .dark .result-row:focus-visible {
+            background: #334155;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            min-height: 34px;
+            align-items: center;
+            gap: 6px;
+            padding: 0 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            color: #475569;
+            background: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            transition: opacity 160ms ease, border-color 160ms ease, background 160ms ease;
+        }
+
+        .filter-chip.is-off {
+            opacity: 0.42;
+            background: #f1f5f9;
+        }
+
+        .dark .filter-chip {
+            border-color: #475569;
+            color: #cbd5e1;
+            background: #1e293b;
+        }
+
+        .dark .filter-chip.is-off {
+            background: #0f172a;
+        }
+
+        .orientation-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 10px;
+            border: 1px solid #dbeafe;
+            border-radius: 999px;
+            color: #2563eb;
+            background: #eff6ff;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .dark .orientation-pill {
+            border-color: rgba(96, 165, 250, 0.35);
+            color: #93c5fd;
+            background: rgba(30, 64, 175, 0.24);
+        }
+
+        .minimap {
+            position: fixed;
+            z-index: 55;
+            border: 1px solid rgba(148, 163, 184, 0.48);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.84);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+            backdrop-filter: blur(12px);
+        }
+
+        .dark .minimap {
+            border-color: rgba(71, 85, 105, 0.9);
+            background: rgba(15, 23, 42, 0.82);
+        }
+
+        .minimap-horizontal {
+            right: 24px;
+            bottom: 16px;
+            left: 24px;
+            height: 16px;
+        }
+
+        .minimap-vertical {
+            top: 92px;
+            right: 12px;
+            bottom: 20px;
+            width: 18px;
+        }
+
+        .minimap-track {
+            position: absolute;
+            inset: 3px;
+            overflow: hidden;
+            border-radius: inherit;
+            cursor: pointer;
+        }
+
+        .minimap-era {
+            position: absolute;
+            border-radius: 999px;
+            opacity: 0.82;
+        }
+
+        .minimap-window {
+            position: absolute;
+            min-width: 10px;
+            min-height: 10px;
+            border: 2px solid #2563eb;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.24);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.65);
+        }
+
+        .dark .minimap-window {
+            border-color: #93c5fd;
+            background: rgba(96, 165, 250, 0.32);
+            box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.65);
+        }
+
+        .vertical-card {
+            display: flex;
+            min-height: 28px;
+            align-items: center;
+            gap: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.38);
+            border-radius: 9px;
+            padding: 4px 7px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .vertical-card.is-selected {
+            border-color: #2563eb;
+            box-shadow: 0 7px 16px rgba(37, 99, 235, 0.2);
+        }
+
+        .dark .vertical-card {
+            border-color: rgba(100, 116, 139, 0.8);
+            color: #f1f5f9;
+            background: rgba(30, 41, 59, 0.96);
+        }
+
+        .vertical-ribbon-label {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            gap: 5px;
+            overflow: hidden;
+            padding: 5px 3px;
+            font-size: 10px;
+            font-weight: 800;
+            line-height: 1;
+            writing-mode: vertical-rl;
+        }
+
+        .tag {
+            display: inline-flex;
+            min-height: 22px;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0 8px;
+            color: #475569;
+            background: #f1f5f9;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .dark .tag {
+            color: #cbd5e1;
+            background: #334155;
+        }
+
         .mobile-toolbar {
             position: fixed;
             left: 50%;
@@ -392,6 +634,40 @@
             .icon-button {
                 min-width: 42px;
                 min-height: 42px;
+            }
+
+            .header-action .icon-button {
+                min-width: 36px;
+                min-height: 36px;
+                border-radius: 9px;
+            }
+
+            .minimap-horizontal {
+                right: 12px;
+                bottom: 70px;
+                left: 12px;
+            }
+
+            .minimap-vertical {
+                top: 124px;
+                right: 6px;
+                bottom: 70px;
+                width: 16px;
+            }
+
+            .utility-backdrop {
+                align-items: end;
+                padding: 0;
+            }
+
+            .utility-panel {
+                width: 100%;
+                max-height: min(78vh, 720px);
+                padding: 18px 16px max(20px, env(safe-area-inset-bottom));
+                border-right: 0;
+                border-bottom: 0;
+                border-left: 0;
+                border-radius: 22px 22px 0 0;
             }
 
             .detail-sheet {
@@ -456,8 +732,13 @@
         const Navigation = (props) => <IconWrapper {...props}><path d="m3 11 19-9-9 19-2-8-8-2Z" /></IconWrapper>;
         const Sparkles = (props) => <IconWrapper {...props}><path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9Z" /><path d="m5 3 .6 1.4L7 5l-1.4.6L5 7l-.6-1.4L3 5l1.4-.6Z" /><path d="m19 17 .6 1.4L21 19l-1.4.6L19 21l-.6-1.4L17 19l1.4-.6Z" /></IconWrapper>;
         const Hand = (props) => <IconWrapper {...props}><path d="M18 11V6a2 2 0 0 0-4 0v4" /><path d="M14 10V4a2 2 0 0 0-4 0v6" /><path d="M10 10V5a2 2 0 0 0-4 0v9" /><path d="m6 14-1.6-1.6a2 2 0 0 0-2.8 2.8l5.7 5.7A4 4 0 0 0 10.1 22H15a5 5 0 0 0 5-5v-6a2 2 0 0 0-4 0v1" /></IconWrapper>;
+        const Search = (props) => <IconWrapper {...props}><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></IconWrapper>;
+        const SlidersHorizontal = (props) => <IconWrapper {...props}><path d="M4 21v-7" /><path d="M4 10V3" /><path d="M12 21v-9" /><path d="M12 8V3" /><path d="M20 21v-5" /><path d="M20 12V3" /><path d="M1 14h6" /><path d="M9 8h6" /><path d="M17 16h6" /></IconWrapper>;
+        const ArrowUpDown = (props) => <IconWrapper {...props}><path d="m7 15 5 5 5-5" /><path d="M12 20V4" /><path d="m17 9-5-5-5 5" /></IconWrapper>;
+        const ArrowLeftRight = (props) => <IconWrapper {...props}><path d="m15 18 6-6-6-6" /><path d="M21 12H3" /><path d="m9 6-6 6 6 6" /></IconWrapper>;
+        const CornerDownLeft = (props) => <IconWrapper {...props}><path d="m9 10-5 5 5 5" /><path d="M20 4v7a4 4 0 0 1-4 4H4" /></IconWrapper>;
 
-        const TimelineGlyph = ({ kind = 'spark', size = 14, className = '' }) => {
+        const TimelineGlyph = ({ kind = 'spark', size = 14, className = '', style }) => {
             const paths = {
                 sprout: <><path d="M12 21v-9" /><path d="M7 4c3 0 5 2 5 5-3 0-5-2-5-5Z" /><path d="M17 7c-3 0-5 2-5 5 3 0 5-2 5-5Z" /></>,
                 vessel: <><path d="M7 3h10" /><path d="M8 3c0 4-2 5-2 10a6 6 0 0 0 12 0c0-5-2-6-2-10" /><path d="M6 13h12" /></>,
@@ -482,7 +763,7 @@
             };
 
             return (
-                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} style={style} aria-hidden="true">
                     {paths[kind] || paths.spark}
                 </svg>
             );
@@ -662,6 +943,99 @@
             { id: 'merged-split', label: 'Split', icon: Split }
         ];
 
+        const TECH_CATEGORY_DEFS = [
+            { id: 'food', label: 'Agriculture / Food', color: '#84cc16', glyph: 'sprout' },
+            { id: 'tools', label: 'Materials / Tools', color: '#f59e0b', glyph: 'tools' },
+            { id: 'knowledge', label: 'Writing / Knowledge', color: '#8b5cf6', glyph: 'document' },
+            { id: 'transport', label: 'Transport', color: '#0ea5e9', glyph: 'transport' },
+            { id: 'energy', label: 'Energy / Industry', color: '#f97316', glyph: 'energy' },
+            { id: 'medicine', label: 'Medicine / Biology', color: '#ec4899', glyph: 'health' },
+            { id: 'computing', label: 'Communication / Computing', color: '#3b82f6', glyph: 'signal' },
+            { id: 'advanced', label: 'Space / Advanced', color: '#6366f1', glyph: 'rocket' },
+            { id: 'future', label: 'AI / Future', color: '#10b981', glyph: 'chip' }
+        ];
+
+        const TECH_CATEGORY_MAP = Object.fromEntries(TECH_CATEGORY_DEFS.map((category) => [category.id, category]));
+        const POL_TYPES = Object.keys(polColors);
+
+        const getTechCategory = (name) => {
+            const value = name.toLowerCase();
+            if (/agriculture|domestication|irrigation/.test(value)) return 'food';
+            if (/writing|papyrus|paper|alphabet|printing|type|eyeglasses|clock|photography/.test(value)) return 'knowledge';
+            if (/boat|wheel|chariot|compass|locomotive|automobile|airplane/.test(value)) return 'transport';
+            if (/battery|lightning|bulb|engine|plastics|spinning|reactor|fusion/.test(value)) return 'energy';
+            if (/vaccin|anesthesia|x-rays|penicillin|dna|cloning|crispr/.test(value)) return 'medicine';
+            if (/telegraph|telephone|radio|television|transistor|circuit|processor|computer|internet|web|mobile|social|smartphone|blockchain/.test(value)) return 'computing';
+            if (/rocket|satellite|moon landing|laser/.test(value)) return 'advanced';
+            if (/ai|commercial fusion/.test(value)) return 'future';
+            return 'tools';
+        };
+
+        const TECH_DESCRIPTIONS = {
+            'Agriculture': 'Cultivation and food production supported larger, more permanent settlements.',
+            'Animal Domestication': 'Domesticated animals expanded food, transport, and agricultural capacity.',
+            'Writing (Cuneiform)': 'Recorded language made administration, trade, and long-distance memory more durable.',
+            'The Wheel': 'Wheeled transport and machinery improved movement and mechanical leverage.',
+            'Gunpowder': 'Gunpowder reshaped warfare and contributed to changes in fortification and state power.',
+            'Printing Press': 'Movable-type printing accelerated the circulation of knowledge and public debate.',
+            'Steam Engine': 'Steam power helped drive mechanized production and modern transportation.',
+            'Electric Battery': 'Portable stored electricity enabled experimentation and later electrical systems.',
+            'Vaccination': 'Vaccination introduced a powerful way to prevent infectious disease.',
+            'Telegraph': 'Electrical telegraphy compressed communication time across long distances.',
+            'Telephone': 'Voice communication became possible across electrical networks.',
+            'Automobile': 'Road transport became faster, more flexible, and increasingly mass-market.',
+            'Airplane': 'Powered flight transformed travel, logistics, and military strategy.',
+            'Penicillin': 'Antibiotic treatment dramatically improved outcomes for many bacterial infections.',
+            'Transistor': 'The transistor made compact, reliable electronic switching practical.',
+            'Internet (ARPANET)': 'Packet-switched networking laid foundations for interconnected digital communication.',
+            'World Wide Web': 'The web made networked information easier to publish, link, and navigate.',
+            'Smartphone': 'Mobile computing combined communication, sensors, and software in a pocket-sized device.',
+            'CRISPR/Cas9': 'CRISPR made targeted genome editing more accessible to researchers.',
+            'Reusable Rockets': 'Recoverable launch vehicles reduced the cost of repeated space access.',
+            'Generative AI': 'Generative models made machine-produced text, images, and code broadly accessible.'
+        };
+
+        const TECH_IMPACTS = {
+            food: ['food surplus', 'settlement'],
+            tools: ['production', 'craft'],
+            knowledge: ['record keeping', 'communication'],
+            transport: ['mobility', 'trade'],
+            energy: ['industrialization', 'state capacity'],
+            medicine: ['public health', 'biotechnology'],
+            computing: ['communication', 'computation'],
+            advanced: ['science', 'space access'],
+            future: ['automation', 'governance']
+        };
+
+        const RELATED_LINKS = {
+            'Agriculture': ['Tribes & Chiefdoms', 'City-States (Sumerian)'],
+            'Writing (Cuneiform)': ['City-States (Sumerian)', 'Imperial Bureaucracy'],
+            'Gunpowder': ['Feudalism', 'Absolute Monarchy'],
+            'Printing Press': ['Westphalian Nation-State', 'Early Modern'],
+            'Steam Engine': ['Age of Revolution', 'Welfare State'],
+            'Internet (ARPANET)': ['Global Era', 'Supranational Unions'],
+            'World Wide Web': ['Global Era', 'Supranational Unions'],
+            'Generative AI': ['AI Era', 'Global Era'],
+            'City-States (Sumerian)': ['Writing (Cuneiform)', 'Agriculture'],
+            'Imperial Bureaucracy': ['Writing (Cuneiform)', 'Paper (China)'],
+            'Westphalian Nation-State': ['Printing Press', 'Gunpowder'],
+            'Global Era': ['Internet (ARPANET)', 'Generative AI']
+        };
+
+        const TECH_ITEMS = INVENTIONS.map((item) => {
+            const category = getTechCategory(item.name);
+            return {
+                ...item,
+                category,
+                description: TECH_DESCRIPTIONS[item.name] || `${TECH_CATEGORY_MAP[category].label} milestone on the civilization timeline.`,
+                impact: TECH_IMPACTS[category],
+                related: RELATED_LINKS[item.name] || []
+            };
+        });
+
+        const POL_ITEMS = POLITICAL_SYSTEMS.map((item) => ({ ...item, related: RELATED_LINKS[item.name] || [] }));
+        const ALL_ERAS = [...TECH_ERAS, ...POL_ERAS.filter((era) => !TECH_ERAS.some((techEra) => techEra.name === era.name))];
+
         const itemKey = (type, data) => `${type}:${data.name}`;
 
         const getTechGlyph = (name) => {
@@ -714,6 +1088,18 @@
             return 'A milestone on the technology timeline. Explore nearby events to see how innovation accelerates across eras.';
         };
 
+        const getItemFocusYear = (item) => item.type === 'tech' ? item.data.year : (item.data.start + item.data.end) / 2;
+
+        const parseYearInput = (value) => {
+            const normalized = value.trim().toUpperCase().replace(/,/g, '');
+            const match = normalized.match(/^(-?\d{1,5})(?:\s*(BCE|BC|CE|AD))?$/);
+            if (!match) return null;
+            let year = Number(match[1]);
+            if (match[2] === 'BCE' || match[2] === 'BC') year = -Math.abs(year);
+            if (match[2] === 'CE' || match[2] === 'AD') year = Math.abs(year);
+            return Math.max(-10000, Math.min(2035, year));
+        };
+
         const ToolbarButton = ({ label, children, onClick }) => (
             <button type="button" className="icon-button" aria-label={label} title={label} onClick={onClick}>
                 {children}
@@ -736,7 +1122,7 @@
             );
         };
 
-        const DetailContent = ({ item }) => (
+        const DetailContent = ({ item, onRelated }) => (
             <>
                 <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
                     <TimelineGlyph kind={getItemGlyph(item)} size={15} />
@@ -745,6 +1131,23 @@
                 <h3 className="mt-2 text-xl font-extrabold tracking-tight">{item.data.name}</h3>
                 <div className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{getItemDate(item)}</div>
                 <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{getItemDescription(item)}</p>
+                {item.data.impact?.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                        {item.data.impact.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
+                    </div>
+                )}
+                {item.data.related?.length > 0 && (
+                    <div className="mt-4 border-t border-slate-200 pt-3 dark:border-slate-700">
+                        <div className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Related</div>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                            {item.data.related.map((name) => (
+                                <button type="button" className="tag hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/50 dark:hover:text-blue-200" key={name} onClick={() => onRelated?.(name)}>
+                                    {name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </>
         );
 
@@ -1382,7 +1785,852 @@
             );
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<TimelineApp />);
+        function TimelineAppPass2() {
+            const getDefaultOrientation = () => {
+                try {
+                    const stored = window.localStorage.getItem('civilization-atlas-orientation');
+                    if (stored === 'horizontal' || stored === 'vertical') return stored;
+                } catch {
+                    // Local storage can be unavailable in privacy-restricted contexts.
+                }
+                return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768 ? 'vertical' : 'horizontal';
+            };
+
+            const [mode, setMode] = useState('tech');
+            const [orientation, setOrientation] = useState(getDefaultOrientation);
+            const [zoom, setZoom] = useState(() => getDefaultOrientation() === 'vertical' ? 0.38 : 1);
+            const [isDarkMode, setIsDarkMode] = useState(false);
+            const [hoveredItem, setHoveredItem] = useState(null);
+            const [selectedItem, setSelectedItem] = useState(null);
+            const [cursorYear, setCursorYear] = useState(null);
+            const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+            const [showHelp, setShowHelp] = useState(false);
+            const [showSearch, setShowSearch] = useState(false);
+            const [showFilters, setShowFilters] = useState(false);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [jumpInput, setJumpInput] = useState('');
+            const [jumpError, setJumpError] = useState('');
+            const [disabledTechCategories, setDisabledTechCategories] = useState([]);
+            const [disabledPolTypes, setDisabledPolTypes] = useState([]);
+            const [isTouchDevice, setIsTouchDevice] = useState(() => window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+            const [isDragging, setIsDragging] = useState(false);
+            const [viewport, setViewport] = useState({ scrollLeft: 0, scrollTop: 0, clientWidth: 0, clientHeight: 0, scrollWidth: 1, scrollHeight: 1 });
+
+            const containerRef = useRef(null);
+            const nextScrollRef = useRef(null);
+            const zoomRef = useRef(zoom);
+            const orientationRef = useRef(orientation);
+            const activePointersRef = useRef(new Map());
+            const gestureRef = useRef({ lastMidpoint: null, lastDistance: 0, moved: false });
+            const suppressClickUntilRef = useRef(0);
+            const lastTapRef = useRef({ time: 0, x: 0, y: 0 });
+            const scrollFrameRef = useRef(null);
+
+            const startYear = -10000;
+            const endYear = 2035;
+            const totalYears = endYear - startYear;
+            const H_PADDING = 50;
+            const V_PADDING = 64;
+            const H_HEIGHT = 820;
+            const MIN_HORIZONTAL_ZOOM = 0.025;
+            const MIN_VERTICAL_ZOOM = 0.045;
+            const MAX_ZOOM = 12;
+            const isVertical = orientation === 'vertical';
+            const defaultZoom = isVertical ? 0.38 : 1;
+            const timelinePrimarySize = totalYears * zoom;
+            const canvasWidth = isVertical
+                ? Math.max(viewport.clientWidth || window.innerWidth, isTouchDevice ? 390 : 960)
+                : timelinePrimarySize + H_PADDING + 280;
+            const canvasHeight = isVertical ? timelinePrimarySize + V_PADDING * 2 : H_HEIGHT;
+
+            const horizontalLayout = useMemo(() => {
+                const isSplit = mode === 'merged-split';
+                const isOverlap = mode === 'merged-overlap';
+                const centerY = H_HEIGHT / 2;
+                return {
+                    techAxisY: isSplit ? H_HEIGHT * 0.66 : (isOverlap ? centerY + 34 : 292),
+                    polAxisY: isSplit ? H_HEIGHT * 0.36 : (isOverlap ? centerY + 34 : 242),
+                    polDirection: isSplit || isOverlap ? -1 : 1
+                };
+            }, [mode]);
+
+            const showsTech = mode === 'tech' || mode.includes('merged');
+            const showsPolitics = mode === 'pol' || mode.includes('merged');
+            const eraSet = mode === 'pol' ? POL_ERAS : TECH_ERAS;
+            const visibleTechItems = useMemo(() => TECH_ITEMS.filter((item) => !disabledTechCategories.includes(item.category)), [disabledTechCategories]);
+            const visiblePolItems = useMemo(() => POL_ITEMS.filter((item) => !disabledPolTypes.includes(item.type)), [disabledPolTypes]);
+            const layoutPolData = useMemo(() => layoutPoliticalLanes(visiblePolItems), [visiblePolItems]);
+
+            const verticalAxisX = useMemo(() => {
+                if (mode === 'tech') return isTouchDevice ? 82 : canvasWidth * 0.46;
+                if (mode === 'pol') return isTouchDevice ? canvasWidth - 52 : canvasWidth * 0.62;
+                return canvasWidth * 0.5;
+            }, [canvasWidth, isTouchDevice, mode]);
+
+            const clampZoom = (value) => Math.max(isVertical ? MIN_VERTICAL_ZOOM : MIN_HORIZONTAL_ZOOM, Math.min(value, MAX_ZOOM));
+            const yearToPrimaryCoord = (year, scale = zoomRef.current) => orientationRef.current === 'vertical'
+                ? V_PADDING + (endYear - year) * scale
+                : H_PADDING + (year - startYear) * scale;
+            const primaryCoordToYear = (coord, scale = zoomRef.current) => orientationRef.current === 'vertical'
+                ? endYear - (coord - V_PADDING) / scale
+                : startYear + (coord - H_PADDING) / scale;
+
+            const screenPointToYear = (clientX, clientY, scale = zoomRef.current) => {
+                const container = containerRef.current;
+                if (!container) return startYear;
+                const rect = container.getBoundingClientRect();
+                const coord = orientationRef.current === 'vertical'
+                    ? container.scrollTop + clientY - rect.top
+                    : container.scrollLeft + clientX - rect.left;
+                return primaryCoordToYear(coord, scale);
+            };
+
+            const syncViewport = () => {
+                if (scrollFrameRef.current) return;
+                scrollFrameRef.current = requestAnimationFrame(() => {
+                    scrollFrameRef.current = null;
+                    const container = containerRef.current;
+                    if (!container) return;
+                    setViewport({
+                        scrollLeft: container.scrollLeft,
+                        scrollTop: container.scrollTop,
+                        clientWidth: container.clientWidth,
+                        clientHeight: container.clientHeight,
+                        scrollWidth: container.scrollWidth,
+                        scrollHeight: container.scrollHeight
+                    });
+                });
+            };
+
+            const applyPrimaryScroll = (value) => {
+                const container = containerRef.current;
+                if (!container) return;
+                if (orientationRef.current === 'vertical') container.scrollTop = Math.max(0, value);
+                else container.scrollLeft = Math.max(0, value);
+                syncViewport();
+            };
+
+            const commitZoom = (newZoom, targetPrimaryScroll) => {
+                const safeZoom = clampZoom(newZoom);
+                const previousZoom = zoomRef.current;
+                zoomRef.current = safeZoom;
+                nextScrollRef.current = Math.max(0, targetPrimaryScroll);
+                if (Math.abs(safeZoom - previousZoom) < 0.0001) {
+                    applyPrimaryScroll(nextScrollRef.current);
+                    nextScrollRef.current = null;
+                } else {
+                    setZoom(safeZoom);
+                }
+            };
+
+            const zoomAtClientPoint = (newZoom, clientX, clientY) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const rect = container.getBoundingClientRect();
+                const viewportOffset = orientationRef.current === 'vertical' ? clientY - rect.top : clientX - rect.left;
+                const yearAtPoint = screenPointToYear(clientX, clientY);
+                const safeZoom = clampZoom(newZoom);
+                const targetScroll = (orientationRef.current === 'vertical'
+                    ? V_PADDING + (endYear - yearAtPoint) * safeZoom
+                    : H_PADDING + (yearAtPoint - startYear) * safeZoom) - viewportOffset;
+                commitZoom(safeZoom, targetScroll);
+            };
+
+            const handleZoom = (newZoom) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const rect = container.getBoundingClientRect();
+                zoomAtClientPoint(newZoom, rect.left + rect.width / 2, rect.top + rect.height / 2);
+            };
+
+            const panByDelta = (deltaX, deltaY) => {
+                const container = containerRef.current;
+                if (!container) return;
+                if (orientationRef.current === 'vertical') {
+                    container.scrollTop -= deltaY;
+                    container.scrollLeft -= deltaX * 0.35;
+                } else {
+                    container.scrollLeft -= deltaX;
+                }
+                syncViewport();
+            };
+
+            const focusYear = (year, requestedZoom = zoomRef.current) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const safeZoom = clampZoom(requestedZoom);
+                const clientSize = orientationRef.current === 'vertical' ? container.clientHeight : container.clientWidth;
+                const coord = orientationRef.current === 'vertical'
+                    ? V_PADDING + (endYear - year) * safeZoom
+                    : H_PADDING + (year - startYear) * safeZoom;
+                commitZoom(safeZoom, coord - clientSize / 2);
+            };
+
+            const fitTimeline = () => {
+                const container = containerRef.current;
+                if (!container) return;
+                const clientSize = isVertical ? container.clientHeight : container.clientWidth;
+                const fitZoom = clampZoom((clientSize - 84) / totalYears);
+                commitZoom(fitZoom, 0);
+            };
+
+            const resetView = () => focusYear(isVertical ? 1950 : 1800, defaultZoom);
+            const jumpToModern = () => focusYear(1950, Math.max(zoomRef.current, isVertical ? 0.52 : 1.15));
+
+            const makeItem = (type, data, x = 0, y = 0) => ({ type, data, x, y, key: itemKey(type, data) });
+            const isSelected = (type, data) => selectedItem?.key === itemKey(type, data);
+            const getCurrentCenterYear = () => {
+                const container = containerRef.current;
+                if (!container) return 1950;
+                const rect = container.getBoundingClientRect();
+                return screenPointToYear(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            };
+
+            const switchOrientation = () => {
+                const focus = selectedItem ? getItemFocusYear(selectedItem) : getCurrentCenterYear();
+                const next = orientation === 'vertical' ? 'horizontal' : 'vertical';
+                const nextZoom = next === 'vertical' ? 0.38 : 1;
+                orientationRef.current = next;
+                zoomRef.current = nextZoom;
+                setOrientation(next);
+                setZoom(nextZoom);
+                window.setTimeout(() => focusYear(focus, nextZoom), 40);
+            };
+
+            const focusAndSelect = (item) => {
+                if (!item) return;
+                if (item.type === 'tech' && !showsTech) setMode('tech');
+                if (item.type === 'pol' && !showsPolitics) setMode('pol');
+                if (item.type === 'era' && mode === 'pol' && TECH_ERAS.includes(item.data)) setMode('tech');
+                setSelectedItem(item);
+                setHoveredItem(null);
+                window.setTimeout(() => focusYear(getItemFocusYear(item), Math.max(zoomRef.current, isVertical ? 0.42 : 1)), 45);
+            };
+
+            const findItemByName = (name) => {
+                const tech = TECH_ITEMS.find((item) => item.name === name);
+                if (tech) return makeItem('tech', tech);
+                const politics = POL_ITEMS.find((item) => item.name === name);
+                if (politics) return makeItem('pol', politics);
+                const era = ALL_ERAS.find((item) => item.name === name);
+                return era ? makeItem('era', era) : null;
+            };
+
+            const selectTimelineItem = (event, type, data) => {
+                if (Date.now() < suppressClickUntilRef.current) return;
+                event.stopPropagation();
+                setSelectedItem(makeItem(type, data));
+            };
+
+            const selectItemWithKeyboard = (event, type, data) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                focusAndSelect(makeItem(type, data));
+            };
+
+            const showHover = (event, type, data) => {
+                if (isTouchDevice || activePointersRef.current.size) return;
+                setHoveredItem(makeItem(type, data, event.clientX, event.clientY));
+            };
+
+            const searchEntries = useMemo(() => [
+                ...TECH_ITEMS.map((data) => makeItem('tech', data)),
+                ...POL_ITEMS.map((data) => makeItem('pol', data)),
+                ...ALL_ERAS.map((data) => makeItem('era', data))
+            ], []);
+            const filteredSearchResults = useMemo(() => {
+                const needle = searchQuery.trim().toLowerCase();
+                if (!needle) return searchEntries.slice(0, 9);
+                return searchEntries.filter((item) => `${item.data.name} ${getItemDescription(item)}`.toLowerCase().includes(needle)).slice(0, 14);
+            }, [searchEntries, searchQuery]);
+
+            const submitJump = (event) => {
+                event.preventDefault();
+                const year = parseYearInput(jumpInput);
+                if (year === null) {
+                    setJumpError('Try a year like 1950, 500 BCE, or -500.');
+                    return;
+                }
+                setJumpError('');
+                setShowSearch(false);
+                focusYear(year, Math.max(zoomRef.current, isVertical ? 0.42 : 1));
+            };
+
+            const getPointerMetrics = () => {
+                const points = Array.from(activePointersRef.current.values());
+                if (!points.length) return { midpoint: null, distance: 0 };
+                if (points.length === 1) return { midpoint: points[0], distance: 0 };
+                const first = points[0];
+                const second = points[1];
+                return {
+                    midpoint: { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 },
+                    distance: Math.hypot(second.x - first.x, second.y - first.y)
+                };
+            };
+
+            const updateMouseCursor = (event) => {
+                if (event.pointerType !== 'mouse' || activePointersRef.current.size) return;
+                setCursorYear(screenPointToYear(event.clientX, event.clientY));
+                setMousePos({ x: event.clientX, y: event.clientY });
+            };
+
+            const handlePointerDown = (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                const metrics = getPointerMetrics();
+                gestureRef.current = { lastMidpoint: metrics.midpoint, lastDistance: metrics.distance, moved: false };
+                setIsDragging(true);
+            };
+
+            const handlePointerMove = (event) => {
+                if (!activePointersRef.current.has(event.pointerId)) {
+                    updateMouseCursor(event);
+                    return;
+                }
+                const previous = activePointersRef.current.get(event.pointerId);
+                activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                const metrics = getPointerMetrics();
+                const gesture = gestureRef.current;
+                const traveled = Math.hypot(event.clientX - previous.x, event.clientY - previous.y);
+                if (traveled > 2 && !gesture.moved) {
+                    gesture.moved = true;
+                    try {
+                        event.currentTarget.setPointerCapture?.(event.pointerId);
+                    } catch {
+                        // Synthetic pointer events may not support capture.
+                    }
+                }
+                if (metrics.midpoint && gesture.lastMidpoint) panByDelta(metrics.midpoint.x - gesture.lastMidpoint.x, metrics.midpoint.y - gesture.lastMidpoint.y);
+                if (activePointersRef.current.size >= 2 && gesture.lastDistance > 0 && metrics.distance > 0) {
+                    const ratio = metrics.distance / gesture.lastDistance;
+                    if (Math.abs(ratio - 1) > 0.002) zoomAtClientPoint(zoomRef.current * ratio, metrics.midpoint.x, metrics.midpoint.y);
+                }
+                gesture.lastMidpoint = metrics.midpoint;
+                gesture.lastDistance = metrics.distance;
+                if (gesture.moved) suppressClickUntilRef.current = Date.now() + 160;
+                event.preventDefault();
+            };
+
+            const finishPointer = (event, cancelled = false) => {
+                const wasSinglePointer = activePointersRef.current.size === 1;
+                const gesture = gestureRef.current;
+                const targetIsItem = event.target.closest?.('[data-timeline-item="true"]');
+                activePointersRef.current.delete(event.pointerId);
+                try {
+                    event.currentTarget.releasePointerCapture?.(event.pointerId);
+                } catch {
+                    // Capture may already be released after cancellation.
+                }
+                if (activePointersRef.current.size) {
+                    const metrics = getPointerMetrics();
+                    gestureRef.current = { lastMidpoint: metrics.midpoint, lastDistance: metrics.distance, moved: true };
+                    return;
+                }
+                setIsDragging(false);
+                if (gesture.moved) {
+                    suppressClickUntilRef.current = Date.now() + 160;
+                    return;
+                }
+                if (!cancelled && wasSinglePointer && !targetIsItem) {
+                    const now = Date.now();
+                    const lastTap = lastTapRef.current;
+                    const isDoubleTap = now - lastTap.time < 320 && Math.hypot(event.clientX - lastTap.x, event.clientY - lastTap.y) < 26;
+                    setSelectedItem(null);
+                    if (isDoubleTap) {
+                        zoomAtClientPoint(zoomRef.current * 1.45, event.clientX, event.clientY);
+                        lastTapRef.current = { time: 0, x: 0, y: 0 };
+                    } else {
+                        lastTapRef.current = { time: now, x: event.clientX, y: event.clientY };
+                    }
+                }
+            };
+
+            const handleWheel = (event) => {
+                if (event.altKey) {
+                    event.preventDefault();
+                    zoomAtClientPoint(zoomRef.current * (event.deltaY > 0 ? 0.9 : 1.1), event.clientX, event.clientY);
+                    return;
+                }
+                event.preventDefault();
+                const container = containerRef.current;
+                if (!container) return;
+                if (orientationRef.current === 'vertical') {
+                    container.scrollTop += event.deltaY;
+                    container.scrollLeft += event.deltaX;
+                } else {
+                    container.scrollLeft += Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+                }
+                syncViewport();
+            };
+
+            useEffect(() => {
+                zoomRef.current = zoom;
+            }, [zoom]);
+
+            useEffect(() => {
+                orientationRef.current = orientation;
+                try {
+                    window.localStorage.setItem('civilization-atlas-orientation', orientation);
+                } catch {
+                    // Keep the orientation functional without persistence.
+                }
+            }, [orientation]);
+
+            useEffect(() => {
+                const updatePointerMode = () => setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+                updatePointerMode();
+                const query = window.matchMedia('(pointer: coarse)');
+                query.addEventListener?.('change', updatePointerMode);
+                window.addEventListener('resize', updatePointerMode);
+                return () => {
+                    query.removeEventListener?.('change', updatePointerMode);
+                    window.removeEventListener('resize', updatePointerMode);
+                };
+            }, []);
+
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    if (event.key !== 'Escape') return;
+                    if (showSearch) setShowSearch(false);
+                    else if (showFilters) setShowFilters(false);
+                    else if (showHelp) setShowHelp(false);
+                    else setSelectedItem(null);
+                };
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, [showFilters, showHelp, showSearch]);
+
+            useEffect(() => {
+                const container = containerRef.current;
+                if (!container) return;
+                const wheelListener = (event) => handleWheel(event);
+                container.addEventListener('wheel', wheelListener, { passive: false });
+                return () => container.removeEventListener('wheel', wheelListener);
+            }, [orientation]);
+
+            useLayoutEffect(() => {
+                if (nextScrollRef.current !== null) {
+                    applyPrimaryScroll(nextScrollRef.current);
+                    nextScrollRef.current = null;
+                }
+                syncViewport();
+            }, [mode, orientation, zoom]);
+
+            useEffect(() => {
+                const applyInitialFocus = () => resetView();
+                const retry = window.setTimeout(applyInitialFocus, 70);
+                applyInitialFocus();
+                return () => window.clearTimeout(retry);
+            }, []);
+
+            const primaryScroll = isVertical ? viewport.scrollTop : viewport.scrollLeft;
+            const primaryClientSize = isVertical ? viewport.clientHeight : viewport.clientWidth;
+            const primaryScrollSize = isVertical ? viewport.scrollHeight : viewport.scrollWidth;
+            const isPrimaryVisible = (coord, margin = 520) => !primaryClientSize || (coord >= primaryScroll - margin && coord <= primaryScroll + primaryClientSize + margin);
+            const isSpanVisible = (from, to, margin = 380) => !primaryClientSize || (to >= primaryScroll - margin && from <= primaryScroll + primaryClientSize + margin);
+            const gridStep = zoom < 0.09 ? 2000 : zoom < 0.22 ? 1000 : zoom < 0.9 ? 500 : 100;
+            const horizontalGridStep = zoom < 0.12 ? 2000 : zoom < 0.45 ? 1000 : zoom < 2 ? 500 : 100;
+
+            const horizontalTechData = useMemo(() => {
+                const laneCount = mode === 'tech' ? 16 : 11;
+                const laneEnds = Array.from({ length: laneCount }, () => -Infinity);
+                return visibleTechItems.map((item) => {
+                    const x = H_PADDING + (item.year - startYear) * zoom;
+                    let lane = laneEnds.findIndex((laneEnd) => x - laneEnd > 176);
+                    if (lane === -1) lane = laneEnds.indexOf(Math.min(...laneEnds));
+                    laneEnds[lane] = x;
+                    return { ...item, lane };
+                });
+            }, [mode, visibleTechItems, zoom]);
+
+            const verticalTechData = useMemo(() => {
+                const lastY = { left: -Infinity, right: -Infinity };
+                return [...visibleTechItems].sort((a, b) => b.year - a.year).map((item, index) => {
+                    const pointY = V_PADDING + (endYear - item.year) * zoom;
+                    const side = isTouchDevice || mode.includes('merged') ? 'right' : (index % 2 ? 'left' : 'right');
+                    const labelY = Math.max(pointY - 14, lastY[side] + 31);
+                    lastY[side] = labelY;
+                    return { ...item, side, pointY, labelY };
+                });
+            }, [isTouchDevice, mode, visibleTechItems, zoom]);
+
+            const getHorizontalTechLabelY = (lane) => horizontalLayout.techAxisY + 48 + lane * 27;
+            const getHorizontalPolBarY = (lane) => horizontalLayout.polDirection === -1
+                ? horizontalLayout.polAxisY - 50 - lane * 31
+                : horizontalLayout.polAxisY + 40 + lane * 31;
+
+            const verticalPolX = (lane) => {
+                if (mode === 'pol' && isTouchDevice) return Math.max(10, verticalAxisX - 30 - lane * 25);
+                return Math.max(10, verticalAxisX - 38 - lane * 28);
+            };
+
+            const updateMinimap = (event) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const rect = event.currentTarget.getBoundingClientRect();
+                const ratio = isVertical
+                    ? (event.clientY - rect.top) / rect.height
+                    : (event.clientX - rect.left) / rect.width;
+                const clientSize = isVertical ? container.clientHeight : container.clientWidth;
+                const scrollSize = isVertical ? container.scrollHeight : container.scrollWidth;
+                applyPrimaryScroll(Math.max(0, Math.min(1, ratio)) * scrollSize - clientSize / 2);
+            };
+
+            const handleMinimapPointerDown = (event) => {
+                event.currentTarget.setPointerCapture?.(event.pointerId);
+                updateMinimap(event);
+            };
+
+            const toggleTechCategory = (category) => setDisabledTechCategories((items) => items.includes(category) ? items.filter((item) => item !== category) : [...items, category]);
+            const togglePolType = (type) => setDisabledPolTypes((items) => items.includes(type) ? items.filter((item) => item !== type) : [...items, type]);
+            const clearFilters = () => {
+                setDisabledTechCategories([]);
+                setDisabledPolTypes([]);
+            };
+            const hideAllFilters = () => {
+                setDisabledTechCategories(TECH_CATEGORY_DEFS.map((category) => category.id));
+                setDisabledPolTypes(POL_TYPES);
+            };
+
+            const theme = isDarkMode ? {
+                bg: 'bg-slate-950',
+                text: 'text-slate-100',
+                subText: 'text-slate-400',
+                axis: '#cbd5e1',
+                grid: '#1e293b',
+                gridText: '#64748b'
+            } : {
+                bg: 'bg-slate-50',
+                text: 'text-slate-900',
+                subText: 'text-slate-500',
+                axis: '#475569',
+                grid: '#e2e8f0',
+                gridText: '#94a3b8'
+            };
+
+            const renderToolbar = (mobile = false) => (
+                <div className={`toolbar-shell ${mobile ? 'mobile-toolbar' : 'desktop-toolbar'}`} aria-label="Timeline navigation controls">
+                    <ToolbarButton label="Zoom out" onClick={() => handleZoom(zoomRef.current * 0.82)}><ZoomOut size={18} /></ToolbarButton>
+                    <span className={`w-12 text-center font-mono text-[11px] font-bold ${theme.subText}`}>{Math.round(zoom * 100)}%</span>
+                    <ToolbarButton label="Zoom in" onClick={() => handleZoom(zoomRef.current * 1.22)}><ZoomIn size={18} /></ToolbarButton>
+                    <div className="toolbar-divider" />
+                    <ToolbarButton label="Fit full timeline" onClick={fitTimeline}><Maximize2 size={17} /></ToolbarButton>
+                    <ToolbarButton label="Jump to modern era" onClick={jumpToModern}><Navigation size={17} /></ToolbarButton>
+                    <ToolbarButton label="Reset view" onClick={resetView}><RefreshCcw size={17} /></ToolbarButton>
+                    {mobile && <ToolbarButton label="Open gesture help" onClick={() => setShowHelp(true)}><HelpCircle size={17} /></ToolbarButton>}
+                </div>
+            );
+
+            const renderHorizontalTimeline = () => (
+                <svg width={canvasWidth} height={canvasHeight} className="absolute left-0 top-0 block">
+                    {Array.from({ length: Math.ceil(totalYears / horizontalGridStep) + 1 }).map((_, index) => {
+                        const year = startYear + index * horizontalGridStep;
+                        if (year > endYear) return null;
+                        const x = H_PADDING + (year - startYear) * zoom;
+                        if (!isPrimaryVisible(x, 120)) return null;
+                        return (
+                            <g key={year}>
+                                <line x1={x} y1={0} x2={x} y2={H_HEIGHT} stroke={theme.grid} strokeWidth={1} strokeDasharray="4 5" />
+                                <text x={x + 6} y={horizontalLayout.techAxisY + 17} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.78}>{formatYear(year)}</text>
+                                {mode === 'merged-split' && <text x={x + 6} y={horizontalLayout.polAxisY - 12} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.78}>{formatYear(year)}</text>}
+                            </g>
+                        );
+                    })}
+                    {eraSet.map((era) => {
+                        const startX = H_PADDING + (era.start - startYear) * zoom;
+                        const endX = H_PADDING + (era.end - startYear) * zoom;
+                        const width = Math.max(endX - startX, 1);
+                        const color = hexColors[era.color];
+                        return (
+                            <g key={era.name}>
+                                <rect x={startX} y={80} width={width} height={H_HEIGHT - 80} fill={color} fillOpacity={isDarkMode ? 0.12 : 0.25} />
+                                {isSpanVisible(startX, endX) && width > 86 && (
+                                    <foreignObject x={startX} y={92} width={width} height={38} style={{ overflow: 'visible' }}>
+                                        <div className="flex justify-center">
+                                            <button type="button" data-timeline-item="true" className={`era-chip ${isSelected('era', era) ? 'is-selected' : ''}`} style={{ backgroundColor: isDarkMode ? `${color}66` : color }} onClick={(event) => selectTimelineItem(event, 'era', era)} onMouseEnter={(event) => showHover(event, 'era', era)} onMouseLeave={() => setHoveredItem(null)}>{era.name}</button>
+                                        </div>
+                                    </foreignObject>
+                                )}
+                            </g>
+                        );
+                    })}
+                    {showsPolitics && (
+                        <g>
+                            <line x1={H_PADDING} y1={horizontalLayout.polAxisY} x2={H_PADDING + totalYears * zoom} y2={horizontalLayout.polAxisY} stroke={theme.axis} strokeWidth={2} />
+                            {mode.includes('merged') && <text x={H_PADDING} y={horizontalLayout.polAxisY - 12} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">POLITICS</text>}
+                            {layoutPolData.map((system, index) => {
+                                const startX = H_PADDING + (system.start - startYear) * zoom;
+                                const endX = H_PADDING + (system.end - startYear) * zoom;
+                                if (!isSpanVisible(startX, endX)) return null;
+                                const width = Math.max(endX - startX, 3);
+                                const y = getHorizontalPolBarY(system.lane);
+                                const color = polColors[system.type] || '#64748b';
+                                return (
+                                    <g key={`${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
+                                        <rect x={startX} y={y} width={width} height={25} rx={7} fill={color} fillOpacity={isSelected('pol', system) ? 0.44 : (isDarkMode ? 0.28 : 0.2)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.4} />
+                                        <foreignObject x={startX} y={y} width={width} height={25} style={{ pointerEvents: 'none' }}>
+                                            <div className={`flex h-full w-full items-center justify-center gap-1 overflow-hidden px-1 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={13} />{width > 74 && <span className="truncate text-[11px] font-bold">{system.name}</span>}</div>
+                                        </foreignObject>
+                                    </g>
+                                );
+                            })}
+                        </g>
+                    )}
+                    {showsTech && (
+                        <g>
+                            <line x1={H_PADDING} y1={horizontalLayout.techAxisY} x2={H_PADDING + totalYears * zoom} y2={horizontalLayout.techAxisY} stroke={theme.axis} strokeWidth={2} />
+                            {mode.includes('merged') && <text x={H_PADDING} y={horizontalLayout.techAxisY + 24} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">TECHNOLOGY</text>}
+                            {horizontalTechData.map((item, index) => {
+                                const x = H_PADDING + (item.year - startYear) * zoom;
+                                if (!isPrimaryVisible(x)) return null;
+                                const labelY = getHorizontalTechLabelY(item.lane);
+                                return (
+                                    <g key={`${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                        <path d={`M ${x} ${horizontalLayout.techAxisY} L ${x} ${labelY}`} stroke={isSelected('tech', item) ? '#2563eb' : theme.gridText} strokeWidth={isSelected('tech', item) ? 2 : 1} opacity={0.72} />
+                                        <circle cx={x} cy={horizontalLayout.techAxisY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : theme.axis} />
+                                        {zoom > 0.17 && (
+                                            <foreignObject x={x - 85} y={labelY} width={170} height={58} style={{ overflow: 'visible' }}>
+                                                <div className="flex flex-col items-center text-center">
+                                                    <div className={`timeline-label flex items-center gap-1.5 whitespace-nowrap px-2 py-1 text-[11px] font-bold ${theme.text} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={TECH_CATEGORY_MAP[item.category].glyph} size={13} className="shrink-0 text-blue-500" /><span>{item.name}</span></div>
+                                                    {zoom > 0.48 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{formatYear(item.year)}</div>}
+                                                </div>
+                                            </foreignObject>
+                                        )}
+                                    </g>
+                                );
+                            })}
+                        </g>
+                    )}
+                </svg>
+            );
+
+            const renderVerticalTimeline = () => (
+                <svg width={canvasWidth} height={canvasHeight} className="absolute left-0 top-0 block">
+                    {mode === 'merged-split' && (
+                        <>
+                            <rect x={0} y={0} width={verticalAxisX} height={canvasHeight} fill="#7c3aed" fillOpacity={isDarkMode ? 0.025 : 0.018} />
+                            <rect x={verticalAxisX} y={0} width={canvasWidth - verticalAxisX} height={canvasHeight} fill="#2563eb" fillOpacity={isDarkMode ? 0.025 : 0.018} />
+                        </>
+                    )}
+                    {Array.from({ length: Math.ceil(totalYears / gridStep) + 1 }).map((_, index) => {
+                        const year = endYear - index * gridStep;
+                        if (year < startYear) return null;
+                        const y = V_PADDING + (endYear - year) * zoom;
+                        if (!isPrimaryVisible(y, 120)) return null;
+                        return (
+                            <g key={year}>
+                                <line x1={0} y1={y} x2={canvasWidth} y2={y} stroke={theme.grid} strokeWidth={1} strokeDasharray="4 5" />
+                                <text x={Math.max(6, verticalAxisX - 54)} y={y - 6} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.9}>{formatYear(year)}</text>
+                            </g>
+                        );
+                    })}
+                    {eraSet.map((era) => {
+                        const top = V_PADDING + (endYear - era.end) * zoom;
+                        const bottom = V_PADDING + (endYear - era.start) * zoom;
+                        const height = Math.max(bottom - top, 1);
+                        const color = hexColors[era.color];
+                        return (
+                            <g key={era.name}>
+                                <rect x={0} y={top} width={canvasWidth} height={height} fill={color} fillOpacity={isDarkMode ? 0.1 : 0.2} />
+                                {isSpanVisible(top, bottom, 100) && height > 34 && (
+                                    <foreignObject x={8} y={top + 8} width={Math.min(canvasWidth - 24, 220)} height={32} style={{ overflow: 'visible' }}>
+                                        <button type="button" data-timeline-item="true" className={`era-chip ${isSelected('era', era) ? 'is-selected' : ''}`} style={{ backgroundColor: isDarkMode ? `${color}66` : color }} onClick={(event) => selectTimelineItem(event, 'era', era)}>{era.name}</button>
+                                    </foreignObject>
+                                )}
+                            </g>
+                        );
+                    })}
+                    {mode === 'merged-split' && (
+                        <>
+                            <text x={verticalAxisX - 14} y={38} textAnchor="end" fill={theme.axis} fontWeight="800" fontSize={10} letterSpacing="1.4">POLITICS</text>
+                            <text x={verticalAxisX + 14} y={38} fill={theme.axis} fontWeight="800" fontSize={10} letterSpacing="1.4">TECHNOLOGY</text>
+                        </>
+                    )}
+                    <line x1={verticalAxisX} y1={V_PADDING} x2={verticalAxisX} y2={V_PADDING + totalYears * zoom} stroke={theme.axis} strokeWidth={2.5} />
+                    {showsPolitics && layoutPolData.map((system, index) => {
+                        const top = V_PADDING + (endYear - system.end) * zoom;
+                        const bottom = V_PADDING + (endYear - system.start) * zoom;
+                        if (!isSpanVisible(top, bottom)) return null;
+                        const height = Math.max(bottom - top, 4);
+                        const x = verticalPolX(system.lane);
+                        const color = polColors[system.type] || '#64748b';
+                        return (
+                            <g key={`${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
+                                <rect x={x} y={top} width={22} height={height} rx={8} fill={color} fillOpacity={isSelected('pol', system) ? 0.6 : (isDarkMode ? 0.36 : 0.28)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.5} />
+                                <line x1={x + 22} y1={top} x2={verticalAxisX} y2={top} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.5} />
+                                {height > 54 && (
+                                    <foreignObject x={x} y={top} width={22} height={height} style={{ pointerEvents: 'none' }}>
+                                        <div className="vertical-ribbon-label text-slate-900 dark:text-slate-100"><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={12} /><span>{system.name}</span></div>
+                                    </foreignObject>
+                                )}
+                            </g>
+                        );
+                    })}
+                    {showsTech && verticalTechData.map((item, index) => {
+                        if (!isPrimaryVisible(item.pointY) && !isPrimaryVisible(item.labelY)) return null;
+                        const rightSide = item.side === 'right';
+                        const cardWidth = isTouchDevice ? Math.min(226, canvasWidth - verticalAxisX - 24) : 214;
+                        const cardX = rightSide ? verticalAxisX + 16 : verticalAxisX - cardWidth - 16;
+                        const connectorEnd = rightSide ? cardX : cardX + cardWidth;
+                        const color = TECH_CATEGORY_MAP[item.category].color;
+                        return (
+                            <g key={`${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                <path d={`M ${verticalAxisX} ${item.pointY} L ${connectorEnd} ${item.labelY + 14}`} stroke={isSelected('tech', item) ? '#2563eb' : color} strokeWidth={isSelected('tech', item) ? 2.4 : 1.2} opacity={0.7} />
+                                <circle cx={verticalAxisX} cy={item.pointY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : color} />
+                                {zoom > 0.11 ? (
+                                    <foreignObject x={cardX} y={item.labelY} width={cardWidth} height={30} style={{ overflow: 'visible' }}>
+                                        <div className={`vertical-card ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={TECH_CATEGORY_MAP[item.category].glyph} size={13} className="shrink-0" style={{ color }} /><span className="truncate">{item.name}</span></div>
+                                    </foreignObject>
+                                ) : <circle cx={connectorEnd} cy={item.labelY + 14} r={4} fill={color} />}
+                            </g>
+                        );
+                    })}
+                </svg>
+            );
+
+            const renderMinimap = () => {
+                const clientSize = Math.max(1, primaryClientSize);
+                const scrollSize = Math.max(1, primaryScrollSize);
+                const windowSize = Math.max(6, Math.min(100, clientSize / scrollSize * 100));
+                const windowStart = Math.max(0, Math.min(100 - windowSize, primaryScroll / scrollSize * 100));
+                return (
+                    <div className={`minimap ${isVertical ? 'minimap-vertical' : 'minimap-horizontal'}`} aria-label={`${orientation} timeline minimap`}>
+                        <div className="minimap-track" onPointerDown={handleMinimapPointerDown} onPointerMove={(event) => { if (event.buttons) updateMinimap(event); }}>
+                            {eraSet.map((era) => {
+                                const start = isVertical ? (endYear - era.end) / totalYears * 100 : (era.start - startYear) / totalYears * 100;
+                                const size = (era.end - era.start) / totalYears * 100;
+                                return <span className="minimap-era" key={era.name} style={isVertical ? { top: `${start}%`, height: `${size}%`, left: 0, right: 0, background: hexColors[era.color] } : { left: `${start}%`, width: `${size}%`, top: 0, bottom: 0, background: hexColors[era.color] }} />;
+                            })}
+                            <span className="minimap-window" style={isVertical ? { top: `${windowStart}%`, height: `${windowSize}%`, left: 0, right: 0 } : { left: `${windowStart}%`, width: `${windowSize}%`, top: 0, bottom: 0 }} />
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className={`flex h-screen flex-col overflow-hidden font-sans transition-colors duration-300 ${theme.bg} ${isDarkMode ? 'dark' : ''}`}>
+                    <header className="app-header z-30">
+                        <div className="flex min-w-0 items-center gap-3">
+                            <div className="atlas-mark"><Sparkles size={19} /></div>
+                            <div className="min-w-0">
+                                <div className={`brand-title truncate text-sm font-extrabold uppercase tracking-[0.14em] ${theme.text}`}>Civilization Atlas</div>
+                                <div className={`brand-subtitle mt-0.5 text-[11px] font-medium ${theme.subText}`}>{isVertical ? 'Vertical history map' : 'Horizontal history map'}</div>
+                            </div>
+                        </div>
+                        <nav className="mode-strip" aria-label="Timeline mode">
+                            {MODE_OPTIONS.map((option) => <ModeButton key={option.id} option={option} mode={mode} onChange={setMode} />)}
+                        </nav>
+                        <div className="header-action flex items-center justify-end gap-0.5">
+                            <ToolbarButton label="Search and jump" onClick={() => setShowSearch(true)}><Search size={18} /></ToolbarButton>
+                            <ToolbarButton label="Open timeline filters" onClick={() => setShowFilters(true)}><SlidersHorizontal size={18} /></ToolbarButton>
+                            <ToolbarButton label={`Switch to ${isVertical ? 'horizontal' : 'vertical'} timeline`} onClick={switchOrientation}>{isVertical ? <ArrowLeftRight size={18} /> : <ArrowUpDown size={18} />}</ToolbarButton>
+                            <ToolbarButton label={isDarkMode ? 'Use light theme' : 'Use dark theme'} onClick={() => setIsDarkMode(!isDarkMode)}>{isDarkMode ? <Sun size={18} /> : <Moon size={18} />}</ToolbarButton>
+                            <div className="hidden md:block"><ToolbarButton label="Open gesture help" onClick={() => setShowHelp(true)}><HelpCircle size={18} /></ToolbarButton></div>
+                            {renderToolbar()}
+                        </div>
+                    </header>
+
+                    <main
+                        ref={containerRef}
+                        className={`timeline-canvas relative flex-1 overflow-auto ${isDragging ? 'is-dragging' : ''}`}
+                        aria-label={`Interactive ${orientation} civilization timeline`}
+                        onScroll={syncViewport}
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={(event) => finishPointer(event)}
+                        onPointerCancel={(event) => finishPointer(event, true)}
+                        onPointerLeave={(event) => { if (event.pointerType === 'mouse' && !activePointersRef.current.size) setCursorYear(null); }}
+                    >
+                        <div className="pointer-events-none sticky left-0 top-0 z-20 flex h-0 w-screen justify-center">
+                            <div className={`mt-3 hidden items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-bold shadow-sm backdrop-blur-md md:flex ${isDarkMode ? 'border-slate-700 bg-slate-900/75 text-slate-300' : 'border-slate-200 bg-white/80 text-slate-600'}`}>
+                                <Hand size={14} /><span>{isVertical ? 'Newest at the top. Drag vertically to travel through time.' : 'Drag or scroll to explore the timeline.'}</span>
+                            </div>
+                            {isVertical && mode === 'merged-split' && (
+                                <div className={`mt-3 flex items-center gap-2 rounded-full border px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.14em] shadow-sm backdrop-blur-md md:hidden ${isDarkMode ? 'border-slate-700 bg-slate-900/80 text-slate-200' : 'border-slate-200 bg-white/85 text-slate-700'}`}>
+                                    <span>Politics</span><span className="text-blue-500">Shared years</span><span>Technology</span>
+                                </div>
+                            )}
+                        </div>
+                        <div className="relative" style={{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }}>
+                            {isVertical ? renderVerticalTimeline() : renderHorizontalTimeline()}
+                        </div>
+                    </main>
+
+                    {!selectedItem && !showSearch && !showFilters && renderMinimap()}
+                    {!selectedItem && !showSearch && !showFilters && renderToolbar(true)}
+
+                    {!isTouchDevice && cursorYear !== null && !isDragging && (
+                        <div className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-full bg-blue-600 px-2 py-1 text-[11px] font-bold text-white shadow-md" style={{ left: mousePos.x, top: mousePos.y - 10 }}>{formatYear(cursorYear)}</div>
+                    )}
+                    {!isTouchDevice && hoveredItem && !selectedItem && (
+                        <div className={`pointer-events-none fixed z-50 w-72 -translate-x-1/2 -translate-y-full rounded-2xl border p-4 shadow-2xl backdrop-blur-md ${isDarkMode ? 'border-slate-600 bg-slate-800/95 text-slate-100' : 'border-slate-200 bg-white/95 text-slate-800'}`} style={{ left: hoveredItem.x, top: hoveredItem.y - 12 }}><DetailContent item={hoveredItem} /></div>
+                    )}
+                    {selectedItem && (
+                        <aside className="detail-sheet" role="dialog" aria-label={`${selectedItem.data.name} details`}>
+                            <button type="button" className="icon-button absolute right-2 top-2" aria-label="Close details" title="Close details" onClick={() => setSelectedItem(null)}><X size={18} /></button>
+                            <div className="pr-8"><DetailContent item={selectedItem} onRelated={(name) => focusAndSelect(findItemByName(name))} /></div>
+                        </aside>
+                    )}
+
+                    {showSearch && (
+                        <div className="utility-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) setShowSearch(false); }}>
+                            <section className="utility-panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Navigate</div><h2 id="search-title" className="mt-1 text-2xl font-extrabold">Search the atlas</h2></div>
+                                    <ToolbarButton label="Close search" onClick={() => setShowSearch(false)}><X size={18} /></ToolbarButton>
+                                </div>
+                                <form className="mt-4 flex gap-2" onSubmit={submitJump}>
+                                    <input className="utility-input" aria-label="Jump to year" placeholder="Jump to year: 1950, 500 BCE, -500" value={jumpInput} onChange={(event) => setJumpInput(event.target.value)} />
+                                    <button type="submit" className="icon-button shrink-0 border border-slate-200 dark:border-slate-600" aria-label="Jump to entered year" title="Jump to entered year"><CornerDownLeft size={18} /></button>
+                                </form>
+                                {jumpError && <div className="mt-2 text-xs font-semibold text-rose-500">{jumpError}</div>}
+                                <div className="mt-4"><input className="utility-input" autoFocus aria-label="Search timeline items" placeholder="Search technologies, political systems, eras..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} /></div>
+                                <div className="mt-3 max-h-80 space-y-1 overflow-auto">
+                                    {filteredSearchResults.map((item) => (
+                                        <button type="button" className="result-row" key={item.key} onClick={() => { focusAndSelect(item); setShowSearch(false); }}>
+                                            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300"><TimelineGlyph kind={getItemGlyph(item)} size={15} /></span>
+                                            <span className="min-w-0 flex-1"><span className="block truncate text-sm font-extrabold">{item.data.name}</span><span className="block truncate font-mono text-[10px] text-slate-500 dark:text-slate-400">{item.type === 'tech' ? 'TECH' : item.type === 'pol' ? 'POLITICS' : 'ERA'} / {getItemDate(item)}</span></span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </section>
+                        </div>
+                    )}
+
+                    {showFilters && (
+                        <div className="utility-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) setShowFilters(false); }}>
+                            <section className="utility-panel" role="dialog" aria-modal="true" aria-labelledby="filter-title">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Legend and filters</div><h2 id="filter-title" className="mt-1 text-2xl font-extrabold">Tune the timeline</h2></div>
+                                    <ToolbarButton label="Close filters" onClick={() => setShowFilters(false)}><X size={18} /></ToolbarButton>
+                                </div>
+                                <div className="mt-4 flex flex-wrap gap-2"><button type="button" className="filter-chip" onClick={clearFilters}>Show all</button><button type="button" className="filter-chip" onClick={clearFilters}>Clear filters</button><button type="button" className="filter-chip" onClick={hideAllFilters}>Hide all</button></div>
+                                <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Technology categories</div>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {TECH_CATEGORY_DEFS.map((category) => <button type="button" className={`filter-chip ${disabledTechCategories.includes(category.id) ? 'is-off' : ''}`} key={category.id} onClick={() => toggleTechCategory(category.id)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: category.color }} /><TimelineGlyph kind={category.glyph} size={13} />{category.label}</button>)}
+                                </div>
+                                <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Political system types</div>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {POL_TYPES.map((type) => <button type="button" className={`filter-chip ${disabledPolTypes.includes(type) ? 'is-off' : ''}`} key={type} onClick={() => togglePolType(type)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: polColors[type] }} /><TimelineGlyph kind={getPoliticalGlyph(type)} size={13} />{type}</button>)}
+                                </div>
+                            </section>
+                        </div>
+                    )}
+
+                    {showHelp && (
+                        <div className="help-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) setShowHelp(false); }}>
+                            <section className="help-panel" role="dialog" aria-modal="true" aria-labelledby="gesture-help-title">
+                                <div className="flex items-start justify-between gap-4"><div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Timeline guide</div><h2 id="gesture-help-title" className="mt-1 text-2xl font-extrabold tracking-tight">Explore like a map</h2></div><ToolbarButton label="Close help" onClick={() => setShowHelp(false)}><X size={18} /></ToolbarButton></div>
+                                <div className="mt-4 orientation-pill">{isVertical ? <ArrowUpDown size={14} /> : <ArrowLeftRight size={14} />} {isVertical ? 'Vertical: newest at top, oldest at bottom' : 'Horizontal: oldest left, newest right'}</div>
+                                <div className="mt-5 grid gap-5 md:grid-cols-2"><div><h3 className="text-sm font-extrabold">Desktop</h3><ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300"><li>Hover for a preview and click to pin details.</li><li>Drag or scroll to move through time.</li><li>Hold Alt while scrolling to zoom.</li><li>Use search, filters, or the minimap for fast navigation.</li></ul></div><div><h3 className="text-sm font-extrabold">Touch</h3><ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300"><li>Drag with one finger to pan.</li><li>Pinch or drag with two fingers to zoom and move.</li><li>Tap an item for a detail sheet.</li><li>Double tap empty space to zoom in.</li></ul></div></div>
+                            </section>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<TimelineAppPass2 />);
     </script>
 </body>
 
