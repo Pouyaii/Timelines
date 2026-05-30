@@ -332,11 +332,13 @@
 
         .help-panel {
             width: min(640px, 100%);
+            max-height: min(820px, calc(var(--visual-viewport-height) - var(--safe-top) - var(--safe-bottom) - 36px));
+            overflow: auto;
             padding: 22px;
             border: 1px solid #e2e8f0;
             border-radius: 20px;
             color: #1e293b;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.99);
             box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
         }
 
@@ -344,6 +346,16 @@
             border-color: #475569;
             color: #f1f5f9;
             background: #1e293b;
+        }
+
+        .dark .help-panel p,
+        .dark .help-panel li,
+        .dark .guide-card p {
+            color: #cbd5e1;
+        }
+
+        .dark .guide-card h3 {
+            color: #f8fafc;
         }
 
         .utility-backdrop {
@@ -415,6 +427,27 @@
             background: #f1f5f9;
             outline: none;
             transform: translateX(2px);
+        }
+
+        .hover-preview {
+            position: fixed;
+            z-index: 80;
+            width: min(304px, calc(100vw - var(--safe-left) - var(--safe-right) - 24px));
+            max-height: min(480px, calc(var(--visual-viewport-height) - var(--safe-top) - var(--safe-bottom) - 24px));
+            overflow: auto;
+            padding: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.99);
+            box-shadow: 0 20px 44px rgba(15, 23, 42, 0.22);
+        }
+
+        .dark .hover-preview {
+            border-color: #475569;
+            color: #f1f5f9;
+            background: rgba(30, 41, 59, 0.99);
+            box-shadow: 0 20px 44px rgba(2, 6, 23, 0.5);
         }
 
         .dark .result-row:hover,
@@ -547,6 +580,13 @@
             white-space: nowrap;
         }
 
+        .vertical-card.is-compact {
+            min-height: 24px;
+            gap: 4px;
+            padding: 3px 6px;
+            font-size: 9px;
+        }
+
         .vertical-card.is-selected {
             border-color: #2563eb;
             box-shadow: 0 7px 16px rgba(37, 99, 235, 0.2);
@@ -556,6 +596,239 @@
             border-color: rgba(100, 116, 139, 0.8);
             color: #f1f5f9;
             background: rgba(30, 41, 59, 0.96);
+        }
+
+        .adaptive-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            border-radius: 9px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.09);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .adaptive-label.is-full {
+            min-height: 27px;
+            padding: 5px 8px;
+            font-size: 10px;
+        }
+
+        .adaptive-label.is-compact {
+            min-height: 23px;
+            padding: 3px 6px;
+            font-size: 9px;
+        }
+
+        .adaptive-label.is-selected {
+            border-color: #2563eb;
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+        }
+
+        .dark .adaptive-label {
+            border-color: rgba(100, 116, 139, 0.86);
+            color: #f1f5f9;
+            background: rgba(30, 41, 59, 0.97);
+        }
+
+        .cluster-badge {
+            display: inline-flex;
+            min-width: 38px;
+            min-height: 30px;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border: 1px solid rgba(37, 99, 235, 0.52);
+            border-radius: 999px;
+            color: #1d4ed8;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 7px 17px rgba(37, 99, 235, 0.2);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+        }
+
+        .cluster-badge:hover,
+        .cluster-badge:focus-visible {
+            border-color: #1d4ed8;
+            outline: 2px solid rgba(59, 130, 246, 0.32);
+            outline-offset: 2px;
+            transform: translateY(-1px);
+        }
+
+        .cluster-badge.is-politics {
+            border-color: rgba(124, 58, 237, 0.56);
+            color: #6d28d9;
+            box-shadow: 0 7px 17px rgba(124, 58, 237, 0.18);
+        }
+
+        .cluster-visual {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(37, 99, 235, 0.46);
+            border-radius: 13px;
+            padding: 6px 8px;
+            color: #1e3a8a;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+            cursor: pointer;
+        }
+
+        .cluster-visual.is-politics {
+            border-color: rgba(124, 58, 237, 0.48);
+            color: #5b21b6;
+            box-shadow: 0 8px 18px rgba(124, 58, 237, 0.17);
+        }
+
+        .cluster-visual.is-hovered {
+            border-color: #2563eb;
+            box-shadow: 0 12px 22px rgba(37, 99, 235, 0.28);
+        }
+
+        .cluster-visual.is-politics.is-hovered {
+            border-color: #7c3aed;
+            box-shadow: 0 12px 22px rgba(124, 58, 237, 0.26);
+        }
+
+        .cluster-visual.is-constellation,
+        .cluster-visual.is-ultra {
+            align-items: center;
+            border-radius: 999px;
+            padding: 4px 6px;
+        }
+
+        .cluster-visual-header {
+            display: flex;
+            min-width: 0;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cluster-count {
+            display: inline-flex;
+            min-width: 29px;
+            min-height: 20px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0 6px;
+            color: #ffffff;
+            background: #2563eb;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .cluster-visual.is-politics .cluster-count {
+            background: #7c3aed;
+        }
+
+        .cluster-representatives {
+            display: flex;
+            min-width: 0;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cluster-representative-label {
+            min-width: 0;
+            overflow: hidden;
+            color: #1e293b;
+            font-size: 9px;
+            font-weight: 900;
+            line-height: 1.12;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cluster-color-rug {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .cluster-color-rug span {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
+        }
+
+        .dark .cluster-badge {
+            border-color: rgba(147, 197, 253, 0.72);
+            color: #dbeafe;
+            background: rgba(30, 41, 59, 0.99);
+        }
+
+        .dark .cluster-badge.is-politics {
+            border-color: rgba(196, 181, 253, 0.76);
+            color: #ede9fe;
+        }
+
+        .dark .cluster-visual {
+            border-color: rgba(147, 197, 253, 0.62);
+            color: #dbeafe;
+            background: rgba(30, 41, 59, 0.98);
+        }
+
+        .dark .cluster-visual.is-politics {
+            border-color: rgba(196, 181, 253, 0.66);
+            color: #ede9fe;
+        }
+
+        .dark .cluster-representative-label {
+            color: #f8fafc;
+        }
+
+        .density-dot {
+            filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.2));
+        }
+
+        .timeline-icon {
+            display: inline-grid;
+            flex: none;
+            overflow: hidden;
+            place-items: center;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.54);
+        }
+
+        .timeline-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .dark .timeline-icon {
+            background: rgba(15, 23, 42, 0.42);
+        }
+
+        .guide-card {
+            padding: 13px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            color: #334155;
+            background: #f8fafc;
+        }
+
+        .dark .guide-card {
+            border-color: #475569;
+            color: #cbd5e1;
+            background: #0f172a;
+        }
+
+        .density-option {
+            min-height: 38px;
         }
 
         .vertical-ribbon-label {
@@ -600,6 +873,25 @@
             .brand-subtitle,
             .desktop-hint {
                 display: none !important;
+            }
+
+            .app-header {
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 8px;
+            }
+
+            .mode-strip {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                width: 100%;
+            }
+
+            .desktop-toolbar {
+                display: none !important;
+            }
+
+            .mobile-toolbar {
+                display: flex;
             }
         }
 
@@ -684,6 +976,21 @@
                 border-radius: 22px 22px 0 0;
             }
 
+            .help-backdrop {
+                align-items: end;
+                padding: 0;
+            }
+
+            .help-panel {
+                width: 100%;
+                max-height: min(82dvh, calc(var(--visual-viewport-height) - var(--safe-top) - 8px));
+                padding: 18px max(16px, var(--safe-right)) max(20px, var(--safe-bottom)) max(16px, var(--safe-left));
+                border-right: 0;
+                border-bottom: 0;
+                border-left: 0;
+                border-radius: 22px 22px 0 0;
+            }
+
             .detail-sheet {
                 right: 0;
                 bottom: 0;
@@ -699,7 +1006,7 @@
             }
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 1101px) {
             .mobile-toolbar {
                 display: none;
             }
@@ -1071,6 +1378,7 @@
         const RICH_POL_TYPE_MAP = Object.fromEntries(RICH_POL_TYPE_DEFS.map((type) => [type.id, type]));
         const RICH_POL_TYPES = RICH_POL_TYPE_DEFS.map((type) => type.id);
         const RICH_ALL_ERAS = [...RICH_TECH_ERAS, ...RICH_POL_ERAS.filter((era) => !RICH_TECH_ERAS.some((techEra) => techEra.id === era.id))];
+        const STORY_MODE_SEEDS = window.TIMELINE_DATA.STORY_MODE_SEEDS || [];
 
         const unwrapItem = (item) => item?.data || item || {};
         const getItemId = (item) => unwrapItem(item).id || unwrapItem(item).name;
@@ -1123,6 +1431,61 @@
             if (kind === 'tech') return RICH_TECH_CATEGORY_MAP[data.category]?.glyph || getTechGlyph(data.name);
             if (kind === 'pol') return RICH_POL_TYPE_MAP[data.type]?.glyph || getPoliticalGlyph(data.type);
             return 'spark';
+        };
+
+        const CATEGORY_ICON_PATHS = {
+            tech: {
+                foundations: 'assets/icons/categories/tech-foundations.webp',
+                food: 'assets/icons/categories/tech-food.webp',
+                tools: 'assets/icons/categories/tech-tools.webp',
+                knowledge: 'assets/icons/categories/tech-knowledge.webp',
+                transport: 'assets/icons/categories/tech-transport.webp',
+                energy: 'assets/icons/categories/tech-energy.webp',
+                medicine: 'assets/icons/categories/tech-medicine.webp',
+                computing: 'assets/icons/categories/tech-computing.webp',
+                advanced: 'assets/icons/categories/tech-advanced.webp',
+                frontier: 'assets/icons/categories/tech-frontier.webp'
+            },
+            pol: {
+                Tribal: 'assets/icons/categories/politics-tribal.webp',
+                'City-State': 'assets/icons/categories/politics-city-state.webp',
+                Empire: 'assets/icons/categories/politics-empire.webp',
+                Monarchy: 'assets/icons/categories/politics-monarchy.webp',
+                Republic: 'assets/icons/categories/politics-republic.webp',
+                Feudal: 'assets/icons/categories/politics-feudal.webp',
+                Democracy: 'assets/icons/categories/politics-democracy.webp',
+                State: 'assets/icons/categories/politics-state.webp',
+                Authoritarian: 'assets/icons/categories/politics-authoritarian.webp',
+                Mixed: 'assets/icons/categories/politics-mixed.webp',
+                System: 'assets/icons/categories/politics-system.webp',
+                Global: 'assets/icons/categories/politics-global.webp'
+            }
+        };
+        const AVAILABLE_ICON_PATHS = new Set([
+            ...Object.values(CATEGORY_ICON_PATHS.tech),
+            ...Object.values(CATEGORY_ICON_PATHS.pol)
+        ]);
+
+        const getCategoryIconPath = (item) => {
+            const data = unwrapItem(item);
+            const kind = getItemKind(item);
+            if (kind === 'tech') return CATEGORY_ICON_PATHS.tech[data.category] || '';
+            if (kind === 'pol') return CATEGORY_ICON_PATHS.pol[data.type] || '';
+            return '';
+        };
+
+        const TimelineIcon = ({ item, size = 18, className = '' }) => {
+            const categoryPath = getCategoryIconPath(item);
+            const itemPath = getItemIconPath(item);
+            const [sourceIndex, setSourceIndex] = useState(0);
+            const sources = [itemPath, categoryPath].filter((path, index, values) => AVAILABLE_ICON_PATHS.has(path) && values.indexOf(path) === index);
+            const source = sources[sourceIndex];
+            if (!source) return <TimelineGlyph kind={getItemGlyph(item)} size={size} className={className} />;
+            return (
+                <span className={`timeline-icon ${className}`} style={{ width: size, height: size }}>
+                    <img src={source} width={size} height={size} loading="lazy" decoding="async" alt="" onError={() => setSourceIndex((index) => index + 1)} />
+                </span>
+            );
         };
 
         const getItemCategory = (item) => {
@@ -1247,6 +1610,247 @@
             preferredAxis: orientation === 'vertical' ? 'y' : 'x'
         });
 
+        const DENSITY_OPTIONS = {
+            clean: { label: 'Clean', clusterScale: 1.35, laneScale: 0.76, overlap: 0, representatives: 1 },
+            balanced: { label: 'Balanced', clusterScale: 1, laneScale: 1, overlap: 0.08, representatives: 2 },
+            dense: { label: 'Dense', clusterScale: 0.72, laneScale: 1.24, overlap: 0.2, representatives: 3 }
+        };
+
+        const getStoredLabelDensity = () => {
+            try {
+                const value = window.localStorage.getItem('civilization-atlas-label-density');
+                if (DENSITY_OPTIONS[value]) return value;
+            } catch {
+                // Keep the atlas functional when storage is unavailable.
+            }
+            return 'balanced';
+        };
+
+        const getShortItemName = (item, maxLength = 24) => {
+            const name = unwrapItem(item).name || '';
+            if (name.length <= maxLength) return name;
+            const simplified = name
+                .replace(/\s*\/\s*/g, ' / ')
+                .replace(/\s*\([^)]*\)/g, '')
+                .replace('Communication', 'Comms')
+                .replace('Administration', 'Admin.')
+                .replace('Governance', 'Gov.')
+                .replace('Revolution', 'Rev.');
+            return simplified.length <= maxLength ? simplified : `${simplified.slice(0, maxLength - 3).trim()}...`;
+        };
+
+        const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+
+        const clampRectToCanvas = (rect, canvasBounds, padding = 8) => ({
+            ...rect,
+            x: clamp(rect.x, canvasBounds.x + padding, Math.max(canvasBounds.x + padding, canvasBounds.x + canvasBounds.width - rect.width - padding)),
+            y: clamp(rect.y, canvasBounds.y + padding, Math.max(canvasBounds.y + padding, canvasBounds.y + canvasBounds.height - rect.height - padding))
+        });
+
+        const getHorizontalFrameBudget = ({ mode, labelDensity, viewportProfile, politicalLaneCount = 1 }) => {
+            const densityBoost = labelDensity === 'dense' ? 148 : labelDensity === 'clean' ? 24 : 86;
+            const isSplit = mode === 'merged-split';
+            const isUnified = mode === 'merged-overlap';
+            const isPolitics = mode === 'pol';
+            const baseCanvasHeight = (isSplit ? 1030 : isUnified ? 940 : isPolitics ? 900 : 850) + densityBoost;
+            const topPadding = viewportProfile.width < 768 ? 118 : 142;
+            const politicsBandHeight = Math.max(278, politicalLaneCount * 31 + 74);
+            if (isSplit) {
+                const polAxisY = topPadding + politicsBandHeight;
+                const techAxisY = polAxisY + 246;
+                return { canvasHeight: Math.max(baseCanvasHeight, techAxisY + 510), topPadding, bottomPadding: 82, polAxisY, techAxisY, polDirection: -1 };
+            }
+            if (isUnified) {
+                const sharedAxisY = topPadding + politicsBandHeight;
+                return { canvasHeight: Math.max(baseCanvasHeight, sharedAxisY + 510), topPadding, bottomPadding: 82, polAxisY: sharedAxisY, techAxisY: sharedAxisY, polDirection: -1 };
+            }
+            if (isPolitics) return { canvasHeight: Math.max(baseCanvasHeight, 292 + politicalLaneCount * 31 + 164), topPadding, bottomPadding: 82, polAxisY: 292, techAxisY: 292, polDirection: 1 };
+            return { canvasHeight: baseCanvasHeight, topPadding, bottomPadding: 82, polAxisY: 292, techAxisY: 292, polDirection: 1 };
+        };
+
+        const getVerticalFrameBudget = ({ mode, labelDensity, viewportProfile }) => {
+            const isPhone = viewportProfile.width < 768;
+            if (isPhone) return { canvasWidth: Math.max(360, viewportProfile.width), axisRatio: mode === 'tech' ? 0.22 : mode === 'pol' ? 0.86 : 0.5 };
+            const densityBoost = labelDensity === 'dense' ? 180 : labelDensity === 'clean' ? 0 : 96;
+            const mergedBoost = mode.includes('merged') ? 150 : 0;
+            return {
+                canvasWidth: Math.max(viewportProfile.width, 1120 + densityBoost + mergedBoost),
+                axisRatio: mode === 'tech' ? 0.48 : mode === 'pol' ? 0.66 : 0.52
+            };
+        };
+
+        const getSafeTimelineBounds = ({ orientation, canvasWidth, canvasHeight, frame }) => orientation === 'vertical'
+            ? { x: 8, y: 52, width: canvasWidth - 16, height: canvasHeight - 60 }
+            : { x: 8, y: frame.topPadding, width: canvasWidth - 16, height: canvasHeight - frame.topPadding - frame.bottomPadding };
+
+        const getLabelFootprint = (item, lod, orientation) => {
+            const isFull = lod === 'full';
+            if (orientation === 'vertical') return { width: isFull ? 214 : 166, height: isFull ? 30 : 26 };
+            return { width: isFull ? 184 : 136, height: isFull ? 58 : 30 };
+        };
+
+        const getClusterItemColor = (item, kind) => kind === 'politics'
+            ? (RICH_POL_TYPE_MAP[item.type]?.color || '#7c3aed')
+            : (RICH_TECH_CATEGORY_MAP[item.category]?.color || '#2563eb');
+
+        const selectClusterRepresentatives = (entries, limit) => {
+            const ranked = [...entries].sort((a, b) => b.priority - a.priority || a.primary - b.primary);
+            const selected = [];
+            const categories = new Set();
+            ranked.forEach((entry) => {
+                const category = entry.item.category || entry.item.type || 'other';
+                if (selected.length < limit && !categories.has(category)) {
+                    selected.push(entry);
+                    categories.add(category);
+                }
+            });
+            ranked.forEach((entry) => {
+                if (selected.length < limit && !selected.includes(entry)) selected.push(entry);
+            });
+            return selected.slice(0, limit).map((entry) => entry.item);
+        };
+
+        const getClusterVisualState = ({ densityProfile, itemCount, isHovered = false }) => {
+            if (isHovered) return 'rich';
+            if (densityProfile.isSmallViewport && densityProfile.zoom < densityProfile.glyphZoom * 1.45) return 'ultra';
+            if (densityProfile.zoom < densityProfile.glyphZoom * 1.35) return 'constellation';
+            if (densityProfile.zoom >= densityProfile.compactZoom * (densityProfile.labelDensity === 'clean' ? 2.2 : 1.35)) return 'rich';
+            if (itemCount > 18 && densityProfile.zoom < densityProfile.compactZoom) return 'constellation';
+            return 'compact';
+        };
+
+        const getClusterVisualFootprint = (visualState, orientation) => {
+            if (orientation === 'vertical') {
+                if (visualState === 'rich') return { width: 224, height: 88 };
+                if (visualState === 'compact') return { width: 172, height: 60 };
+                if (visualState === 'constellation') return { width: 88, height: 34 };
+                return { width: 70, height: 30 };
+            }
+            if (visualState === 'rich') return { width: 210, height: 78 };
+            if (visualState === 'compact') return { width: 164, height: 54 };
+            if (visualState === 'constellation') return { width: 88, height: 34 };
+            return { width: 70, height: 30 };
+        };
+
+        const getDensityProfile = ({ orientation, mode, zoom, viewportProfile, labelDensity }) => {
+            const preference = DENSITY_OPTIONS[labelDensity] || DENSITY_OPTIONS.balanced;
+            const isVertical = orientation === 'vertical';
+            const isMerged = mode.includes('merged');
+            const small = viewportProfile.width < 768;
+            const laneBase = isVertical
+                ? (small ? 2 : isMerged ? 5 : 7)
+                : (small ? 6 : isMerged ? 10 : 14);
+            return {
+                orientation,
+                mode,
+                zoom,
+                labelDensity,
+                isVertical,
+                isMerged,
+                isSmallViewport: small,
+                clusterGap: (isVertical ? (small ? 38 : 34) : 46) * preference.clusterScale,
+                clusterMaxSpan: (isVertical ? (small ? 2.1 : 2.35) : 3.1) * (isVertical ? (small ? 38 : 34) : 46) * preference.clusterScale,
+                clusterMinimum: labelDensity === 'dense' ? 4 : 3,
+                compactSpacing: (isVertical ? 25 : 104) * (1 - preference.overlap),
+                fullSpacing: (isVertical ? 31 : 164) * (1 - preference.overlap),
+                glyphSpacing: isVertical ? 12 : 18,
+                laneCount: Math.max(2, Math.round(laneBase * preference.laneScale)),
+                representatives: preference.representatives,
+                pipCount: labelDensity === 'dense' ? 15 : labelDensity === 'clean' ? 9 : 12,
+                fullZoom: isVertical ? (small ? 1.28 : 0.86) : 1.4,
+                compactZoom: isVertical ? (small ? 0.56 : 0.34) : 0.34,
+                glyphZoom: isVertical ? 0.11 : 0.11
+            };
+        };
+
+        const getItemPriority = (item, selectedKey = '', hoveredKey = '') => {
+            const key = item.key || itemKey(getItemKind(item), unwrapItem(item));
+            return (key === selectedKey ? 100 : 0) + (key === hoveredKey ? 40 : 0) + getItemImportance(item) * 8;
+        };
+
+        const getLabelLOD = (item, densityProfile, localDensity = 1, priority = 0) => {
+            if (priority >= 90) return 'full';
+            if (densityProfile.zoom < densityProfile.glyphZoom || localDensity >= 6) return 'glyph';
+            if (densityProfile.zoom >= densityProfile.fullZoom && localDensity <= 2) return 'full';
+            if (densityProfile.zoom >= densityProfile.compactZoom && localDensity <= 4) return 'compact';
+            return 'glyph';
+        };
+
+        const clusterNearbyItems = ({ items, densityProfile, getPrimaryCoord, selectedKey = '', hoveredKey = '', clusterKind = 'tech' }) => {
+            const entries = items.map((item) => {
+                const type = clusterKind === 'politics' ? 'pol' : 'tech';
+                return {
+                    item,
+                    key: itemKey(type, item),
+                    primary: getPrimaryCoord(item),
+                    priority: getItemPriority({ type, data: item }, selectedKey, hoveredKey)
+                };
+            }).sort((a, b) => a.primary - b.primary);
+            const groups = [];
+            entries.forEach((entry) => {
+                const previous = groups[groups.length - 1];
+                if (previous && !previous.entries.some((candidate) => candidate.priority >= 90) && entry.primary - previous.lastPrimary <= densityProfile.clusterGap && entry.primary - previous.entries[0].primary <= densityProfile.clusterMaxSpan && entry.priority < 90) {
+                    previous.entries.push(entry);
+                    previous.lastPrimary = entry.primary;
+                } else {
+                    groups.push({ entries: [entry], lastPrimary: entry.primary });
+                }
+            });
+            const clusters = [];
+            const loose = [];
+            groups.forEach((group, groupIndex) => {
+                if (group.entries.length >= densityProfile.clusterMinimum) {
+                    const sorted = [...group.entries].sort((a, b) => b.priority - a.priority);
+                    const years = group.entries.map((entry) => getItemDisplayYear(entry.item));
+                    clusters.push({
+                        id: `${clusterKind}-cluster-${groupIndex}-${Math.round(group.entries[0].primary)}`,
+                        kind: clusterKind,
+                        items: sorted.map((entry) => entry.item),
+                        primary: group.entries.reduce((sum, entry) => sum + entry.primary, 0) / group.entries.length,
+                        startYear: Math.min(...years),
+                        endYear: Math.max(...years),
+                        representatives: selectClusterRepresentatives(sorted, Math.min(4, densityProfile.representatives + 1))
+                    });
+                } else {
+                    loose.push(...group.entries);
+                }
+            });
+            return { clusters, loose };
+        };
+
+        const layoutTimelineLabels = ({ items, orientation, mode, densityProfile, getPrimaryCoord, selectedKey = '', hoveredKey = '', kind = 'tech' }) => {
+            const clustered = clusterNearbyItems({ items, densityProfile, getPrimaryCoord, selectedKey, hoveredKey, clusterKind: kind });
+            const laneEnds = Array.from({ length: densityProfile.laneCount }, () => -Infinity);
+            const labels = clustered.loose.map((entry) => {
+                const nearby = clustered.loose.filter((candidate) => Math.abs(candidate.primary - entry.primary) < densityProfile.clusterGap * 1.3).length;
+                const lod = getLabelLOD(entry.item, densityProfile, nearby, entry.priority);
+                const spacing = lod === 'full' ? densityProfile.fullSpacing : lod === 'compact' ? densityProfile.compactSpacing : densityProfile.glyphSpacing;
+                let lane = laneEnds.findIndex((end) => entry.primary - end >= spacing);
+                if (lane === -1) lane = laneEnds.indexOf(Math.min(...laneEnds));
+                const labelPrimary = orientation === 'vertical' ? Math.max(entry.primary - spacing / 2, laneEnds[lane] + spacing) : entry.primary;
+                laneEnds[lane] = orientation === 'vertical' ? labelPrimary : entry.primary;
+                return { ...entry.item, key: entry.key, primary: entry.primary, labelPrimary, lane, lod };
+            });
+            return { labels, clusters: clustered.clusters };
+        };
+
+        const getFloatingPanelPosition = ({ anchorX, anchorY, panelWidth, panelHeight, viewportWidth, viewportHeight, safeArea, preferredPlacement = 'above' }) => {
+            const gap = 14;
+            const inset = 10;
+            const minX = (safeArea.left || 0) + inset;
+            const maxX = viewportWidth - (safeArea.right || 0) - panelWidth - inset;
+            const minY = (safeArea.top || 0) + inset;
+            const maxY = viewportHeight - (safeArea.bottom || 0) - panelHeight - inset;
+            const aboveY = anchorY - panelHeight - gap;
+            const belowY = anchorY + gap;
+            const useAbove = preferredPlacement === 'above' && aboveY >= minY;
+            const proposedY = useAbove ? aboveY : belowY;
+            return {
+                left: Math.max(minX, Math.min(maxX, anchorX - panelWidth / 2)),
+                top: Math.max(minY, Math.min(maxY, proposedY))
+            };
+        };
+
         const ToolbarButton = ({ label, children, onClick }) => (
             <button type="button" className="icon-button" aria-label={label} title={label} onClick={onClick}>
                 {children}
@@ -1272,7 +1876,7 @@
         const DetailContent = ({ item, onRelated }) => (
             <>
                 <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
-                    <TimelineGlyph kind={getItemGlyph(item)} size={15} />
+                    <TimelineIcon item={item} size={22} />
                     <span>{getItemCategory(item)}</span>
                 </div>
                 <h3 className="mt-2 text-xl font-extrabold tracking-tight">{item.data.name}</h3>
@@ -1301,6 +1905,60 @@
                         </div>
                     </div>
                 )}
+            </>
+        );
+
+        const getClusterRangeLabel = (cluster) => {
+            const start = Math.round(cluster.startYear ?? Math.min(...cluster.items.map(getItemDisplayYear)));
+            const end = Math.round(cluster.endYear ?? Math.max(...cluster.items.map(getItemDisplayYear)));
+            return start === end ? `around ${formatYear(start)}` : `${formatYear(start)} to ${formatYear(end)}`;
+        };
+
+        const ClusterVisual = ({ cluster, visualState, isHovered = false }) => {
+            const type = cluster.kind === 'politics' ? 'pol' : 'tech';
+            const iconLimit = visualState === 'rich' ? 4 : visualState === 'compact' ? 2 : 1;
+            const labelLimit = visualState === 'rich' ? 2 : visualState === 'compact' ? 1 : 0;
+            const pipLimit = visualState === 'rich' ? 10 : visualState === 'compact' ? 8 : 5;
+            return (
+                <div className={`cluster-visual is-${visualState} ${cluster.kind === 'politics' ? 'is-politics' : ''} ${isHovered ? 'is-hovered' : ''}`}>
+                    <div className="cluster-visual-header">
+                        <span className="cluster-count">+{cluster.items.length}</span>
+                        <span className="cluster-representatives">
+                            {cluster.representatives.slice(0, iconLimit).map((data) => <TimelineIcon item={{ type, data }} size={visualState === 'rich' ? 19 : 15} key={data.id} />)}
+                        </span>
+                    </div>
+                    {labelLimit > 0 && cluster.representatives.slice(0, labelLimit).map((item) => <div className="cluster-representative-label" key={`label-${item.id}`}>{getShortItemName(item, visualState === 'rich' ? 26 : 20)}</div>)}
+                    <div className="cluster-color-rug" aria-hidden="true">
+                        {cluster.items.slice(0, pipLimit).map((item, index) => <span key={`${item.id}-${index}`} style={{ background: getClusterItemColor(item, cluster.kind) }} />)}
+                    </div>
+                </div>
+            );
+        };
+
+        const ClusterContent = ({ cluster, onSelect, compact = false }) => (
+            <>
+                <div className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-300">
+                    {cluster.kind === 'politics' ? 'Political density cluster' : 'Technology density cluster'}
+                </div>
+                <h3 className="mt-1 text-xl font-extrabold tracking-tight">{cluster.items.length} {cluster.kind === 'politics' ? 'political' : 'technology'} milestones</h3>
+                <div className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-slate-600 dark:text-slate-400">{getClusterRangeLabel(cluster)}</div>
+                <p className="mt-2 text-sm leading-5 text-slate-700 dark:text-slate-300">Open an item to focus it on the atlas. Clusters adapt as you zoom or change the label-density setting.</p>
+                <div className="mt-3 max-h-72 space-y-1 overflow-auto">
+                    {cluster.items.slice(0, compact ? 6 : cluster.items.length).map((data) => {
+                        const type = cluster.kind === 'politics' ? 'pol' : 'tech';
+                        const item = { type, data, key: itemKey(type, data) };
+                        return (
+                            <button type="button" className="result-row" key={item.key} onClick={() => onSelect(item)}>
+                                <TimelineIcon item={item} size={30} />
+                                <span className="min-w-0 flex-1 text-left">
+                                    <span className="block truncate text-sm font-extrabold">{data.name}</span>
+                                    <span className="block truncate font-mono text-[10px] font-bold text-slate-600 dark:text-slate-400">{getItemDate(item)} / {getItemCategory(item)}</span>
+                                    {!compact && <span className="mt-1 block text-xs leading-4 text-slate-600 dark:text-slate-400">{getItemDescription(item)}</span>}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
             </>
         );
 
@@ -1580,6 +2238,7 @@
                     const lastTap = lastTapRef.current;
                     const isDoubleTap = now - lastTap.time < 320 && Math.hypot(event.clientX - lastTap.x, event.clientY - lastTap.y) < 26;
                     setSelectedItem(null);
+                    setSelectedCluster(null);
                     if (isDoubleTap) {
                         zoomAtClientX(zoomRef.current * 1.45, event.clientX);
                         lastTapRef.current = { time: 0, x: 0, y: 0 };
@@ -1959,13 +2618,18 @@
             const [cursorYear, setCursorYear] = useState(null);
             const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
             const [showHelp, setShowHelp] = useState(false);
+            const [showAbout, setShowAbout] = useState(false);
             const [showSearch, setShowSearch] = useState(false);
             const [showFilters, setShowFilters] = useState(false);
             const [searchQuery, setSearchQuery] = useState('');
             const [jumpInput, setJumpInput] = useState('');
+            const [jumpEndInput, setJumpEndInput] = useState('');
             const [jumpError, setJumpError] = useState('');
             const [disabledTechCategories, setDisabledTechCategories] = useState([]);
             const [disabledPolTypes, setDisabledPolTypes] = useState([]);
+            const [labelDensity, setLabelDensity] = useState(getStoredLabelDensity);
+            const [selectedCluster, setSelectedCluster] = useState(null);
+            const [hoveredCluster, setHoveredCluster] = useState(null);
             const [isDragging, setIsDragging] = useState(false);
             const [viewport, setViewport] = useState({ scrollLeft: 0, scrollTop: 0, clientWidth: 0, clientHeight: 0, scrollWidth: 1, scrollHeight: 1 });
             const isTouchDevice = viewportProfile.isCoarsePointer || viewportProfile.width < 768;
@@ -1985,28 +2649,34 @@
             const totalYears = endYear - startYear;
             const H_PADDING = 50;
             const V_PADDING = 64;
-            const H_HEIGHT = 820;
             const MIN_HORIZONTAL_ZOOM = 0.025;
             const MIN_VERTICAL_ZOOM = 0.045;
             const MAX_ZOOM = 12;
             const isVertical = orientation === 'vertical';
             const defaultZoom = isVertical ? 0.38 : 1;
+            const horizontalPoliticalLaneCount = useMemo(() => {
+                const lanes = layoutPoliticalLanes(RICH_POL_ITEMS.filter((item) => !disabledPolTypes.includes(item.type)));
+                return Math.max(1, ...lanes.map((item) => item.lane + 1));
+            }, [disabledPolTypes]);
+            const horizontalFrame = useMemo(() => getHorizontalFrameBudget({ mode, labelDensity, viewportProfile, politicalLaneCount: horizontalPoliticalLaneCount }), [horizontalPoliticalLaneCount, labelDensity, mode, viewportProfile]);
+            const verticalFrame = useMemo(() => getVerticalFrameBudget({ mode, labelDensity, viewportProfile }), [labelDensity, mode, viewportProfile]);
+            const H_HEIGHT = horizontalFrame.canvasHeight;
             const timelinePrimarySize = totalYears * zoom;
             const canvasWidth = isVertical
-                ? Math.max(viewport.clientWidth || viewportProfile.width, isTouchDevice ? 390 : 960)
+                ? verticalFrame.canvasWidth
                 : timelinePrimarySize + H_PADDING + 280;
             const canvasHeight = isVertical ? timelinePrimarySize + V_PADDING * 2 : H_HEIGHT;
+            const safeTimelineBounds = useMemo(() => getSafeTimelineBounds({ orientation, canvasWidth, canvasHeight, frame: horizontalFrame }), [canvasHeight, canvasWidth, horizontalFrame, orientation]);
 
             const horizontalLayout = useMemo(() => {
-                const isSplit = mode === 'merged-split';
-                const isOverlap = mode === 'merged-overlap';
-                const centerY = H_HEIGHT / 2;
                 return {
-                    techAxisY: isSplit ? H_HEIGHT * 0.66 : (isOverlap ? centerY + 34 : 292),
-                    polAxisY: isSplit ? H_HEIGHT * 0.36 : (isOverlap ? centerY + 34 : 242),
-                    polDirection: isSplit || isOverlap ? -1 : 1
+                    techAxisY: horizontalFrame.techAxisY,
+                    polAxisY: horizontalFrame.polAxisY,
+                    polDirection: horizontalFrame.polDirection,
+                    topPadding: horizontalFrame.topPadding,
+                    bottomPadding: horizontalFrame.bottomPadding
                 };
-            }, [mode]);
+            }, [horizontalFrame]);
 
             const showsTech = mode === 'tech' || mode.includes('merged');
             const showsPolitics = mode === 'pol' || mode.includes('merged');
@@ -2021,12 +2691,11 @@
                 mode,
                 hasDetailSheet: Boolean(selectedItem)
             }), [mode, orientation, selectedItem, viewportProfile, zoom]);
+            const densityProfile = useMemo(() => getDensityProfile({ orientation, mode, zoom, viewportProfile, labelDensity }), [labelDensity, mode, orientation, viewportProfile, zoom]);
 
             const verticalAxisX = useMemo(() => {
-                if (mode === 'tech') return isTouchDevice ? 82 : canvasWidth * 0.46;
-                if (mode === 'pol') return isTouchDevice ? canvasWidth - 52 : canvasWidth * 0.62;
-                return canvasWidth * 0.5;
-            }, [canvasWidth, isTouchDevice, mode]);
+                return canvasWidth * verticalFrame.axisRatio;
+            }, [canvasWidth, verticalFrame.axisRatio]);
 
             const clampZoom = (value) => Math.max(isVertical ? MIN_VERTICAL_ZOOM : MIN_HORIZONTAL_ZOOM, Math.min(value, MAX_ZOOM));
             const yearToPrimaryCoord = (year, scale = zoomRef.current) => orientationRef.current === 'vertical'
@@ -2127,6 +2796,28 @@
                 commitZoom(safeZoom, coord - clientSize / 2);
             };
 
+            const getZoomForYearRange = (rangeStart, rangeEnd, requestedOrientation = orientationRef.current) => {
+                const container = containerRef.current;
+                if (!container) return zoomRef.current;
+                const clientSize = requestedOrientation === 'vertical' ? container.clientHeight : container.clientWidth;
+                const usableSize = Math.max(120, clientSize - (requestedOrientation === 'vertical' ? 108 : 140));
+                const minimum = requestedOrientation === 'vertical' ? MIN_VERTICAL_ZOOM : MIN_HORIZONTAL_ZOOM;
+                return Math.max(minimum, Math.min(MAX_ZOOM, usableSize / Math.max(1, rangeEnd - rangeStart)));
+            };
+
+            const frameYearRange = (rangeStart, rangeEnd) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const safeStart = Math.max(startYear, Math.min(endYear, rangeStart));
+                const safeEnd = Math.max(startYear, Math.min(endYear, rangeEnd));
+                const rangeZoom = getZoomForYearRange(safeStart, safeEnd);
+                const padding = isVertical ? 52 : 70;
+                const leadingCoord = isVertical
+                    ? V_PADDING + (endYear - safeEnd) * rangeZoom
+                    : H_PADDING + (safeStart - startYear) * rangeZoom;
+                commitZoom(rangeZoom, Math.max(0, leadingCoord - padding));
+            };
+
             const fitTimeline = () => {
                 const container = containerRef.current;
                 if (!container) return;
@@ -2164,6 +2855,7 @@
                 if (item.type === 'pol' && !showsPolitics) setMode('pol');
                 if (item.type === 'era' && mode === 'pol' && RICH_TECH_ERAS.includes(item.data)) setMode('tech');
                 setSelectedItem(item);
+                setSelectedCluster(null);
                 setHoveredItem(null);
                 window.setTimeout(() => focusYear(getItemFocusYear(item), Math.max(zoomRef.current, isVertical ? 0.42 : 1)), 45);
             };
@@ -2181,6 +2873,14 @@
                 if (Date.now() < suppressClickUntilRef.current) return;
                 event.stopPropagation();
                 setSelectedItem(makeItem(type, data));
+                setSelectedCluster(null);
+            };
+
+            const openCluster = (event, cluster) => {
+                event?.stopPropagation?.();
+                setSelectedCluster(cluster);
+                setSelectedItem(null);
+                setHoveredCluster(null);
             };
 
             const selectItemWithKeyboard = (event, type, data) => {
@@ -2212,9 +2912,20 @@
                     setJumpError('Try a year like 1950, 500 BCE, or -500.');
                     return;
                 }
+                const hasEndYear = jumpEndInput.trim().length > 0;
+                const end = hasEndYear ? parseYearInput(jumpEndInput) : null;
+                if (hasEndYear && end === null) {
+                    setJumpError('Try an end year like 2020, 500 CE, or -500.');
+                    return;
+                }
+                if (hasEndYear && end <= year) {
+                    setJumpError('End year must be later than the start year.');
+                    return;
+                }
                 setJumpError('');
                 setShowSearch(false);
-                focusYear(year, Math.max(zoomRef.current, isVertical ? 0.42 : 1));
+                if (hasEndYear) frameYearRange(year, end);
+                else focusYear(year, Math.max(zoomRef.current, isVertical ? 0.42 : 1));
             };
 
             const getPointerMetrics = () => {
@@ -2338,16 +3049,26 @@
             }, [orientation]);
 
             useEffect(() => {
+                try {
+                    window.localStorage.setItem('civilization-atlas-label-density', labelDensity);
+                } catch {
+                    // Keep the density control functional without persistence.
+                }
+            }, [labelDensity]);
+
+            useEffect(() => {
                 const handleKeyDown = (event) => {
                     if (event.key !== 'Escape') return;
                     if (showSearch) setShowSearch(false);
                     else if (showFilters) setShowFilters(false);
+                    else if (showAbout) setShowAbout(false);
                     else if (showHelp) setShowHelp(false);
+                    else if (selectedCluster) setSelectedCluster(null);
                     else setSelectedItem(null);
                 };
                 window.addEventListener('keydown', handleKeyDown);
                 return () => window.removeEventListener('keydown', handleKeyDown);
-            }, [showFilters, showHelp, showSearch]);
+            }, [selectedCluster, showAbout, showFilters, showHelp, showSearch]);
 
             useEffect(() => {
                 const container = containerRef.current;
@@ -2365,6 +3086,19 @@
                 syncViewport();
             }, [mode, orientation, zoom]);
 
+            useLayoutEffect(() => {
+                const container = containerRef.current;
+                if (!container || orientation === 'vertical') return;
+                const maxScrollTop = Math.max(0, container.scrollHeight - container.clientHeight);
+                const targetScrollTop = mode === 'merged-split'
+                    ? horizontalLayout.techAxisY - container.clientHeight * 0.68
+                    : mode === 'merged-overlap'
+                        ? horizontalLayout.polAxisY - container.clientHeight * 0.78
+                        : 0;
+                container.scrollTop = clamp(targetScrollTop, 0, maxScrollTop);
+                syncViewport();
+            }, [horizontalLayout.polAxisY, mode, orientation]);
+
             useEffect(() => {
                 const applyInitialFocus = () => resetView();
                 const retry = window.setTimeout(applyInitialFocus, 70);
@@ -2380,37 +3114,77 @@
             const gridStep = zoom < 0.09 ? 2000 : zoom < 0.22 ? 1000 : zoom < 0.9 ? 500 : 100;
             const horizontalGridStep = zoom < 0.12 ? 2000 : zoom < 0.45 ? 1000 : zoom < 2 ? 500 : 100;
 
-            const horizontalTechData = useMemo(() => {
-                const laneCount = responsiveLaneBudget.horizontalTechLanes;
-                const laneEnds = Array.from({ length: laneCount }, () => -Infinity);
-                return visibleTechItems.map((item) => {
-                    const x = H_PADDING + (getItemDisplayYear(item) - startYear) * zoom;
-                    let lane = laneEnds.findIndex((laneEnd) => x - laneEnd > 176);
-                    if (lane === -1) lane = laneEnds.indexOf(Math.min(...laneEnds));
-                    laneEnds[lane] = x;
-                    return { ...item, lane };
-                });
-            }, [responsiveLaneBudget.horizontalTechLanes, visibleTechItems, zoom]);
+            const selectedKey = selectedItem?.key || '';
+            const hoveredKey = hoveredItem?.key || '';
+            const horizontalTechLayoutData = useMemo(() => layoutTimelineLabels({
+                items: visibleTechItems,
+                orientation: 'horizontal',
+                mode,
+                densityProfile: { ...densityProfile, orientation: 'horizontal' },
+                getPrimaryCoord: (item) => H_PADDING + (getItemDisplayYear(item) - startYear) * zoom,
+                selectedKey,
+                hoveredKey,
+                kind: 'tech'
+            }), [densityProfile, hoveredKey, mode, selectedKey, visibleTechItems, zoom]);
+            const horizontalTechData = horizontalTechLayoutData.labels;
+            const horizontalTechClusters = horizontalTechLayoutData.clusters;
 
-            const verticalTechData = useMemo(() => {
-                const lastY = { left: -Infinity, right: -Infinity };
-                return [...visibleTechItems].sort((a, b) => getItemDisplayYear(b) - getItemDisplayYear(a)).map((item, index) => {
-                    const pointY = V_PADDING + (endYear - getItemDisplayYear(item)) * zoom;
-                    const side = isTouchDevice || mode.includes('merged') ? 'right' : (index % 2 ? 'left' : 'right');
-                    const labelY = Math.max(pointY - 14, lastY[side] + responsiveLaneBudget.verticalLabelGap);
-                    lastY[side] = labelY;
-                    return { ...item, side, pointY, labelY };
-                });
-            }, [isTouchDevice, mode, responsiveLaneBudget.verticalLabelGap, visibleTechItems, zoom]);
+            const verticalTechLayoutData = useMemo(() => layoutTimelineLabels({
+                items: visibleTechItems,
+                orientation: 'vertical',
+                mode,
+                densityProfile: { ...densityProfile, orientation: 'vertical' },
+                getPrimaryCoord: (item) => V_PADDING + (endYear - getItemDisplayYear(item)) * zoom,
+                selectedKey,
+                hoveredKey,
+                kind: 'tech'
+            }), [densityProfile, hoveredKey, mode, selectedKey, visibleTechItems, zoom]);
+            const verticalTechData = useMemo(() => verticalTechLayoutData.labels.map((item) => {
+                const usesOneSide = isTouchDevice || mode.includes('merged');
+                const side = usesOneSide ? 'right' : (item.lane % 2 ? 'left' : 'right');
+                const column = usesOneSide ? item.lane : Math.floor(item.lane / 2);
+                return { ...item, side, column, pointY: item.primary, labelY: item.labelPrimary };
+            }), [isTouchDevice, mode, verticalTechLayoutData.labels]);
+            const verticalTechClusters = verticalTechLayoutData.clusters;
 
-            const getHorizontalTechLabelY = (lane) => horizontalLayout.techAxisY + 48 + lane * 27;
-            const getHorizontalPolBarY = (lane) => horizontalLayout.polDirection === -1
-                ? horizontalLayout.polAxisY - 50 - lane * 31
-                : horizontalLayout.polAxisY + 40 + lane * 31;
+            const horizontalPolCandidates = useMemo(() => layoutPolData.filter((item) => item.form === 'milestone' || isPointItem(item) || Math.abs(getItemEnd(item) - getItemStart(item)) * zoom < 110), [layoutPolData, zoom]);
+            const horizontalPolLayoutData = useMemo(() => layoutTimelineLabels({
+                items: horizontalPolCandidates,
+                orientation: 'horizontal',
+                mode,
+                densityProfile: { ...densityProfile, orientation: 'horizontal', laneCount: Math.max(3, Math.round(densityProfile.laneCount * 0.55)) },
+                getPrimaryCoord: (item) => H_PADDING + (getItemDisplayYear(item) - startYear) * zoom,
+                selectedKey,
+                hoveredKey,
+                kind: 'politics'
+            }), [densityProfile, horizontalPolCandidates, hoveredKey, mode, selectedKey, zoom]);
+            const horizontalPolClusterKeys = useMemo(() => new Set(horizontalPolLayoutData.clusters.flatMap((cluster) => cluster.items.map((item) => item.id))), [horizontalPolLayoutData.clusters]);
+
+            const verticalPolCandidates = useMemo(() => layoutPolData.filter((item) => item.form === 'milestone' || isPointItem(item) || Math.abs(getItemEnd(item) - getItemStart(item)) * zoom < 76), [layoutPolData, zoom]);
+            const verticalPolLayoutData = useMemo(() => layoutTimelineLabels({
+                items: verticalPolCandidates,
+                orientation: 'vertical',
+                mode,
+                densityProfile: { ...densityProfile, orientation: 'vertical', laneCount: Math.max(2, Math.round(densityProfile.laneCount * 0.55)) },
+                getPrimaryCoord: (item) => V_PADDING + (endYear - getItemDisplayYear(item)) * zoom,
+                selectedKey,
+                hoveredKey,
+                kind: 'politics'
+            }), [densityProfile, hoveredKey, mode, selectedKey, verticalPolCandidates, zoom]);
+            const verticalPolClusterKeys = useMemo(() => new Set(verticalPolLayoutData.clusters.flatMap((cluster) => cluster.items.map((item) => item.id))), [verticalPolLayoutData.clusters]);
+
+            const getHorizontalTechLabelY = (lane) => clamp(horizontalLayout.techAxisY + 48 + lane * 29, horizontalLayout.topPadding + 18, H_HEIGHT - horizontalLayout.bottomPadding - 62);
+            const getHorizontalPolBarY = (lane) => clamp(
+                horizontalLayout.polDirection === -1
+                    ? horizontalLayout.polAxisY - 50 - lane * 31
+                    : horizontalLayout.polAxisY + 40 + lane * 31,
+                horizontalLayout.topPadding + 6,
+                H_HEIGHT - horizontalLayout.bottomPadding - 28
+            );
 
             const verticalPolX = (lane) => {
-                if (mode === 'pol' && isTouchDevice) return Math.max(10, verticalAxisX - 30 - lane * 25);
-                return Math.max(10, verticalAxisX - 38 - lane * 28);
+                const spacing = isTouchDevice ? 22 : 28;
+                return clamp(verticalAxisX - 38 - lane * spacing, 10, Math.max(10, verticalAxisX - 30));
             };
 
             const updateMinimap = (event) => {
@@ -2470,6 +3244,59 @@
                 </div>
             );
 
+            const renderHorizontalCluster = (cluster, axisY, direction = 1, clusterIndex = 0) => {
+                const anchorX = clamp(cluster.primary, safeTimelineBounds.x + 12, safeTimelineBounds.x + safeTimelineBounds.width - 12);
+                const isHovered = hoveredCluster?.cluster.id === cluster.id;
+                const visualState = getClusterVisualState({ densityProfile, itemCount: cluster.items.length, isHovered });
+                const footprint = getClusterVisualFootprint(visualState, 'horizontal');
+                const fanOffset = clusterIndex % 2 === 0 ? 0 : Math.min(footprint.height + 12, 88);
+                const proposedY = direction === 1 ? axisY + 58 + fanOffset : axisY - footprint.height - 58 - fanOffset;
+                const rect = clampRectToCanvas({ x: anchorX - footprint.width / 2, y: proposedY, ...footprint }, safeTimelineBounds, 8);
+                const lineEndY = direction === 1 ? rect.y : rect.y + rect.height;
+                const pipItems = cluster.items.slice(0, densityProfile.pipCount);
+                const muted = hoveredCluster && !isHovered ? 0.42 : 1;
+                return (
+                    <g key={cluster.id} opacity={muted} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open cluster with ${cluster.items.length} ${cluster.kind} items ${getClusterRangeLabel(cluster)}`} className="cursor-pointer" onClick={(event) => openCluster(event, cluster)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openCluster(event, cluster); } }} onMouseEnter={(event) => setHoveredCluster({ cluster, x: event.clientX, y: event.clientY })} onMouseMove={(event) => setHoveredCluster({ cluster, x: event.clientX, y: event.clientY })} onMouseLeave={() => setHoveredCluster(null)}>
+                        <line x1={anchorX} y1={axisY} x2={anchorX} y2={lineEndY} stroke={cluster.kind === 'politics' ? '#7c3aed' : '#2563eb'} strokeWidth={1.7} strokeDasharray="3 3" opacity={0.76} />
+                        {pipItems.map((item, index) => {
+                            const spread = (index - (pipItems.length - 1) / 2) * 7;
+                            const pipY = axisY + direction * (10 + (index % 3) * 7);
+                            return <circle className="density-dot" key={`${cluster.id}-pip-${item.id}`} cx={clamp(anchorX + spread, 6, canvasWidth - 6)} cy={pipY} r={index < 4 ? 3.8 : 2.8} fill={getClusterItemColor(item, cluster.kind)} opacity={index < 4 ? 0.96 : 0.72} />;
+                        })}
+                        <foreignObject x={rect.x} y={rect.y} width={rect.width} height={rect.height}>
+                            <ClusterVisual cluster={cluster} visualState={visualState} isHovered={isHovered} />
+                        </foreignObject>
+                    </g>
+                );
+            };
+
+            const renderVerticalCluster = (cluster, axisX, side = 'right', clusterIndex = 0) => {
+                const anchorY = clamp(cluster.primary, safeTimelineBounds.y + 12, safeTimelineBounds.y + safeTimelineBounds.height - 12);
+                const rightSide = side === 'right';
+                const isHovered = hoveredCluster?.cluster.id === cluster.id;
+                const visualState = getClusterVisualState({ densityProfile, itemCount: cluster.items.length, isHovered });
+                const footprint = getClusterVisualFootprint(visualState, 'vertical');
+                const fanOffset = !isTouchDevice && clusterIndex % 2 === 1 ? Math.min(footprint.width * 0.42, 86) : 0;
+                const proposedX = rightSide ? axisX + 30 + fanOffset : axisX - footprint.width - 30 - fanOffset;
+                const rect = clampRectToCanvas({ x: proposedX, y: anchorY - footprint.height / 2, ...footprint }, safeTimelineBounds, 8);
+                const lineEndX = rightSide ? rect.x : rect.x + rect.width;
+                const pipItems = cluster.items.slice(0, densityProfile.pipCount);
+                const muted = hoveredCluster && !isHovered ? 0.42 : 1;
+                return (
+                    <g key={cluster.id} opacity={muted} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open cluster with ${cluster.items.length} ${cluster.kind} items ${getClusterRangeLabel(cluster)}`} className="cursor-pointer" onClick={(event) => openCluster(event, cluster)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openCluster(event, cluster); } }} onMouseEnter={(event) => setHoveredCluster({ cluster, x: event.clientX, y: event.clientY })} onMouseMove={(event) => setHoveredCluster({ cluster, x: event.clientX, y: event.clientY })} onMouseLeave={() => setHoveredCluster(null)}>
+                        <line x1={axisX} y1={anchorY} x2={lineEndX} y2={anchorY} stroke={cluster.kind === 'politics' ? '#7c3aed' : '#2563eb'} strokeWidth={1.7} strokeDasharray="3 3" opacity={0.76} />
+                        {pipItems.map((item, index) => {
+                            const spread = (index - (pipItems.length - 1) / 2) * 7;
+                            const pipX = axisX + (rightSide ? 1 : -1) * (10 + (index % 3) * 7);
+                            return <circle className="density-dot" key={`${cluster.id}-pip-${item.id}`} cx={pipX} cy={clamp(anchorY + spread, 6, canvasHeight - 6)} r={index < 4 ? 3.8 : 2.8} fill={getClusterItemColor(item, cluster.kind)} opacity={index < 4 ? 0.96 : 0.72} />;
+                        })}
+                        <foreignObject x={rect.x} y={rect.y} width={rect.width} height={rect.height}>
+                            <ClusterVisual cluster={cluster} visualState={visualState} isHovered={isHovered} />
+                        </foreignObject>
+                    </g>
+                );
+            };
+
             const renderHorizontalTimeline = () => (
                 <svg width={canvasWidth} height={canvasHeight} className="absolute left-0 top-0 block">
                     {Array.from({ length: Math.ceil(totalYears / horizontalGridStep) + 1 }).map((_, index) => {
@@ -2519,11 +3346,28 @@
                                     <g key={system.id || `${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
                                         <rect x={startX} y={y} width={width} height={25} rx={7} fill={color} fillOpacity={isSelected('pol', system) ? 0.44 : (isDarkMode ? 0.28 : 0.2)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.4} />
                                         <foreignObject x={startX} y={y} width={width} height={25} style={{ pointerEvents: 'none' }}>
-                                            <div className={`flex h-full w-full items-center justify-center gap-1 overflow-hidden px-1 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={13} />{width > 74 && <span className="truncate text-[11px] font-bold">{system.name}</span>}</div>
+                                            <div className={`flex h-full w-full items-center justify-center gap-1 overflow-hidden px-1 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={13} />{width > 92 && !horizontalPolClusterKeys.has(system.id) && <span className="truncate text-[11px] font-bold">{system.name}</span>}</div>
                                         </foreignObject>
                                     </g>
                                 );
                             })}
+                            {horizontalPolLayoutData.labels.map((item) => {
+                                const x = item.primary;
+                                const labelY = horizontalLayout.polAxisY + horizontalLayout.polDirection * (56 + item.lane * 27);
+                                if (!isPrimaryVisible(x) || item.lod === 'glyph') return <circle className="density-dot" key={`pol-dot-${item.id}`} cx={x} cy={horizontalLayout.polAxisY} r={4} fill={RICH_POL_TYPE_MAP[item.type]?.color || '#7c3aed'} />;
+                                const width = item.lod === 'full' ? 190 : 138;
+                                const labelRect = clampRectToCanvas({ x: x - width / 2, y: labelY - 12, width, height: 28 }, safeTimelineBounds, 8);
+                                const color = RICH_POL_TYPE_MAP[item.type]?.color || '#7c3aed';
+                                return (
+                                    <g key={`pol-label-${item.id}`} opacity={hoveredItem && hoveredItem.key !== itemKey('pol', item) ? 0.52 : 1} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', item)} onMouseEnter={(event) => showHover(event, 'pol', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                        <line x1={x} y1={horizontalLayout.polAxisY} x2={labelRect.x + width / 2} y2={labelRect.y + 12} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.62} />
+                                        <foreignObject x={labelRect.x} y={labelRect.y} width={width} height={28}>
+                                            <div className={`adaptive-label ${item.lod === 'full' ? 'is-full' : 'is-compact'} ${isSelected('pol', item) ? 'is-selected' : ''}`}><TimelineIcon item={{ type: 'pol', data: item }} size={item.lod === 'full' ? 18 : 15} /><span className="truncate">{item.lod === 'full' ? item.name : getShortItemName(item, 20)}</span></div>
+                                        </foreignObject>
+                                    </g>
+                                );
+                            })}
+                            {horizontalPolLayoutData.clusters.map((cluster, index) => renderHorizontalCluster(cluster, horizontalLayout.polAxisY, horizontalLayout.polDirection, index))}
                         </g>
                     )}
                     {showsTech && (
@@ -2534,21 +3378,24 @@
                                 const x = H_PADDING + (getItemDisplayYear(item) - startYear) * zoom;
                                 if (!isPrimaryVisible(x)) return null;
                                 const labelY = getHorizontalTechLabelY(item.lane);
+                                const labelFootprint = getLabelFootprint(item, item.lod, 'horizontal');
+                                const labelRect = clampRectToCanvas({ x: x - labelFootprint.width / 2, y: labelY, ...labelFootprint }, safeTimelineBounds, 8);
                                 return (
-                                    <g key={item.id || `${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
-                                        <path d={`M ${x} ${horizontalLayout.techAxisY} L ${x} ${labelY}`} stroke={isSelected('tech', item) ? '#2563eb' : theme.gridText} strokeWidth={isSelected('tech', item) ? 2 : 1} opacity={0.72} />
+                                    <g key={item.id || `${item.name}-${index}`} opacity={hoveredItem && hoveredItem.key !== itemKey('tech', item) ? 0.52 : 1} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                        <path d={`M ${x} ${horizontalLayout.techAxisY} L ${labelRect.x + labelFootprint.width / 2} ${labelRect.y}`} stroke={isSelected('tech', item) ? '#2563eb' : theme.gridText} strokeWidth={isSelected('tech', item) ? 2 : 1} opacity={0.72} />
                                         <circle cx={x} cy={horizontalLayout.techAxisY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : theme.axis} />
-                                        {zoom > 0.17 && (
-                                            <foreignObject x={x - 85} y={labelY} width={170} height={58} style={{ overflow: 'visible' }}>
+                                        {item.lod !== 'glyph' ? (
+                                            <foreignObject x={labelRect.x} y={labelRect.y} width={labelFootprint.width} height={labelFootprint.height}>
                                                 <div className="flex flex-col items-center text-center">
-                                                    <div className={`timeline-label flex items-center gap-1.5 whitespace-nowrap px-2 py-1 text-[11px] font-bold ${theme.text} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={RICH_TECH_CATEGORY_MAP[item.category]?.glyph || getTechGlyph(item.name)} size={13} className="shrink-0 text-blue-500" /><span>{item.name}</span></div>
-                                                    {zoom > 0.48 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{getItemDate(item)}</div>}
+                                                    <div className={`adaptive-label ${item.lod === 'full' ? 'is-full' : 'is-compact'} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineIcon item={{ type: 'tech', data: item }} size={item.lod === 'full' ? 18 : 15} /><span className="truncate">{item.lod === 'full' ? item.name : getShortItemName(item, 20)}</span></div>
+                                                    {item.lod === 'full' && zoom > 0.68 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{getItemDate(item)}</div>}
                                                 </div>
                                             </foreignObject>
-                                        )}
+                                        ) : <circle className="density-dot" cx={x} cy={labelY + 5} r={4} fill={RICH_TECH_CATEGORY_MAP[item.category]?.color || '#2563eb'} />}
                                     </g>
                                 );
                             })}
+                            {horizontalTechClusters.map((cluster, index) => renderHorizontalCluster(cluster, horizontalLayout.techAxisY, 1, index))}
                         </g>
                     )}
                 </svg>
@@ -2609,7 +3456,7 @@
                             <g key={system.id || `${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
                                 <rect x={x} y={top} width={22} height={height} rx={8} fill={color} fillOpacity={isSelected('pol', system) ? 0.6 : (isDarkMode ? 0.36 : 0.28)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.5} />
                                 <line x1={x + 22} y1={top} x2={verticalAxisX} y2={top} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.5} />
-                                {height > 54 && (
+                                {height > (isTouchDevice && viewportProfile.width < 600 ? 210 : 86) && !verticalPolClusterKeys.has(system.id) && (
                                     <foreignObject x={x} y={top} width={22} height={height} style={{ pointerEvents: 'none' }}>
                                         <div className="vertical-ribbon-label text-slate-900 dark:text-slate-100"><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={12} /><span>{system.name}</span></div>
                                     </foreignObject>
@@ -2617,26 +3464,48 @@
                             </g>
                         );
                     })}
-                    {showsTech && verticalTechData.map((item, index) => {
-                        if (!isPrimaryVisible(item.pointY) && !isPrimaryVisible(item.labelY)) return null;
-                        const rightSide = item.side === 'right';
-                        const cardWidth = isTouchDevice ? Math.min(226, canvasWidth - verticalAxisX - 24) : 214;
-                        const cardX = rightSide ? verticalAxisX + 16 : verticalAxisX - cardWidth - 16;
-                        const connectorEnd = rightSide ? cardX : cardX + cardWidth;
-                        const category = RICH_TECH_CATEGORY_MAP[item.category] || RICH_TECH_CATEGORY_MAP.tools;
-                        const color = category.color;
+                    {showsPolitics && verticalPolLayoutData.labels.map((item) => {
+                        const y = item.labelPrimary;
+                        const pointY = item.primary;
+                        if (!isPrimaryVisible(pointY) && !isPrimaryVisible(y)) return null;
+                        if (item.lod === 'glyph') return <circle className="density-dot" key={`pol-v-dot-${item.id}`} cx={verticalAxisX - 8} cy={pointY} r={4} fill={RICH_POL_TYPE_MAP[item.type]?.color || '#7c3aed'} />;
+                        const width = item.lod === 'full' ? 202 : 154;
+                        const x = Math.max(8, verticalAxisX - width - 18);
+                        const labelRect = clampRectToCanvas({ x, y, width, height: 27 }, safeTimelineBounds, 8);
+                        const color = RICH_POL_TYPE_MAP[item.type]?.color || '#7c3aed';
                         return (
-                            <g key={item.id || `${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
-                                <path d={`M ${verticalAxisX} ${item.pointY} L ${connectorEnd} ${item.labelY + 14}`} stroke={isSelected('tech', item) ? '#2563eb' : color} strokeWidth={isSelected('tech', item) ? 2.4 : 1.2} opacity={0.7} />
-                                <circle cx={verticalAxisX} cy={item.pointY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : color} />
-                                {zoom > 0.11 ? (
-                                    <foreignObject x={cardX} y={item.labelY} width={cardWidth} height={30} style={{ overflow: 'visible' }}>
-                                        <div className={`vertical-card ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={category.glyph} size={13} className="shrink-0" style={{ color }} /><span className="truncate">{item.name}</span></div>
-                                    </foreignObject>
-                                ) : <circle cx={connectorEnd} cy={item.labelY + 14} r={4} fill={color} />}
+                            <g key={`pol-v-label-${item.id}`} opacity={hoveredItem && hoveredItem.key !== itemKey('pol', item) ? 0.52 : 1} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', item)} onMouseEnter={(event) => showHover(event, 'pol', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                <line x1={verticalAxisX} y1={pointY} x2={labelRect.x + labelRect.width} y2={labelRect.y + 12} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.62} />
+                                <foreignObject x={labelRect.x} y={labelRect.y} width={labelRect.width} height={labelRect.height}>
+                                    <div className={`adaptive-label ${item.lod === 'full' ? 'is-full' : 'is-compact'} ${isSelected('pol', item) ? 'is-selected' : ''}`}><TimelineIcon item={{ type: 'pol', data: item }} size={item.lod === 'full' ? 18 : 15} /><span className="truncate">{item.lod === 'full' ? item.name : getShortItemName(item, 21)}</span></div>
+                                </foreignObject>
                             </g>
                         );
                     })}
+                    {showsPolitics && verticalPolLayoutData.clusters.map((cluster, index) => renderVerticalCluster(cluster, verticalAxisX, 'left', index))}
+                    {showsTech && verticalTechData.map((item, index) => {
+                        if (!isPrimaryVisible(item.pointY) && !isPrimaryVisible(item.labelY)) return null;
+                        const rightSide = item.side === 'right';
+                        const cardWidth = item.lod === 'full' ? (isTouchDevice ? Math.min(226, canvasWidth - verticalAxisX - 24) : 214) : (isTouchDevice ? Math.min(176, canvasWidth - verticalAxisX - 24) : 166);
+                        const columnOffset = isTouchDevice ? 0 : Math.min(item.column, 2) * (cardWidth + 8);
+                        const cardX = rightSide ? verticalAxisX + 16 + columnOffset : verticalAxisX - cardWidth - 16 - columnOffset;
+                        const cardRect = clampRectToCanvas({ x: cardX, y: item.labelY, width: cardWidth, height: 30 }, safeTimelineBounds, 8);
+                        const connectorEnd = rightSide ? cardRect.x : cardRect.x + cardRect.width;
+                        const category = RICH_TECH_CATEGORY_MAP[item.category] || RICH_TECH_CATEGORY_MAP.tools;
+                        const color = category.color;
+                        return (
+                            <g key={item.id || `${item.name}-${index}`} opacity={hoveredItem && hoveredItem.key !== itemKey('tech', item) ? 0.52 : 1} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                <path d={`M ${verticalAxisX} ${item.pointY} L ${connectorEnd} ${cardRect.y + 14}`} stroke={isSelected('tech', item) ? '#2563eb' : color} strokeWidth={isSelected('tech', item) ? 2.4 : 1.2} opacity={0.7} />
+                                <circle cx={verticalAxisX} cy={item.pointY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : color} />
+                                {item.lod !== 'glyph' ? (
+                                    <foreignObject x={cardRect.x} y={cardRect.y} width={cardRect.width} height={cardRect.height}>
+                                        <div className={`vertical-card ${item.lod === 'compact' ? 'is-compact' : ''} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineIcon item={{ type: 'tech', data: item }} size={item.lod === 'full' ? 18 : 15} /><span className="truncate">{item.lod === 'full' ? item.name : getShortItemName(item, 22)}</span></div>
+                                    </foreignObject>
+                                ) : <circle cx={connectorEnd} cy={cardRect.y + 14} r={4} fill={color} />}
+                            </g>
+                        );
+                    })}
+                    {showsTech && verticalTechClusters.map((cluster, index) => renderVerticalCluster(cluster, verticalAxisX, 'right', index))}
                 </svg>
             );
 
@@ -2659,6 +3528,34 @@
                 );
             };
 
+            const hoverPanelPosition = hoveredItem ? getFloatingPanelPosition({
+                anchorX: hoveredItem.x,
+                anchorY: hoveredItem.y,
+                panelWidth: 304,
+                panelHeight: 340,
+                viewportWidth: viewportProfile.width,
+                viewportHeight: viewportProfile.height,
+                safeArea: viewportProfile.safeArea
+            }) : null;
+            const clusterPreviewPosition = hoveredCluster ? getFloatingPanelPosition({
+                anchorX: hoveredCluster.x,
+                anchorY: hoveredCluster.y,
+                panelWidth: 304,
+                panelHeight: 300,
+                viewportWidth: viewportProfile.width,
+                viewportHeight: viewportProfile.height,
+                safeArea: viewportProfile.safeArea
+            }) : null;
+            const cursorPanelPosition = cursorYear !== null ? getFloatingPanelPosition({
+                anchorX: mousePos.x,
+                anchorY: mousePos.y,
+                panelWidth: 86,
+                panelHeight: 28,
+                viewportWidth: viewportProfile.width,
+                viewportHeight: viewportProfile.height,
+                safeArea: viewportProfile.safeArea
+            }) : null;
+
             return (
                 <div className={`app-shell flex flex-col overflow-hidden font-sans transition-colors duration-300 ${theme.bg} ${isDarkMode ? 'dark' : ''}`}>
                     <header className="app-header z-30">
@@ -2678,6 +3575,7 @@
                             <ToolbarButton label={`Switch to ${isVertical ? 'horizontal' : 'vertical'} timeline`} onClick={switchOrientation}>{isVertical ? <ArrowLeftRight size={18} /> : <ArrowUpDown size={18} />}</ToolbarButton>
                             <ToolbarButton label={isDarkMode ? 'Use light theme' : 'Use dark theme'} onClick={() => setIsDarkMode(!isDarkMode)}>{isDarkMode ? <Sun size={18} /> : <Moon size={18} />}</ToolbarButton>
                             <div className="hidden md:block"><ToolbarButton label="Open gesture help" onClick={() => setShowHelp(true)}><HelpCircle size={18} /></ToolbarButton></div>
+                            <div className="hidden lg:block"><ToolbarButton label="About and how to read this atlas" onClick={() => setShowAbout(true)}><Sparkles size={17} /></ToolbarButton></div>
                             {renderToolbar()}
                         </div>
                     </header>
@@ -2708,19 +3606,28 @@
                         </div>
                     </main>
 
-                    {!selectedItem && !showSearch && !showFilters && renderMinimap()}
-                    {!selectedItem && !showSearch && !showFilters && renderToolbar(true)}
+                    {!selectedItem && !selectedCluster && !showSearch && !showFilters && renderMinimap()}
+                    {!selectedItem && !selectedCluster && !showSearch && !showFilters && renderToolbar(true)}
 
                     {!isTouchDevice && cursorYear !== null && !isDragging && (
-                        <div className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-full bg-blue-600 px-2 py-1 text-[11px] font-bold text-white shadow-md" style={{ left: mousePos.x, top: mousePos.y - 10 }}>{formatYear(cursorYear)}</div>
+                        <div className="pointer-events-none fixed z-50 rounded-full bg-blue-700 px-2 py-1 text-center text-[11px] font-bold text-white shadow-md" style={cursorPanelPosition}>{formatYear(cursorYear)}</div>
                     )}
                     {!isTouchDevice && hoveredItem && !selectedItem && (
-                        <div className={`pointer-events-none fixed z-50 w-72 -translate-x-1/2 -translate-y-full rounded-2xl border p-4 shadow-2xl backdrop-blur-md ${isDarkMode ? 'border-slate-600 bg-slate-800/95 text-slate-100' : 'border-slate-200 bg-white/95 text-slate-800'}`} style={{ left: hoveredItem.x, top: hoveredItem.y - 12 }}><DetailContent item={hoveredItem} /></div>
+                        <div className="hover-preview pointer-events-none" style={hoverPanelPosition}><DetailContent item={hoveredItem} /></div>
+                    )}
+                    {!isTouchDevice && hoveredCluster && !selectedItem && !selectedCluster && (
+                        <div className="hover-preview pointer-events-none" style={clusterPreviewPosition}><ClusterContent cluster={hoveredCluster.cluster} onSelect={() => {}} compact /></div>
                     )}
                     {selectedItem && (
                         <aside className="detail-sheet" role="dialog" aria-label={`${selectedItem.data.name} details`}>
                             <button type="button" className="icon-button absolute right-2 top-2" aria-label="Close details" title="Close details" onClick={() => setSelectedItem(null)}><X size={18} /></button>
                             <div className="pr-8"><DetailContent item={selectedItem} onRelated={(name) => focusAndSelect(findItemByName(name))} /></div>
+                        </aside>
+                    )}
+                    {selectedCluster && (
+                        <aside className="detail-sheet" role="dialog" aria-label={`${selectedCluster.items.length} nearby timeline items`}>
+                            <button type="button" className="icon-button absolute right-2 top-2" aria-label="Close cluster details" title="Close cluster details" onClick={() => setSelectedCluster(null)}><X size={18} /></button>
+                            <div className="pr-8"><ClusterContent cluster={selectedCluster} onSelect={focusAndSelect} /></div>
                         </aside>
                     )}
 
@@ -2731,16 +3638,18 @@
                                     <div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Navigate</div><h2 id="search-title" className="mt-1 text-2xl font-extrabold">Search the atlas</h2></div>
                                     <ToolbarButton label="Close search" onClick={() => setShowSearch(false)}><X size={18} /></ToolbarButton>
                                 </div>
-                                <form className="mt-4 flex gap-2" onSubmit={submitJump}>
-                                    <input className="utility-input" aria-label="Jump to year" placeholder="Jump to year: 1950, 500 BCE, -500" value={jumpInput} onChange={(event) => setJumpInput(event.target.value)} />
+                                <form className="mt-4 grid gap-2 sm:grid-cols-[1fr_1fr_auto]" onSubmit={submitJump}>
+                                    <input className="utility-input" aria-label="Jump to start year" placeholder="Start year: 1950, 500 BCE, -500" value={jumpInput} onChange={(event) => setJumpInput(event.target.value)} />
+                                    <input className="utility-input" aria-label="Optional end year" placeholder="End year / optional" value={jumpEndInput} onChange={(event) => setJumpEndInput(event.target.value)} />
                                     <button type="submit" className="icon-button shrink-0 border border-slate-200 dark:border-slate-600" aria-label="Jump to entered year" title="Jump to entered year"><CornerDownLeft size={18} /></button>
                                 </form>
+                                <p className="mt-2 text-xs font-semibold text-slate-600 dark:text-slate-300">Add an end year to frame a range. Leave it blank to jump to one date.</p>
                                 {jumpError && <div className="mt-2 text-xs font-semibold text-rose-500">{jumpError}</div>}
                                 <div className="mt-4"><input className="utility-input" autoFocus aria-label="Search timeline items" placeholder="Search technologies, political systems, eras..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} /></div>
                                 <div className="mt-3 max-h-80 space-y-1 overflow-auto">
                                     {filteredSearchResults.map((item) => (
                                         <button type="button" className="result-row" key={item.key} onClick={() => { focusAndSelect(item); setShowSearch(false); }}>
-                                            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300"><TimelineGlyph kind={getItemGlyph(item)} size={15} /></span>
+                                            <TimelineIcon item={item} size={32} />
                                             <span className="min-w-0 flex-1"><span className="block truncate text-sm font-extrabold">{item.data.name}</span><span className="block truncate font-mono text-[10px] text-slate-500 dark:text-slate-400">{item.type === 'tech' ? 'TECH' : item.type === 'pol' ? 'POLITICS' : 'ERA'} / {getItemDate(item)}</span></span>
                                         </button>
                                     ))}
@@ -2757,6 +3666,10 @@
                                     <ToolbarButton label="Close filters" onClick={() => setShowFilters(false)}><X size={18} /></ToolbarButton>
                                 </div>
                                 <div className="mt-4 flex flex-wrap gap-2"><button type="button" className="filter-chip" onClick={clearFilters}>Show all</button><button type="button" className="filter-chip" onClick={clearFilters}>Clear filters</button><button type="button" className="filter-chip" onClick={hideAllFilters}>Hide all</button></div>
+                                <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-300">Label density</div>
+                                <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {Object.entries(DENSITY_OPTIONS).map(([id, option]) => <button type="button" className={`filter-chip density-option justify-center ${labelDensity === id ? 'border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-950/50 dark:text-blue-200' : ''}`} aria-pressed={labelDensity === id} key={id} onClick={() => setLabelDensity(id)}>{option.label}</button>)}
+                                </div>
                                 <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Technology categories</div>
                                 <div className="mt-2 flex flex-wrap gap-2">
                                     {RICH_TECH_CATEGORY_DEFS.map((category) => <button type="button" className={`filter-chip ${disabledTechCategories.includes(category.id) ? 'is-off' : ''}`} key={category.id} onClick={() => toggleTechCategory(category.id)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: category.color }} /><TimelineGlyph kind={category.glyph} size={13} />{category.label}</button>)}
@@ -2775,6 +3688,19 @@
                                 <div className="flex items-start justify-between gap-4"><div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Timeline guide</div><h2 id="gesture-help-title" className="mt-1 text-2xl font-extrabold tracking-tight">Explore like a map</h2></div><ToolbarButton label="Close help" onClick={() => setShowHelp(false)}><X size={18} /></ToolbarButton></div>
                                 <div className="mt-4 orientation-pill">{isVertical ? <ArrowUpDown size={14} /> : <ArrowLeftRight size={14} />} {isVertical ? 'Vertical: newest at top, oldest at bottom' : 'Horizontal: oldest left, newest right'}</div>
                                 <div className="mt-5 grid gap-5 md:grid-cols-2"><div><h3 className="text-sm font-extrabold">Desktop</h3><ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300"><li>Hover for a preview and click to pin details.</li><li>Drag or scroll to move through time.</li><li>Hold Alt while scrolling to zoom.</li><li>Use search, filters, or the minimap for fast navigation.</li></ul></div><div><h3 className="text-sm font-extrabold">Touch</h3><ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300"><li>Drag with one finger to pan.</li><li>Pinch or drag with two fingers to zoom and move.</li><li>Tap an item for a detail sheet.</li><li>Double tap empty space to zoom in.</li></ul></div></div>
+                                <button type="button" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-blue-600 px-4 text-sm font-extrabold text-white shadow-sm hover:bg-blue-700" onClick={() => { setShowHelp(false); setShowAbout(true); }}><Sparkles size={16} />About / How to read this</button>
+                            </section>
+                        </div>
+                    )}
+                    {showAbout && (
+                        <div className="help-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) setShowAbout(false); }}>
+                            <section className="help-panel" role="dialog" aria-modal="true" aria-labelledby="about-title">
+                                <div className="flex items-start justify-between gap-4"><div><div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">Civilization Atlas</div><h2 id="about-title" className="mt-1 text-2xl font-extrabold tracking-tight">How to read this map</h2></div><ToolbarButton label="Close about guide" onClick={() => setShowAbout(false)}><X size={18} /></ToolbarButton></div>
+                                <p className="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300">Technology shows inventions, discoveries, and knowledge systems. Politics shows civic milestones and governing structures. Unified places them on one shared axis; Split separates the lanes so relationships remain legible in dense periods.</p>
+                                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                                    {STORY_MODE_SEEDS.map((seed) => <article className="guide-card" key={seed.id}><h3 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">{seed.title}</h3><p className="mt-1 text-xs leading-5">{seed.summary}</p></article>)}
+                                </div>
+                                <p className="mt-4 text-xs font-semibold leading-5 text-slate-700 dark:text-slate-300">Information tools matter because coordination capacity matters: writing supports bureaucracy, roads and horses extend empire, printing reshapes public argument, networks compress distance, and AI may create another leap in automation and state capacity. A future Story Mode can guide these threads interactively.</p>
                             </section>
                         </div>
                     )}

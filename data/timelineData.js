@@ -269,6 +269,16 @@
         politics({ id: 'ai-governance', name: 'AI Governance', form: 'milestone', start: 2020, end: 2035, dateLabel: '2020s-present', type: 'Global', category: 'digital', importance: 4, confidence: 'speculative', uncertainty: 'emerging', region: 'Global', description: 'Governments and institutions are beginning to regulate advanced AI systems, but durable governance models remain unsettled.', related: ['Foundation Models / LLMs'] })
     ];
 
+    const STORY_MODE_SEEDS = [
+        { id: 'writing-law-state', title: 'Writing, Law, and the Birth of the State', itemIds: ['writing-cuneiform', 'mathematics-accounting', 'codified-law-hammurabi', 'city-states-sumerian'], summary: 'Records, accounting, and written law helped cities coordinate taxation, trade, and durable administration.' },
+        { id: 'horses-roads-empire', title: 'Horses, Roads, and Empire', itemIds: ['horse-riding-cavalry', 'road-networks', 'achaemenid-satrapal-administration', 'territorial-empires'], summary: 'Mobility and communication networks expanded the practical reach of imperial government.' },
+        { id: 'printing-political-upheaval', title: 'Printing Press and Political Upheaval', itemIds: ['printing-press', 'representative-assemblies-parliamentarism', 'westphalian-sovereignty'], summary: 'Printing accelerated public argument, religious contestation, and new ways to organize political communities.' },
+        { id: 'gunpowder-centralized-states', title: 'Gunpowder, Cannons, and Centralized States', itemIds: ['gunpowder', 'absolute-monarchy', 'modern-bureaucratic-state'], summary: 'Gunpowder warfare increased pressure for taxation, administration, and more centralized military capacity.' },
+        { id: 'navigation-global-empires', title: 'Oceanic Navigation and Global Empires', itemIds: ['magnetic-compass', 'colonial-empires', 'chartered-companies-corporate-sovereignty'], summary: 'Long-distance navigation helped connect trade networks while enabling conquest and colonial extraction.' },
+        { id: 'networks-mass-politics', title: 'Telegraph, Radio, Internet, and Mass Politics', itemIds: ['telegraph', 'radio', 'arpanet', 'tcp-ip-internet', 'digital-governance-surveillance-state'], summary: 'Each communication leap changed the speed and scale at which states, movements, and publics could coordinate.' },
+        { id: 'ai-capacity-leap', title: 'AI and the Next Civilizational Capacity Leap', itemIds: ['deep-learning-breakthrough', 'transformer-architecture', 'foundation-models-llms', 'generative-ai', 'ai-governance'], summary: 'AI may expand coordination and automation while creating unsettled questions about power, safety, and governance.' }
+    ];
+
     window.TIMELINE_DATA = {
         TECH_CATEGORY_DEFS,
         POL_CATEGORY_DEFS,
@@ -277,6 +287,7 @@
         POL_ERAS,
         TECH_ITEMS,
         POLITICAL_ITEMS,
-        PRELUDE_ITEMS
+        PRELUDE_ITEMS,
+        STORY_MODE_SEEDS
     };
 })();
