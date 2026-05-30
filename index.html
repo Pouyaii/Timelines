@@ -16,10 +16,16 @@
 
     <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./data/timelineData.js"></script>
 
     <style>
         :root {
             color-scheme: light;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --visual-viewport-height: 100vh;
         }
 
         html,
@@ -33,6 +39,14 @@
         body {
             overscroll-behavior: none;
             background: #f8fafc;
+        }
+
+        .app-shell {
+            height: 100vh;
+            height: 100svh;
+            height: 100dvh;
+            min-height: 100vh;
+            min-height: 100svh;
         }
 
         button {
@@ -71,7 +85,7 @@
             grid-template-columns: auto minmax(0, 1fr) auto;
             align-items: center;
             gap: 18px;
-            padding: 12px 16px;
+            padding: max(12px, var(--safe-top)) max(16px, var(--safe-right)) 12px max(16px, var(--safe-left));
             border-bottom: 1px solid #e2e8f0;
             background: rgba(255, 255, 255, 0.92);
             box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
@@ -285,8 +299,8 @@
 
         .detail-sheet {
             position: fixed;
-            right: 18px;
-            bottom: 18px;
+            right: max(18px, var(--safe-right));
+            bottom: max(18px, var(--safe-bottom));
             z-index: 70;
             width: min(360px, calc(100vw - 32px));
             padding: 18px;
@@ -345,7 +359,7 @@
 
         .utility-panel {
             width: min(680px, 100%);
-            max-height: min(760px, calc(100vh - 36px));
+            max-height: min(760px, calc(var(--visual-viewport-height) - var(--safe-top) - var(--safe-bottom) - 36px));
             overflow: auto;
             padding: 20px;
             border: 1px solid #e2e8f0;
@@ -473,16 +487,16 @@
         }
 
         .minimap-horizontal {
-            right: 24px;
-            bottom: 16px;
-            left: 24px;
+            right: max(24px, var(--safe-right));
+            bottom: max(16px, var(--safe-bottom));
+            left: max(24px, var(--safe-left));
             height: 16px;
         }
 
         .minimap-vertical {
-            top: 92px;
-            right: 12px;
-            bottom: 20px;
+            top: calc(92px + var(--safe-top));
+            right: max(12px, var(--safe-right));
+            bottom: max(20px, var(--safe-bottom));
             width: 18px;
         }
 
@@ -577,7 +591,7 @@
         .mobile-toolbar {
             position: fixed;
             left: 50%;
-            bottom: 14px;
+            bottom: max(14px, calc(var(--safe-bottom) + 8px));
             z-index: 60;
             transform: translateX(-50%);
         }
@@ -593,7 +607,7 @@
             .app-header {
                 grid-template-columns: minmax(0, 1fr) auto;
                 gap: 8px;
-                padding: 8px 10px;
+                padding: max(8px, var(--safe-top)) max(10px, var(--safe-right)) 8px max(10px, var(--safe-left));
             }
 
             .brand-title {
@@ -643,15 +657,15 @@
             }
 
             .minimap-horizontal {
-                right: 12px;
-                bottom: 70px;
-                left: 12px;
+                right: max(12px, var(--safe-right));
+                bottom: max(70px, calc(var(--safe-bottom) + 64px));
+                left: max(12px, var(--safe-left));
             }
 
             .minimap-vertical {
-                top: 124px;
-                right: 6px;
-                bottom: 70px;
+                top: calc(124px + var(--safe-top));
+                right: max(6px, var(--safe-right));
+                bottom: max(70px, calc(var(--safe-bottom) + 64px));
                 width: 16px;
             }
 
@@ -662,8 +676,8 @@
 
             .utility-panel {
                 width: 100%;
-                max-height: min(78vh, 720px);
-                padding: 18px 16px max(20px, env(safe-area-inset-bottom));
+                max-height: min(78dvh, calc(var(--visual-viewport-height) - var(--safe-top) - 8px), 720px);
+                padding: 18px max(16px, var(--safe-right)) max(20px, var(--safe-bottom)) max(16px, var(--safe-left));
                 border-right: 0;
                 border-bottom: 0;
                 border-left: 0;
@@ -675,7 +689,9 @@
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                padding: 18px 18px max(20px, env(safe-area-inset-bottom));
+                max-height: min(76dvh, calc(var(--visual-viewport-height) - var(--safe-top) - 12px));
+                overflow: auto;
+                padding: 18px max(18px, var(--safe-right)) max(20px, var(--safe-bottom)) max(18px, var(--safe-left));
                 border-right: 0;
                 border-bottom: 0;
                 border-left: 0;
@@ -772,12 +788,12 @@
         // --- DATASETS ---
 
         const TECH_ERAS = [
-            { name: "Stone Age", start: -10000, end: -3300, color: "stone", description: "Early stone tools, agriculture, and permanent settlements." },
+            { name: "Neolithic / Early Agriculture", start: -10000, end: -3300, color: "stone", description: "The visible atlas begins with agriculture, domestication, and permanent settlements; deep prehistory is represented separately." },
             { name: "Bronze Age", start: -3300, end: -1200, color: "orange", description: "Bronze, early writing, and first urban civilizations." },
             { name: "Iron Age", start: -1200, end: 500, color: "slate", description: "Iron tools, classical antiquity, and empires." },
-            { name: "Middle Ages", start: 500, end: 1400, color: "violet", description: "Post-classical history, feudalism, and slow technological accumulation." },
+            { name: "Post-Classical World", start: 500, end: 1400, color: "violet", description: "Innovation flourished across the Islamic world, Song China, South Asia, Africa, Europe, and Indian Ocean trade networks." },
             { name: "Renaissance", start: 1400, end: 1750, color: "pink", description: "Rebirth of science, art, printing press, and exploration." },
-            { name: "Industrial Rev.", start: 1750, end: 1950, color: "rose", description: "Mass production, steam, electricity, and mechanization." },
+            { name: "Industrial Era", start: 1750, end: 1950, color: "rose", description: "Steam, electricity, steel, chemistry, mechanization, and mass production reshaped industry." },
             { name: "Information Age", start: 1950, end: 2010, color: "sky", description: "Computers, internet, and globalization." },
             { name: "AI Era", start: 2010, end: 2035, color: "emerald", description: "Artificial intelligence, robotics, and autonomous systems." }
         ];
@@ -838,7 +854,7 @@
             { year: 1957, name: "Sputnik (Satellite)" },
             { year: 1958, name: "Integrated Circuit" },
             { year: 1960, name: "Laser" },
-            { year: 1969, name: "Internet (ARPANET)" },
+            { year: 1969, name: "ARPANET" },
             { year: 1969, name: "Moon Landing" },
             { year: 1971, name: "Microprocessor" },
             { year: 1974, name: "Personal Computer" },
@@ -852,7 +868,7 @@
             { year: 2015, name: "Reusable Rockets" },
             { year: 2020, name: "mRNA Vaccines" },
             { year: 2022, name: "Generative AI" },
-            { year: 2024, name: "Commercial Fusion (Exp)" }
+            { year: 2022, name: "Fusion Ignition / Scientific Breakeven" }
         ];
 
         const POL_ERAS = [
@@ -881,7 +897,7 @@
             { name: "Liberal Democracy", start: 1776, end: 2035, type: "Democracy", description: "Representative democracy protecting individual liberty." },
             { name: "Federalism", start: 1787, end: 2035, type: "System", description: "Power divided between central authority and constituent units." },
             { name: "Fascism", start: 1922, end: 1945, type: "Authoritarian", description: "Far-right, authoritarian ultranationalism." },
-            { name: "Communism (State)", start: 1917, end: 1991, type: "Authoritarian", description: "Single-party state planning aimed at common ownership." },
+            { name: "Soviet-Style Communist Bloc", start: 1917, end: 1991, type: "Authoritarian", description: "The Soviet Union and aligned one-party states formed a major geopolitical bloc that dissolved or transformed around 1989-1991." },
             { name: "Welfare State", start: 1945, end: 2035, type: "System", description: "State plays key role in protection of economic and social well-being." },
             { name: "Supranational Unions", start: 1952, end: 2035, type: "Global", description: "Member states delegate power to a central authority (e.g., EU)." }
         ];
@@ -923,14 +939,20 @@
 
         const layoutPoliticalLanes = (systems) => {
             const lanes = [];
-            const sortedSystems = [...systems].sort((a, b) => a.start - b.start);
+            const sortedSystems = [...systems].sort((a, b) => {
+                const aStart = Number.isFinite(a.year) ? a.year : a.start;
+                const bStart = Number.isFinite(b.year) ? b.year : b.start;
+                return aStart - bStart;
+            });
             return sortedSystems.map(sys => {
-                let laneIndex = lanes.findIndex(laneEndTime => laneEndTime < sys.start - 50);
+                const start = Number.isFinite(sys.year) ? sys.year : sys.start;
+                const end = Number.isFinite(sys.year) ? sys.year : sys.end;
+                let laneIndex = lanes.findIndex(laneEndTime => laneEndTime < start - 50);
                 if (laneIndex === -1) {
-                    lanes.push(sys.end);
+                    lanes.push(end);
                     laneIndex = lanes.length - 1;
                 } else {
-                    lanes[laneIndex] = Math.max(lanes[laneIndex], sys.end);
+                    lanes[laneIndex] = Math.max(lanes[laneIndex], end);
                 }
                 return { ...sys, lane: laneIndex };
             });
@@ -987,7 +1009,7 @@
             'Airplane': 'Powered flight transformed travel, logistics, and military strategy.',
             'Penicillin': 'Antibiotic treatment dramatically improved outcomes for many bacterial infections.',
             'Transistor': 'The transistor made compact, reliable electronic switching practical.',
-            'Internet (ARPANET)': 'Packet-switched networking laid foundations for interconnected digital communication.',
+            'ARPANET': 'ARPANET was an early packet-switching network and an important precursor to the modern Internet.',
             'World Wide Web': 'The web made networked information easier to publish, link, and navigate.',
             'Smartphone': 'Mobile computing combined communication, sensors, and software in a pocket-sized device.',
             'CRISPR/Cas9': 'CRISPR made targeted genome editing more accessible to researchers.',
@@ -1013,13 +1035,13 @@
             'Gunpowder': ['Feudalism', 'Absolute Monarchy'],
             'Printing Press': ['Westphalian Nation-State', 'Early Modern'],
             'Steam Engine': ['Age of Revolution', 'Welfare State'],
-            'Internet (ARPANET)': ['Global Era', 'Supranational Unions'],
+            'ARPANET': ['Global Era', 'Supranational Unions'],
             'World Wide Web': ['Global Era', 'Supranational Unions'],
             'Generative AI': ['AI Era', 'Global Era'],
             'City-States (Sumerian)': ['Writing (Cuneiform)', 'Agriculture'],
             'Imperial Bureaucracy': ['Writing (Cuneiform)', 'Paper (China)'],
             'Westphalian Nation-State': ['Printing Press', 'Gunpowder'],
-            'Global Era': ['Internet (ARPANET)', 'Generative AI']
+            'Global Era': ['ARPANET', 'Generative AI']
         };
 
         const TECH_ITEMS = INVENTIONS.map((item) => {
@@ -1036,7 +1058,37 @@
         const POL_ITEMS = POLITICAL_SYSTEMS.map((item) => ({ ...item, related: RELATED_LINKS[item.name] || [] }));
         const ALL_ERAS = [...TECH_ERAS, ...POL_ERAS.filter((era) => !TECH_ERAS.some((techEra) => techEra.name === era.name))];
 
-        const itemKey = (type, data) => `${type}:${data.name}`;
+        const RICH_TECH_ITEMS = window.TIMELINE_DATA.TECH_ITEMS;
+        const RICH_POL_ITEMS = window.TIMELINE_DATA.POLITICAL_ITEMS;
+        const RICH_TECH_ERAS = window.TIMELINE_DATA.TECH_ERAS;
+        const RICH_POL_ERAS = window.TIMELINE_DATA.POL_ERAS;
+        const PRELUDE_ITEMS = window.TIMELINE_DATA.PRELUDE_ITEMS;
+        const RICH_TECH_CATEGORY_DEFS = window.TIMELINE_DATA.TECH_CATEGORY_DEFS;
+        const RICH_POL_CATEGORY_DEFS = window.TIMELINE_DATA.POL_CATEGORY_DEFS;
+        const RICH_POL_TYPE_DEFS = window.TIMELINE_DATA.POL_TYPE_DEFS;
+        const RICH_TECH_CATEGORY_MAP = Object.fromEntries(RICH_TECH_CATEGORY_DEFS.map((category) => [category.id, category]));
+        const RICH_POL_CATEGORY_MAP = Object.fromEntries(RICH_POL_CATEGORY_DEFS.map((category) => [category.id, category]));
+        const RICH_POL_TYPE_MAP = Object.fromEntries(RICH_POL_TYPE_DEFS.map((type) => [type.id, type]));
+        const RICH_POL_TYPES = RICH_POL_TYPE_DEFS.map((type) => type.id);
+        const RICH_ALL_ERAS = [...RICH_TECH_ERAS, ...RICH_POL_ERAS.filter((era) => !RICH_TECH_ERAS.some((techEra) => techEra.id === era.id))];
+
+        const unwrapItem = (item) => item?.data || item || {};
+        const getItemId = (item) => unwrapItem(item).id || unwrapItem(item).name;
+        const getItemKind = (item) => item?.type || (unwrapItem(item).kind === 'politics' ? 'pol' : unwrapItem(item).kind);
+        const isPointItem = (item) => Number.isFinite(unwrapItem(item).year);
+        const isRangeItem = (item) => Number.isFinite(unwrapItem(item).start) && Number.isFinite(unwrapItem(item).end);
+        const getItemStart = (item) => isPointItem(item) ? unwrapItem(item).year : unwrapItem(item).start;
+        const getItemEnd = (item) => isPointItem(item) ? unwrapItem(item).year : unwrapItem(item).end;
+        const getItemDisplayYear = (item) => {
+            const data = unwrapItem(item);
+            if (data.prelude) return -10000;
+            if (isPointItem(data)) return data.year;
+            return (data.start + data.end) / 2;
+        };
+        const getItemImportance = (item) => unwrapItem(item).importance || 3;
+        const getItemIconPath = (item) => unwrapItem(item).iconPath || '';
+        const getItemIconPrompt = (item) => unwrapItem(item).iconPrompt || '';
+        const itemKey = (type, data) => `${type}:${getItemId(data)}`;
 
         const getTechGlyph = (name) => {
             const value = name.toLowerCase();
@@ -1066,29 +1118,48 @@
         };
 
         const getItemGlyph = (item) => {
-            if (item.type === 'tech') return getTechGlyph(item.data.name);
-            if (item.type === 'pol') return getPoliticalGlyph(item.data.type);
+            const data = unwrapItem(item);
+            const kind = getItemKind(item);
+            if (kind === 'tech') return RICH_TECH_CATEGORY_MAP[data.category]?.glyph || getTechGlyph(data.name);
+            if (kind === 'pol') return RICH_POL_TYPE_MAP[data.type]?.glyph || getPoliticalGlyph(data.type);
             return 'spark';
         };
 
         const getItemCategory = (item) => {
-            if (item.type === 'era') return 'Historical era';
-            if (item.type === 'pol') return item.data.type;
-            return 'Innovation';
+            const data = unwrapItem(item);
+            const kind = getItemKind(item);
+            if (kind === 'era') return 'Historical era';
+            if (kind === 'pol') return RICH_POL_CATEGORY_MAP[data.category]?.label || data.category || data.type;
+            return RICH_TECH_CATEGORY_MAP[data.category]?.label || data.category || 'Innovation';
         };
 
         const getItemDate = (item) => {
-            if (item.type === 'tech') return formatYear(item.data.year);
-            const end = item.type === 'pol' && item.data.end > 2024 ? 'Present' : formatYear(item.data.end);
-            return `${formatYear(item.data.start)} - ${end}`;
+            const data = unwrapItem(item);
+            if (data.dateLabel) return data.dateLabel;
+            if (isPointItem(data)) return formatYear(data.year);
+            return `${formatYear(data.start)} - ${data.end > 2024 ? 'Present' : formatYear(data.end)}`;
         };
 
         const getItemDescription = (item) => {
-            if (item.data.description) return item.data.description;
+            const data = unwrapItem(item);
+            if (data.description) return data.description;
             return 'A milestone on the technology timeline. Explore nearby events to see how innovation accelerates across eras.';
         };
 
-        const getItemFocusYear = (item) => item.type === 'tech' ? item.data.year : (item.data.start + item.data.end) / 2;
+        const getItemFocusYear = (item) => getItemDisplayYear(item);
+
+        const getItemSearchText = (item) => {
+            const data = unwrapItem(item);
+            return [
+                data.name,
+                data.description,
+                getItemCategory(item),
+                data.type,
+                data.region,
+                ...(data.impact || []),
+                ...(data.related || [])
+            ].filter(Boolean).join(' ').toLowerCase();
+        };
 
         const parseYearInput = (value) => {
             const normalized = value.trim().toUpperCase().replace(/,/g, '');
@@ -1099,6 +1170,82 @@
             if (match[2] === 'CE' || match[2] === 'AD') year = Math.abs(year);
             return Math.max(-10000, Math.min(2035, year));
         };
+
+        const readSafeArea = () => {
+            const probe = document.createElement('div');
+            probe.style.cssText = 'position:fixed;visibility:hidden;padding:var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);';
+            document.body.appendChild(probe);
+            const style = window.getComputedStyle(probe);
+            const safeArea = {
+                top: Number.parseFloat(style.paddingTop) || 0,
+                right: Number.parseFloat(style.paddingRight) || 0,
+                bottom: Number.parseFloat(style.paddingBottom) || 0,
+                left: Number.parseFloat(style.paddingLeft) || 0
+            };
+            probe.remove();
+            return safeArea;
+        };
+
+        const getViewportProfile = () => {
+            const visualViewport = window.visualViewport;
+            const width = Math.round(visualViewport?.width || window.innerWidth);
+            const height = Math.round(visualViewport?.height || window.innerHeight);
+            const aspectRatio = width / Math.max(1, height);
+            const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+            const isLandscapePhone = width < 960 && aspectRatio > 1.2;
+            const isSmallPhone = width < 390 || (width < 760 && height < 700);
+            const isLargePhone = width >= 390 && width < 768 && !isLandscapePhone;
+            const isTablet = width >= 768 && width < 1180;
+            const isDesktop = width >= 1180;
+            return {
+                width,
+                height,
+                aspectRatio,
+                isCoarsePointer,
+                isSmallPhone,
+                isLargePhone,
+                isTablet,
+                isDesktop,
+                isLandscapePhone,
+                safeArea: readSafeArea(),
+                recommendedOrientation: isCoarsePointer || width < 768 ? 'vertical' : 'horizontal',
+                labelLaneCount: isSmallPhone ? 7 : isLargePhone ? 9 : isTablet ? 12 : 16,
+                labelDensityBudget: isSmallPhone ? 26 : isLargePhone ? 34 : isTablet ? 58 : 92,
+                minimapPlacement: width < 768 ? 'safe-edge' : 'canvas-edge',
+                detailSheetMaxHeight: Math.max(300, Math.round(height * (width < 768 ? 0.76 : 0.82)))
+            };
+        };
+
+        const useViewportProfile = () => {
+            const [profile, setProfile] = useState(getViewportProfile);
+            useEffect(() => {
+                const update = () => {
+                    const next = getViewportProfile();
+                    document.documentElement.style.setProperty('--visual-viewport-height', `${next.height}px`);
+                    setProfile(next);
+                };
+                update();
+                window.addEventListener('resize', update);
+                window.addEventListener('orientationchange', update);
+                window.visualViewport?.addEventListener('resize', update);
+                window.visualViewport?.addEventListener('scroll', update);
+                return () => {
+                    window.removeEventListener('resize', update);
+                    window.removeEventListener('orientationchange', update);
+                    window.visualViewport?.removeEventListener('resize', update);
+                    window.visualViewport?.removeEventListener('scroll', update);
+                };
+            }, []);
+            return profile;
+        };
+
+        const getResponsiveLaneBudget = ({ profile, orientation, zoom, mode, hasDetailSheet }) => ({
+            horizontalTechLanes: Math.max(6, profile.labelLaneCount - (mode.includes('merged') ? 3 : 0)),
+            verticalLabelGap: profile.isSmallPhone ? (zoom > 0.8 ? 29 : 31) : profile.isLargePhone ? 30 : 31,
+            politicalLaneLimit: profile.isSmallPhone ? 11 : profile.isLargePhone ? 14 : profile.isTablet ? 18 : 26,
+            labelDensityBudget: Math.max(12, profile.labelDensityBudget - (hasDetailSheet ? 8 : 0)),
+            preferredAxis: orientation === 'vertical' ? 'y' : 'x'
+        });
 
         const ToolbarButton = ({ label, children, onClick }) => (
             <button type="button" className="icon-button" aria-label={label} title={label} onClick={onClick}>
@@ -1131,6 +1278,12 @@
                 <h3 className="mt-2 text-xl font-extrabold tracking-tight">{item.data.name}</h3>
                 <div className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{getItemDate(item)}</div>
                 <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{getItemDescription(item)}</p>
+                <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                    {unwrapItem(item).type && <span>{unwrapItem(item).type}</span>}
+                    {unwrapItem(item).region && <span>{unwrapItem(item).region}</span>}
+                    <span>{unwrapItem(item).confidence || 'high'} confidence</span>
+                    <span>importance {getItemImportance(item)}/5</span>
+                </div>
                 {item.data.impact?.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-1.5">
                         {item.data.impact.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
@@ -1786,6 +1939,7 @@
         }
 
         function TimelineAppPass2() {
+            const viewportProfile = useViewportProfile();
             const getDefaultOrientation = () => {
                 try {
                     const stored = window.localStorage.getItem('civilization-atlas-orientation');
@@ -1793,7 +1947,7 @@
                 } catch {
                     // Local storage can be unavailable in privacy-restricted contexts.
                 }
-                return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768 ? 'vertical' : 'horizontal';
+                return getViewportProfile().recommendedOrientation;
             };
 
             const [mode, setMode] = useState('tech');
@@ -1812,9 +1966,9 @@
             const [jumpError, setJumpError] = useState('');
             const [disabledTechCategories, setDisabledTechCategories] = useState([]);
             const [disabledPolTypes, setDisabledPolTypes] = useState([]);
-            const [isTouchDevice, setIsTouchDevice] = useState(() => window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
             const [isDragging, setIsDragging] = useState(false);
             const [viewport, setViewport] = useState({ scrollLeft: 0, scrollTop: 0, clientWidth: 0, clientHeight: 0, scrollWidth: 1, scrollHeight: 1 });
+            const isTouchDevice = viewportProfile.isCoarsePointer || viewportProfile.width < 768;
 
             const containerRef = useRef(null);
             const nextScrollRef = useRef(null);
@@ -1839,7 +1993,7 @@
             const defaultZoom = isVertical ? 0.38 : 1;
             const timelinePrimarySize = totalYears * zoom;
             const canvasWidth = isVertical
-                ? Math.max(viewport.clientWidth || window.innerWidth, isTouchDevice ? 390 : 960)
+                ? Math.max(viewport.clientWidth || viewportProfile.width, isTouchDevice ? 390 : 960)
                 : timelinePrimarySize + H_PADDING + 280;
             const canvasHeight = isVertical ? timelinePrimarySize + V_PADDING * 2 : H_HEIGHT;
 
@@ -1856,10 +2010,17 @@
 
             const showsTech = mode === 'tech' || mode.includes('merged');
             const showsPolitics = mode === 'pol' || mode.includes('merged');
-            const eraSet = mode === 'pol' ? POL_ERAS : TECH_ERAS;
-            const visibleTechItems = useMemo(() => TECH_ITEMS.filter((item) => !disabledTechCategories.includes(item.category)), [disabledTechCategories]);
-            const visiblePolItems = useMemo(() => POL_ITEMS.filter((item) => !disabledPolTypes.includes(item.type)), [disabledPolTypes]);
+            const eraSet = mode === 'pol' ? RICH_POL_ERAS : RICH_TECH_ERAS;
+            const visibleTechItems = useMemo(() => RICH_TECH_ITEMS.filter((item) => !item.prelude && !disabledTechCategories.includes(item.category)), [disabledTechCategories]);
+            const visiblePolItems = useMemo(() => RICH_POL_ITEMS.filter((item) => !disabledPolTypes.includes(item.type)), [disabledPolTypes]);
             const layoutPolData = useMemo(() => layoutPoliticalLanes(visiblePolItems), [visiblePolItems]);
+            const responsiveLaneBudget = useMemo(() => getResponsiveLaneBudget({
+                profile: viewportProfile,
+                orientation,
+                zoom,
+                mode,
+                hasDetailSheet: Boolean(selectedItem)
+            }), [mode, orientation, selectedItem, viewportProfile, zoom]);
 
             const verticalAxisX = useMemo(() => {
                 if (mode === 'tech') return isTouchDevice ? 82 : canvasWidth * 0.46;
@@ -2001,18 +2162,18 @@
                 if (!item) return;
                 if (item.type === 'tech' && !showsTech) setMode('tech');
                 if (item.type === 'pol' && !showsPolitics) setMode('pol');
-                if (item.type === 'era' && mode === 'pol' && TECH_ERAS.includes(item.data)) setMode('tech');
+                if (item.type === 'era' && mode === 'pol' && RICH_TECH_ERAS.includes(item.data)) setMode('tech');
                 setSelectedItem(item);
                 setHoveredItem(null);
                 window.setTimeout(() => focusYear(getItemFocusYear(item), Math.max(zoomRef.current, isVertical ? 0.42 : 1)), 45);
             };
 
             const findItemByName = (name) => {
-                const tech = TECH_ITEMS.find((item) => item.name === name);
+                const tech = RICH_TECH_ITEMS.find((item) => item.name === name);
                 if (tech) return makeItem('tech', tech);
-                const politics = POL_ITEMS.find((item) => item.name === name);
+                const politics = RICH_POL_ITEMS.find((item) => item.name === name);
                 if (politics) return makeItem('pol', politics);
-                const era = ALL_ERAS.find((item) => item.name === name);
+                const era = RICH_ALL_ERAS.find((item) => item.name === name);
                 return era ? makeItem('era', era) : null;
             };
 
@@ -2034,14 +2195,14 @@
             };
 
             const searchEntries = useMemo(() => [
-                ...TECH_ITEMS.map((data) => makeItem('tech', data)),
-                ...POL_ITEMS.map((data) => makeItem('pol', data)),
-                ...ALL_ERAS.map((data) => makeItem('era', data))
+                ...RICH_TECH_ITEMS.map((data) => makeItem('tech', data)),
+                ...RICH_POL_ITEMS.map((data) => makeItem('pol', data)),
+                ...RICH_ALL_ERAS.map((data) => makeItem('era', data))
             ], []);
             const filteredSearchResults = useMemo(() => {
                 const needle = searchQuery.trim().toLowerCase();
                 if (!needle) return searchEntries.slice(0, 9);
-                return searchEntries.filter((item) => `${item.data.name} ${getItemDescription(item)}`.toLowerCase().includes(needle)).slice(0, 14);
+                return searchEntries.filter((item) => getItemSearchText(item).includes(needle)).slice(0, 14);
             }, [searchEntries, searchQuery]);
 
             const submitJump = (event) => {
@@ -2177,18 +2338,6 @@
             }, [orientation]);
 
             useEffect(() => {
-                const updatePointerMode = () => setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
-                updatePointerMode();
-                const query = window.matchMedia('(pointer: coarse)');
-                query.addEventListener?.('change', updatePointerMode);
-                window.addEventListener('resize', updatePointerMode);
-                return () => {
-                    query.removeEventListener?.('change', updatePointerMode);
-                    window.removeEventListener('resize', updatePointerMode);
-                };
-            }, []);
-
-            useEffect(() => {
                 const handleKeyDown = (event) => {
                     if (event.key !== 'Escape') return;
                     if (showSearch) setShowSearch(false);
@@ -2232,27 +2381,27 @@
             const horizontalGridStep = zoom < 0.12 ? 2000 : zoom < 0.45 ? 1000 : zoom < 2 ? 500 : 100;
 
             const horizontalTechData = useMemo(() => {
-                const laneCount = mode === 'tech' ? 16 : 11;
+                const laneCount = responsiveLaneBudget.horizontalTechLanes;
                 const laneEnds = Array.from({ length: laneCount }, () => -Infinity);
                 return visibleTechItems.map((item) => {
-                    const x = H_PADDING + (item.year - startYear) * zoom;
+                    const x = H_PADDING + (getItemDisplayYear(item) - startYear) * zoom;
                     let lane = laneEnds.findIndex((laneEnd) => x - laneEnd > 176);
                     if (lane === -1) lane = laneEnds.indexOf(Math.min(...laneEnds));
                     laneEnds[lane] = x;
                     return { ...item, lane };
                 });
-            }, [mode, visibleTechItems, zoom]);
+            }, [responsiveLaneBudget.horizontalTechLanes, visibleTechItems, zoom]);
 
             const verticalTechData = useMemo(() => {
                 const lastY = { left: -Infinity, right: -Infinity };
-                return [...visibleTechItems].sort((a, b) => b.year - a.year).map((item, index) => {
-                    const pointY = V_PADDING + (endYear - item.year) * zoom;
+                return [...visibleTechItems].sort((a, b) => getItemDisplayYear(b) - getItemDisplayYear(a)).map((item, index) => {
+                    const pointY = V_PADDING + (endYear - getItemDisplayYear(item)) * zoom;
                     const side = isTouchDevice || mode.includes('merged') ? 'right' : (index % 2 ? 'left' : 'right');
-                    const labelY = Math.max(pointY - 14, lastY[side] + 31);
+                    const labelY = Math.max(pointY - 14, lastY[side] + responsiveLaneBudget.verticalLabelGap);
                     lastY[side] = labelY;
                     return { ...item, side, pointY, labelY };
                 });
-            }, [isTouchDevice, mode, visibleTechItems, zoom]);
+            }, [isTouchDevice, mode, responsiveLaneBudget.verticalLabelGap, visibleTechItems, zoom]);
 
             const getHorizontalTechLabelY = (lane) => horizontalLayout.techAxisY + 48 + lane * 27;
             const getHorizontalPolBarY = (lane) => horizontalLayout.polDirection === -1
@@ -2288,8 +2437,8 @@
                 setDisabledPolTypes([]);
             };
             const hideAllFilters = () => {
-                setDisabledTechCategories(TECH_CATEGORY_DEFS.map((category) => category.id));
-                setDisabledPolTypes(POL_TYPES);
+                setDisabledTechCategories(RICH_TECH_CATEGORY_DEFS.map((category) => category.id));
+                setDisabledPolTypes(RICH_POL_TYPES);
             };
 
             const theme = isDarkMode ? {
@@ -2342,7 +2491,7 @@
                         const width = Math.max(endX - startX, 1);
                         const color = hexColors[era.color];
                         return (
-                            <g key={era.name}>
+                            <g key={era.id}>
                                 <rect x={startX} y={80} width={width} height={H_HEIGHT - 80} fill={color} fillOpacity={isDarkMode ? 0.12 : 0.25} />
                                 {isSpanVisible(startX, endX) && width > 86 && (
                                     <foreignObject x={startX} y={92} width={width} height={38} style={{ overflow: 'visible' }}>
@@ -2359,14 +2508,15 @@
                             <line x1={H_PADDING} y1={horizontalLayout.polAxisY} x2={H_PADDING + totalYears * zoom} y2={horizontalLayout.polAxisY} stroke={theme.axis} strokeWidth={2} />
                             {mode.includes('merged') && <text x={H_PADDING} y={horizontalLayout.polAxisY - 12} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">POLITICS</text>}
                             {layoutPolData.map((system, index) => {
-                                const startX = H_PADDING + (system.start - startYear) * zoom;
-                                const endX = H_PADDING + (system.end - startYear) * zoom;
+                                const startX = H_PADDING + (getItemStart(system) - startYear) * zoom;
+                                const endX = H_PADDING + (getItemEnd(system) - startYear) * zoom;
                                 if (!isSpanVisible(startX, endX)) return null;
-                                const width = Math.max(endX - startX, 3);
+                                const isMilestone = system.form === 'milestone' || isPointItem(system);
+                                const width = Math.max(endX - startX, isMilestone ? 22 : 3);
                                 const y = getHorizontalPolBarY(system.lane);
-                                const color = polColors[system.type] || '#64748b';
+                                const color = RICH_POL_TYPE_MAP[system.type]?.color || '#64748b';
                                 return (
-                                    <g key={`${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
+                                    <g key={system.id || `${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
                                         <rect x={startX} y={y} width={width} height={25} rx={7} fill={color} fillOpacity={isSelected('pol', system) ? 0.44 : (isDarkMode ? 0.28 : 0.2)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.4} />
                                         <foreignObject x={startX} y={y} width={width} height={25} style={{ pointerEvents: 'none' }}>
                                             <div className={`flex h-full w-full items-center justify-center gap-1 overflow-hidden px-1 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}><TimelineGlyph kind={getPoliticalGlyph(system.type)} size={13} />{width > 74 && <span className="truncate text-[11px] font-bold">{system.name}</span>}</div>
@@ -2381,18 +2531,18 @@
                             <line x1={H_PADDING} y1={horizontalLayout.techAxisY} x2={H_PADDING + totalYears * zoom} y2={horizontalLayout.techAxisY} stroke={theme.axis} strokeWidth={2} />
                             {mode.includes('merged') && <text x={H_PADDING} y={horizontalLayout.techAxisY + 24} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">TECHNOLOGY</text>}
                             {horizontalTechData.map((item, index) => {
-                                const x = H_PADDING + (item.year - startYear) * zoom;
+                                const x = H_PADDING + (getItemDisplayYear(item) - startYear) * zoom;
                                 if (!isPrimaryVisible(x)) return null;
                                 const labelY = getHorizontalTechLabelY(item.lane);
                                 return (
-                                    <g key={`${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                                    <g key={item.id || `${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
                                         <path d={`M ${x} ${horizontalLayout.techAxisY} L ${x} ${labelY}`} stroke={isSelected('tech', item) ? '#2563eb' : theme.gridText} strokeWidth={isSelected('tech', item) ? 2 : 1} opacity={0.72} />
                                         <circle cx={x} cy={horizontalLayout.techAxisY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : theme.axis} />
                                         {zoom > 0.17 && (
                                             <foreignObject x={x - 85} y={labelY} width={170} height={58} style={{ overflow: 'visible' }}>
                                                 <div className="flex flex-col items-center text-center">
-                                                    <div className={`timeline-label flex items-center gap-1.5 whitespace-nowrap px-2 py-1 text-[11px] font-bold ${theme.text} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={TECH_CATEGORY_MAP[item.category].glyph} size={13} className="shrink-0 text-blue-500" /><span>{item.name}</span></div>
-                                                    {zoom > 0.48 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{formatYear(item.year)}</div>}
+                                                    <div className={`timeline-label flex items-center gap-1.5 whitespace-nowrap px-2 py-1 text-[11px] font-bold ${theme.text} ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={RICH_TECH_CATEGORY_MAP[item.category]?.glyph || getTechGlyph(item.name)} size={13} className="shrink-0 text-blue-500" /><span>{item.name}</span></div>
+                                                    {zoom > 0.48 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{getItemDate(item)}</div>}
                                                 </div>
                                             </foreignObject>
                                         )}
@@ -2430,7 +2580,7 @@
                         const height = Math.max(bottom - top, 1);
                         const color = hexColors[era.color];
                         return (
-                            <g key={era.name}>
+                            <g key={era.id}>
                                 <rect x={0} y={top} width={canvasWidth} height={height} fill={color} fillOpacity={isDarkMode ? 0.1 : 0.2} />
                                 {isSpanVisible(top, bottom, 100) && height > 34 && (
                                     <foreignObject x={8} y={top + 8} width={Math.min(canvasWidth - 24, 220)} height={32} style={{ overflow: 'visible' }}>
@@ -2448,14 +2598,15 @@
                     )}
                     <line x1={verticalAxisX} y1={V_PADDING} x2={verticalAxisX} y2={V_PADDING + totalYears * zoom} stroke={theme.axis} strokeWidth={2.5} />
                     {showsPolitics && layoutPolData.map((system, index) => {
-                        const top = V_PADDING + (endYear - system.end) * zoom;
-                        const bottom = V_PADDING + (endYear - system.start) * zoom;
+                        const top = V_PADDING + (endYear - getItemEnd(system)) * zoom;
+                        const bottom = V_PADDING + (endYear - getItemStart(system)) * zoom;
                         if (!isSpanVisible(top, bottom)) return null;
-                        const height = Math.max(bottom - top, 4);
+                        const isMilestone = system.form === 'milestone' || isPointItem(system);
+                        const height = Math.max(bottom - top, isMilestone ? 18 : 4);
                         const x = verticalPolX(system.lane);
-                        const color = polColors[system.type] || '#64748b';
+                        const color = RICH_POL_TYPE_MAP[system.type]?.color || '#64748b';
                         return (
-                            <g key={`${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
+                            <g key={system.id || `${system.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${system.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'pol', system)} onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)} onMouseEnter={(event) => showHover(event, 'pol', system)} onMouseLeave={() => setHoveredItem(null)}>
                                 <rect x={x} y={top} width={22} height={height} rx={8} fill={color} fillOpacity={isSelected('pol', system) ? 0.6 : (isDarkMode ? 0.36 : 0.28)} stroke={color} strokeWidth={isSelected('pol', system) ? 3 : 1.5} />
                                 <line x1={x + 22} y1={top} x2={verticalAxisX} y2={top} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.5} />
                                 {height > 54 && (
@@ -2472,14 +2623,15 @@
                         const cardWidth = isTouchDevice ? Math.min(226, canvasWidth - verticalAxisX - 24) : 214;
                         const cardX = rightSide ? verticalAxisX + 16 : verticalAxisX - cardWidth - 16;
                         const connectorEnd = rightSide ? cardX : cardX + cardWidth;
-                        const color = TECH_CATEGORY_MAP[item.category].color;
+                        const category = RICH_TECH_CATEGORY_MAP[item.category] || RICH_TECH_CATEGORY_MAP.tools;
+                        const color = category.color;
                         return (
-                            <g key={`${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
+                            <g key={item.id || `${item.name}-${index}`} data-timeline-item="true" role="button" tabIndex="0" aria-label={`Open ${item.name} details`} className="cursor-pointer" onClick={(event) => selectTimelineItem(event, 'tech', item)} onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', item)} onMouseEnter={(event) => showHover(event, 'tech', item)} onMouseLeave={() => setHoveredItem(null)}>
                                 <path d={`M ${verticalAxisX} ${item.pointY} L ${connectorEnd} ${item.labelY + 14}`} stroke={isSelected('tech', item) ? '#2563eb' : color} strokeWidth={isSelected('tech', item) ? 2.4 : 1.2} opacity={0.7} />
                                 <circle cx={verticalAxisX} cy={item.pointY} r={isSelected('tech', item) ? 5 : 3.5} fill={isSelected('tech', item) ? '#2563eb' : color} />
                                 {zoom > 0.11 ? (
                                     <foreignObject x={cardX} y={item.labelY} width={cardWidth} height={30} style={{ overflow: 'visible' }}>
-                                        <div className={`vertical-card ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={TECH_CATEGORY_MAP[item.category].glyph} size={13} className="shrink-0" style={{ color }} /><span className="truncate">{item.name}</span></div>
+                                        <div className={`vertical-card ${isSelected('tech', item) ? 'is-selected' : ''}`}><TimelineGlyph kind={category.glyph} size={13} className="shrink-0" style={{ color }} /><span className="truncate">{item.name}</span></div>
                                     </foreignObject>
                                 ) : <circle cx={connectorEnd} cy={item.labelY + 14} r={4} fill={color} />}
                             </g>
@@ -2499,7 +2651,7 @@
                             {eraSet.map((era) => {
                                 const start = isVertical ? (endYear - era.end) / totalYears * 100 : (era.start - startYear) / totalYears * 100;
                                 const size = (era.end - era.start) / totalYears * 100;
-                                return <span className="minimap-era" key={era.name} style={isVertical ? { top: `${start}%`, height: `${size}%`, left: 0, right: 0, background: hexColors[era.color] } : { left: `${start}%`, width: `${size}%`, top: 0, bottom: 0, background: hexColors[era.color] }} />;
+                                return <span className="minimap-era" key={era.id} style={isVertical ? { top: `${start}%`, height: `${size}%`, left: 0, right: 0, background: hexColors[era.color] } : { left: `${start}%`, width: `${size}%`, top: 0, bottom: 0, background: hexColors[era.color] }} />;
                             })}
                             <span className="minimap-window" style={isVertical ? { top: `${windowStart}%`, height: `${windowSize}%`, left: 0, right: 0 } : { left: `${windowStart}%`, width: `${windowSize}%`, top: 0, bottom: 0 }} />
                         </div>
@@ -2508,7 +2660,7 @@
             };
 
             return (
-                <div className={`flex h-screen flex-col overflow-hidden font-sans transition-colors duration-300 ${theme.bg} ${isDarkMode ? 'dark' : ''}`}>
+                <div className={`app-shell flex flex-col overflow-hidden font-sans transition-colors duration-300 ${theme.bg} ${isDarkMode ? 'dark' : ''}`}>
                     <header className="app-header z-30">
                         <div className="flex min-w-0 items-center gap-3">
                             <div className="atlas-mark"><Sparkles size={19} /></div>
@@ -2607,11 +2759,11 @@
                                 <div className="mt-4 flex flex-wrap gap-2"><button type="button" className="filter-chip" onClick={clearFilters}>Show all</button><button type="button" className="filter-chip" onClick={clearFilters}>Clear filters</button><button type="button" className="filter-chip" onClick={hideAllFilters}>Hide all</button></div>
                                 <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Technology categories</div>
                                 <div className="mt-2 flex flex-wrap gap-2">
-                                    {TECH_CATEGORY_DEFS.map((category) => <button type="button" className={`filter-chip ${disabledTechCategories.includes(category.id) ? 'is-off' : ''}`} key={category.id} onClick={() => toggleTechCategory(category.id)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: category.color }} /><TimelineGlyph kind={category.glyph} size={13} />{category.label}</button>)}
+                                    {RICH_TECH_CATEGORY_DEFS.map((category) => <button type="button" className={`filter-chip ${disabledTechCategories.includes(category.id) ? 'is-off' : ''}`} key={category.id} onClick={() => toggleTechCategory(category.id)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: category.color }} /><TimelineGlyph kind={category.glyph} size={13} />{category.label}</button>)}
                                 </div>
                                 <div className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Political system types</div>
                                 <div className="mt-2 flex flex-wrap gap-2">
-                                    {POL_TYPES.map((type) => <button type="button" className={`filter-chip ${disabledPolTypes.includes(type) ? 'is-off' : ''}`} key={type} onClick={() => togglePolType(type)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: polColors[type] }} /><TimelineGlyph kind={getPoliticalGlyph(type)} size={13} />{type}</button>)}
+                                    {RICH_POL_TYPES.map((type) => <button type="button" className={`filter-chip ${disabledPolTypes.includes(type) ? 'is-off' : ''}`} key={type} onClick={() => togglePolType(type)}><span className="h-2.5 w-2.5 rounded-full" style={{ background: RICH_POL_TYPE_MAP[type].color }} /><TimelineGlyph kind={getPoliticalGlyph(type)} size={13} />{type}</button>)}
                                 </div>
                             </section>
                         </div>
