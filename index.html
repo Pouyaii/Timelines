@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Civilization Timeline</title>
+    <link rel="icon" href="data:,">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,6 +18,27 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
+        :root {
+            color-scheme: light;
+        }
+
+        html,
+        body,
+        #root {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            overscroll-behavior: none;
+            background: #f8fafc;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         /* Custom scrollbar for a cleaner look */
         ::-webkit-scrollbar {
             height: 8px;
@@ -44,8 +66,351 @@
             background: #64748b;
         }
 
-        body {
-            overscroll-behavior-x: none;
+        .app-header {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 18px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            backdrop-filter: blur(18px);
+        }
+
+        .dark .app-header {
+            border-color: #334155;
+            background: rgba(15, 23, 42, 0.92);
+            box-shadow: 0 8px 24px rgba(2, 6, 23, 0.25);
+        }
+
+        .atlas-mark {
+            display: grid;
+            width: 36px;
+            height: 36px;
+            place-items: center;
+            border-radius: 12px;
+            color: #2563eb;
+            background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+            box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.12);
+        }
+
+        .dark .atlas-mark {
+            color: #93c5fd;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.5), rgba(67, 56, 202, 0.45));
+            box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.2);
+        }
+
+        .mode-strip {
+            display: flex;
+            justify-self: center;
+            padding: 4px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #f1f5f9;
+        }
+
+        .dark .mode-strip {
+            border-color: #334155;
+            background: #0f172a;
+        }
+
+        .mode-button {
+            display: flex;
+            min-height: 38px;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 0 12px;
+            border-radius: 10px;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+        }
+
+        .mode-button:hover {
+            color: #0f172a;
+            transform: translateY(-1px);
+        }
+
+        .mode-button.is-active {
+            color: #0f172a;
+            background: #ffffff;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1);
+        }
+
+        .dark .mode-button {
+            color: #94a3b8;
+        }
+
+        .dark .mode-button:hover,
+        .dark .mode-button.is-active {
+            color: #f8fafc;
+        }
+
+        .dark .mode-button.is-active {
+            background: #1e293b;
+            box-shadow: 0 3px 12px rgba(2, 6, 23, 0.35);
+        }
+
+        .icon-button {
+            display: inline-grid;
+            min-width: 40px;
+            min-height: 40px;
+            place-items: center;
+            border-radius: 10px;
+            color: #64748b;
+            transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+        }
+
+        .icon-button:hover {
+            color: #0f172a;
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+
+        .dark .icon-button {
+            color: #94a3b8;
+        }
+
+        .dark .icon-button:hover {
+            color: #f8fafc;
+            background: #334155;
+        }
+
+        .toolbar-shell {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 3px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(16px);
+        }
+
+        .dark .toolbar-shell {
+            border-color: #334155;
+            background: rgba(30, 41, 59, 0.92);
+            box-shadow: 0 8px 20px rgba(2, 6, 23, 0.26);
+        }
+
+        .toolbar-divider {
+            width: 1px;
+            height: 22px;
+            margin: 0 3px;
+            background: #e2e8f0;
+        }
+
+        .dark .toolbar-divider {
+            background: #475569;
+        }
+
+        .timeline-canvas {
+            touch-action: none;
+            overscroll-behavior: contain;
+            cursor: grab;
+            scrollbar-gutter: stable;
+        }
+
+        .timeline-canvas.is-dragging {
+            cursor: grabbing;
+        }
+
+        svg [role="button"] {
+            outline: none;
+        }
+
+        svg [role="button"]:focus-visible {
+            filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.7));
+        }
+
+        .era-chip:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 3px;
+        }
+
+        .era-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 26px;
+            padding: 4px 11px;
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: 999px;
+            color: #1e293b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            line-height: 1;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+            cursor: pointer;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .era-chip:hover,
+        .era-chip.is-selected {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(15, 23, 42, 0.16);
+        }
+
+        .dark .era-chip {
+            color: #f8fafc;
+            border-color: rgba(248, 250, 252, 0.16);
+        }
+
+        .timeline-label {
+            border: 1px solid rgba(148, 163, 184, 0.34);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 3px 9px rgba(15, 23, 42, 0.07);
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .timeline-label:hover,
+        .timeline-label.is-selected {
+            border-color: rgba(37, 99, 235, 0.55);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.16);
+            transform: translateY(-2px);
+        }
+
+        .dark .timeline-label {
+            border-color: rgba(100, 116, 139, 0.7);
+            background: rgba(30, 41, 59, 0.94);
+        }
+
+        .detail-sheet {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 70;
+            width: min(360px, calc(100vw - 32px));
+            padding: 18px;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            border-radius: 18px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 22px 48px rgba(15, 23, 42, 0.22);
+            backdrop-filter: blur(18px);
+        }
+
+        .dark .detail-sheet {
+            border-color: rgba(71, 85, 105, 0.9);
+            color: #f1f5f9;
+            background: rgba(30, 41, 59, 0.97);
+            box-shadow: 0 22px 48px rgba(2, 6, 23, 0.5);
+        }
+
+        .help-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            display: grid;
+            place-items: center;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(7px);
+        }
+
+        .help-panel {
+            width: min(640px, 100%);
+            padding: 22px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            color: #1e293b;
+            background: #ffffff;
+            box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
+        }
+
+        .dark .help-panel {
+            border-color: #475569;
+            color: #f1f5f9;
+            background: #1e293b;
+        }
+
+        .mobile-toolbar {
+            position: fixed;
+            left: 50%;
+            bottom: 14px;
+            z-index: 60;
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 1100px) {
+            .brand-subtitle,
+            .desktop-hint {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .app-header {
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 8px;
+                padding: 8px 10px;
+            }
+
+            .brand-title {
+                font-size: 14px;
+            }
+
+            .atlas-mark {
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+            }
+
+            .mode-strip {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                width: 100%;
+                padding: 3px;
+                border-radius: 12px;
+            }
+
+            .mode-button {
+                flex: 1;
+                min-width: 0;
+                min-height: 38px;
+                padding: 0 5px;
+                font-size: 12px;
+            }
+
+            .mode-button svg {
+                display: none;
+            }
+
+            .desktop-toolbar,
+            .desktop-hint {
+                display: none !important;
+            }
+
+            .icon-button {
+                min-width: 42px;
+                min-height: 42px;
+            }
+
+            .detail-sheet {
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 18px 18px max(20px, env(safe-area-inset-bottom));
+                border-right: 0;
+                border-bottom: 0;
+                border-left: 0;
+                border-radius: 22px 22px 0 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mobile-toolbar {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -69,6 +434,7 @@
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className={className}
+                aria-hidden="true"
             >
                 {children}
             </svg>
@@ -84,6 +450,43 @@
         const Split = (props) => <IconWrapper {...props}><path d="M16 3h5v5" /><path d="M8 3H3v5" /><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3" /><path d="m15 9 6-6" /></IconWrapper>;
         const Moon = (props) => <IconWrapper {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></IconWrapper>;
         const Sun = (props) => <IconWrapper {...props}><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></IconWrapper>;
+        const HelpCircle = (props) => <IconWrapper {...props}><circle cx="12" cy="12" r="10" /><path d="M9.1 9a3 3 0 1 1 5.8 1c-.8 1.2-2.9 1.4-2.9 3.5" /><path d="M12 17h.01" /></IconWrapper>;
+        const X = (props) => <IconWrapper {...props}><path d="M18 6 6 18" /><path d="m6 6 12 12" /></IconWrapper>;
+        const Maximize2 = (props) => <IconWrapper {...props}><path d="M15 3h6v6" /><path d="m21 3-7 7" /><path d="m3 21 7-7" /><path d="M9 21H3v-6" /></IconWrapper>;
+        const Navigation = (props) => <IconWrapper {...props}><path d="m3 11 19-9-9 19-2-8-8-2Z" /></IconWrapper>;
+        const Sparkles = (props) => <IconWrapper {...props}><path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9Z" /><path d="m5 3 .6 1.4L7 5l-1.4.6L5 7l-.6-1.4L3 5l1.4-.6Z" /><path d="m19 17 .6 1.4L21 19l-1.4.6L19 21l-.6-1.4L17 19l1.4-.6Z" /></IconWrapper>;
+        const Hand = (props) => <IconWrapper {...props}><path d="M18 11V6a2 2 0 0 0-4 0v4" /><path d="M14 10V4a2 2 0 0 0-4 0v6" /><path d="M10 10V5a2 2 0 0 0-4 0v9" /><path d="m6 14-1.6-1.6a2 2 0 0 0-2.8 2.8l5.7 5.7A4 4 0 0 0 10.1 22H15a5 5 0 0 0 5-5v-6a2 2 0 0 0-4 0v1" /></IconWrapper>;
+
+        const TimelineGlyph = ({ kind = 'spark', size = 14, className = '' }) => {
+            const paths = {
+                sprout: <><path d="M12 21v-9" /><path d="M7 4c3 0 5 2 5 5-3 0-5-2-5-5Z" /><path d="M17 7c-3 0-5 2-5 5 3 0 5-2 5-5Z" /></>,
+                vessel: <><path d="M7 3h10" /><path d="M8 3c0 4-2 5-2 10a6 6 0 0 0 12 0c0-5-2-6-2-10" /><path d="M6 13h12" /></>,
+                transport: <><path d="M4 15h16" /><path d="m6 15 2-6h8l2 6" /><circle cx="7" cy="17" r="2" /><circle cx="17" cy="17" r="2" /></>,
+                document: <><path d="M6 3h9l3 3v15H6Z" /><path d="M14 3v4h4" /><path d="M9 11h6" /><path d="M9 15h6" /></>,
+                tools: <><path d="m14 6 4-4 4 4-4 4" /><path d="m3 21 8-8" /><path d="m14 10-4 4" /><path d="m7 4 4 4" /></>,
+                energy: <path d="m13 2-9 12h7l-1 8 9-12h-7Z" />,
+                health: <><path d="M12 21s-7-4.4-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.6-7 11-7 11Z" /><path d="M9 12h6" /><path d="M12 9v6" /></>,
+                signal: <><path d="M4 18h16" /><path d="M7 15a7 7 0 0 1 10 0" /><path d="M10 12a3 3 0 0 1 4 0" /><circle cx="12" cy="18" r="1" /></>,
+                chip: <><rect x="5" y="5" width="14" height="14" rx="2" /><path d="M9 9h6v6H9Z" /><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" /></>,
+                science: <><path d="M9 3h6" /><path d="M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" /><path d="M8 16h8" /></>,
+                rocket: <><path d="M14 4c3-3 5-2 6-2 0 1 1 3-2 6l-5 5-4-4Z" /><path d="m9 11-4 1-3 3 6 1 1 6 3-3 1-4" /><path d="M5 19h.01" /></>,
+                users: <><circle cx="9" cy="8" r="3" /><circle cx="17" cy="9" r="2" /><path d="M3 20c0-4 2-6 6-6s6 2 6 6" /><path d="M15 15c3 0 5 1.5 5 4" /></>,
+                building: <><path d="M4 21h16" /><path d="M6 18V9h12v9" /><path d="m4 9 8-5 8 5" /><path d="M9 12v3M15 12v3" /></>,
+                crown: <><path d="m4 8 4 4 4-7 4 7 4-4-2 11H6Z" /><path d="M6 19h12" /></>,
+                ballot: <><rect x="4" y="5" width="16" height="14" rx="2" /><path d="m8 11 2 2 5-5" /><path d="M8 16h8" /></>,
+                shield: <><path d="M12 22s8-3 8-10V5l-8-3-8 3v7c0 7 8 10 8 10Z" /><path d="M12 8v5" /><path d="M12 16h.01" /></>,
+                globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a14 14 0 0 1 0 18" /><path d="M12 3a14 14 0 0 0 0 18" /></>,
+                network: <><circle cx="12" cy="5" r="2" /><circle cx="5" cy="18" r="2" /><circle cx="19" cy="18" r="2" /><path d="m11 7-5 9" /><path d="m13 7 5 9" /><path d="M7 18h10" /></>,
+                castle: <><path d="M5 21V8h14v13" /><path d="M4 8V4h4v4M10 8V4h4v4M16 8V4h4v4" /><path d="M10 21v-5h4v5" /></>,
+                spark: <><path d="m12 3-2 6-6 2 6 2 2 6 2-6 6-2-6-2Z" /></>
+            };
+
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+                    {paths[kind] || paths.spark}
+                </svg>
+            );
+        };
 
         // --- DATASETS ---
 
@@ -99,76 +502,76 @@
         ];
 
         const INVENTIONS = [
-            { year: -10000, name: "Agriculture", icon: "🌾" },
-            { year: -9000, name: "Animal Domestication", icon: "🐕" },
-            { year: -6000, name: "Pottery", icon: "🏺" },
-            { year: -5000, name: "Irrigation", icon: "💧" },
-            { year: -4000, name: "Sailing Boats", icon: "⛵" },
-            { year: -3500, name: "The Wheel", icon: "☸️" },
-            { year: -3200, name: "Writing (Cuneiform)", icon: "✍️" },
-            { year: -3000, name: "Bronze Tools", icon: "⚔️" },
-            { year: -2500, name: "Papyrus", icon: "📜" },
-            { year: -2500, name: "Glass Making", icon: "🥃" },
-            { year: -2000, name: "Chariot", icon: "🐎" },
-            { year: -1500, name: "Alphabet", icon: "🔤" },
-            { year: -1200, name: "Iron Smelting", icon: "🔨" },
-            { year: -600, name: "Coins", icon: "💰" },
-            { year: -500, name: "Crane (Lifting)", icon: "🏗️" },
-            { year: -200, name: "Paper (China)", icon: "📄" },
-            { year: -100, name: "Concrete (Roman)", icon: "🏛️" },
-            { year: 105, name: "Modern Paper", icon: "📝" },
-            { year: 850, name: "Gunpowder", icon: "🧨" },
-            { year: 900, name: "Windmills", icon: "🌬️" },
-            { year: 1040, name: "Movable Type", icon: "🔡" },
-            { year: 1100, name: "Magnetic Compass", icon: "🧭" },
-            { year: 1280, name: "Eyeglasses", icon: "👓" },
-            { year: 1300, name: "Mechanical Clock", icon: "🕰️" },
-            { year: 1440, name: "Printing Press", icon: "🖨️" },
-            { year: 1590, name: "Microscope", icon: "🔬" },
-            { year: 1608, name: "Telescope", icon: "🔭" },
-            { year: 1642, name: "Adding Machine", icon: "➕" },
-            { year: 1712, name: "Steam Engine", icon: "🚂" },
-            { year: 1752, name: "Lightning Rod", icon: "⚡" },
-            { year: 1764, name: "Spinning Jenny", icon: "🧵" },
-            { year: 1796, name: "Vaccination", icon: "💉" },
-            { year: 1800, name: "Electric Battery", icon: "🔋" },
-            { year: 1804, name: "Steam Locomotive", icon: "🚆" },
-            { year: 1826, name: "Photography", icon: "📷" },
-            { year: 1837, name: "Telegraph", icon: "📠" },
-            { year: 1844, name: "Anesthesia", icon: "😷" },
-            { year: 1860, name: "Internal Combustion", icon: "⛽" },
-            { year: 1876, name: "Telephone", icon: "☎️" },
-            { year: 1879, name: "Light Bulb", icon: "💡" },
-            { year: 1885, name: "Automobile", icon: "🚗" },
-            { year: 1895, name: "X-Rays", icon: "🦴" },
-            { year: 1895, name: "Radio", icon: "📻" },
-            { year: 1903, name: "Airplane", icon: "✈️" },
-            { year: 1907, name: "Plastics (Bakelite)", icon: "🥤" },
-            { year: 1926, name: "Liquid Rocket", icon: "🚀" },
-            { year: 1927, name: "Television", icon: "📺" },
-            { year: 1928, name: "Penicillin", icon: "💊" },
-            { year: 1937, name: "Jet Engine", icon: "🛫" },
-            { year: 1942, name: "Nuclear Reactor", icon: "☢️" },
-            { year: 1947, name: "Transistor", icon: "📻" },
-            { year: 1953, name: "DNA Structure", icon: "🧬" },
-            { year: 1957, name: "Sputnik (Satellite)", icon: "🛰️" },
-            { year: 1958, name: "Integrated Circuit", icon: "💾" },
-            { year: 1960, name: "Laser", icon: "🔦" },
-            { year: 1969, name: "Internet (ARPANET)", icon: "🌐" },
-            { year: 1969, name: "Moon Landing", icon: "🌕" },
-            { year: 1971, name: "Microprocessor", icon: "💻" },
-            { year: 1974, name: "Personal Computer", icon: "🖥️" },
-            { year: 1983, name: "Mobile Phone", icon: "📱" },
-            { year: 1990, name: "World Wide Web", icon: "🌍" },
-            { year: 1996, name: "Cloning (Dolly)", icon: "🐑" },
-            { year: 2004, name: "Social Media", icon: "👍" },
-            { year: 2007, name: "Smartphone", icon: "🤳" },
-            { year: 2009, name: "Blockchain", icon: "⛓️" },
-            { year: 2012, name: "CRISPR/Cas9", icon: "✂️" },
-            { year: 2015, name: "Reusable Rockets", icon: "🚀" },
-            { year: 2020, name: "mRNA Vaccines", icon: "💉" },
-            { year: 2022, name: "Generative AI", icon: "🤖" },
-            { year: 2024, name: "Commercial Fusion (Exp)", icon: "☀️" }
+            { year: -10000, name: "Agriculture" },
+            { year: -9000, name: "Animal Domestication" },
+            { year: -6000, name: "Pottery" },
+            { year: -5000, name: "Irrigation" },
+            { year: -4000, name: "Sailing Boats" },
+            { year: -3500, name: "The Wheel" },
+            { year: -3200, name: "Writing (Cuneiform)" },
+            { year: -3000, name: "Bronze Tools" },
+            { year: -2500, name: "Papyrus" },
+            { year: -2500, name: "Glass Making" },
+            { year: -2000, name: "Chariot" },
+            { year: -1500, name: "Alphabet" },
+            { year: -1200, name: "Iron Smelting" },
+            { year: -600, name: "Coins" },
+            { year: -500, name: "Crane (Lifting)" },
+            { year: -200, name: "Paper (China)" },
+            { year: -100, name: "Concrete (Roman)" },
+            { year: 105, name: "Modern Paper" },
+            { year: 850, name: "Gunpowder" },
+            { year: 900, name: "Windmills" },
+            { year: 1040, name: "Movable Type" },
+            { year: 1100, name: "Magnetic Compass" },
+            { year: 1280, name: "Eyeglasses" },
+            { year: 1300, name: "Mechanical Clock" },
+            { year: 1440, name: "Printing Press" },
+            { year: 1590, name: "Microscope" },
+            { year: 1608, name: "Telescope" },
+            { year: 1642, name: "Adding Machine" },
+            { year: 1712, name: "Steam Engine" },
+            { year: 1752, name: "Lightning Rod" },
+            { year: 1764, name: "Spinning Jenny" },
+            { year: 1796, name: "Vaccination" },
+            { year: 1800, name: "Electric Battery" },
+            { year: 1804, name: "Steam Locomotive" },
+            { year: 1826, name: "Photography" },
+            { year: 1837, name: "Telegraph" },
+            { year: 1844, name: "Anesthesia" },
+            { year: 1860, name: "Internal Combustion" },
+            { year: 1876, name: "Telephone" },
+            { year: 1879, name: "Light Bulb" },
+            { year: 1885, name: "Automobile" },
+            { year: 1895, name: "X-Rays" },
+            { year: 1895, name: "Radio" },
+            { year: 1903, name: "Airplane" },
+            { year: 1907, name: "Plastics (Bakelite)" },
+            { year: 1926, name: "Liquid Rocket" },
+            { year: 1927, name: "Television" },
+            { year: 1928, name: "Penicillin" },
+            { year: 1937, name: "Jet Engine" },
+            { year: 1942, name: "Nuclear Reactor" },
+            { year: 1947, name: "Transistor" },
+            { year: 1953, name: "DNA Structure" },
+            { year: 1957, name: "Sputnik (Satellite)" },
+            { year: 1958, name: "Integrated Circuit" },
+            { year: 1960, name: "Laser" },
+            { year: 1969, name: "Internet (ARPANET)" },
+            { year: 1969, name: "Moon Landing" },
+            { year: 1971, name: "Microprocessor" },
+            { year: 1974, name: "Personal Computer" },
+            { year: 1983, name: "Mobile Phone" },
+            { year: 1990, name: "World Wide Web" },
+            { year: 1996, name: "Cloning (Dolly)" },
+            { year: 2004, name: "Social Media" },
+            { year: 2007, name: "Smartphone" },
+            { year: 2009, name: "Blockchain" },
+            { year: 2012, name: "CRISPR/Cas9" },
+            { year: 2015, name: "Reusable Rockets" },
+            { year: 2020, name: "mRNA Vaccines" },
+            { year: 2022, name: "Generative AI" },
+            { year: 2024, name: "Commercial Fusion (Exp)" }
         ];
 
         const POL_ERAS = [
@@ -181,25 +584,25 @@
         ];
 
         const POLITICAL_SYSTEMS = [
-            { name: "Band Societies", start: -10000, end: -3000, type: "Tribal", icon: "🏹", description: "Small, egalitarian, kin-based groups. No formal leadership." },
-            { name: "Tribes & Chiefdoms", start: -8000, end: -1000, type: "Tribal", icon: "⛺", description: "Larger groups with centralized leadership but no bureaucracy." },
-            { name: "City-States (Sumerian)", start: -3500, end: -2000, type: "City-State", icon: "🏙️", description: "Independent sovereign cities with surrounding territory (e.g., Uruk)." },
-            { name: "God-King Theocracy", start: -3100, end: -1070, type: "Monarchy", icon: "👁️", description: "Rulers viewed as living gods or divine intermediaries (e.g., Old Kingdom Egypt)." },
-            { name: "Territorial Empires", start: -2334, end: -330, type: "Empire", icon: "🦅", description: "Centralized rule over diverse peoples (e.g., Akkadian, Persian)." },
-            { name: "Classical Republics", start: -509, end: -27, type: "Republic", icon: "🏛️", description: "Public affair governance with some representation (e.g., Roman Republic)." },
-            { name: "Direct Democracy", start: -508, end: -322, type: "Democracy", icon: "🗳️", description: "Citizens vote directly on legislation (e.g., Athens)." },
-            { name: "Imperial Bureaucracy", start: -221, end: 1911, type: "Empire", icon: "📜", description: "Meritocratic or centralized civil service rule (e.g., Imperial China)." },
-            { name: "Feudalism", start: 800, end: 1500, type: "Feudal", icon: "🏰", description: "Hierarchy of land ownership and service duties." },
-            { name: "Merchant Republics", start: 1000, end: 1797, type: "Republic", icon: "⚖️", description: "Oligarchic city-states run by merchant families (e.g., Venice)." },
-            { name: "Absolute Monarchy", start: 1450, end: 1789, type: "Monarchy", icon: "👑", description: "Monarch holds supreme autocratic authority." },
-            { name: "Westphalian Nation-State", start: 1648, end: 2035, type: "State", icon: "🚩", description: "Sovereignty based on territorial borders and non-interference." },
-            { name: "Constitutional Monarchy", start: 1688, end: 2035, type: "Mixed", icon: "🤴", description: "Monarch acts as head of state within parameters of a constitution." },
-            { name: "Liberal Democracy", start: 1776, end: 2035, type: "Democracy", icon: "🗽", description: "Representative democracy protecting individual liberty." },
-            { name: "Federalism", start: 1787, end: 2035, type: "System", icon: "🤝", description: "Power divided between central authority and constituent units." },
-            { name: "Fascism", start: 1922, end: 1945, type: "Authoritarian", icon: "🦅", description: "Far-right, authoritarian ultranationalism." },
-            { name: "Communism (State)", start: 1917, end: 1991, type: "Authoritarian", icon: "☭", description: "Single-party state planning aimed at common ownership." },
-            { name: "Welfare State", start: 1945, end: 2035, type: "System", icon: "🏥", description: "State plays key role in protection of economic and social well-being." },
-            { name: "Supranational Unions", start: 1952, end: 2035, type: "Global", icon: "🇪🇺", description: "Member states delegate power to a central authority (e.g., EU)." }
+            { name: "Band Societies", start: -10000, end: -3000, type: "Tribal", description: "Small, egalitarian, kin-based groups. No formal leadership." },
+            { name: "Tribes & Chiefdoms", start: -8000, end: -1000, type: "Tribal", description: "Larger groups with centralized leadership but no bureaucracy." },
+            { name: "City-States (Sumerian)", start: -3500, end: -2000, type: "City-State", description: "Independent sovereign cities with surrounding territory (e.g., Uruk)." },
+            { name: "God-King Theocracy", start: -3100, end: -1070, type: "Monarchy", description: "Rulers viewed as living gods or divine intermediaries (e.g., Old Kingdom Egypt)." },
+            { name: "Territorial Empires", start: -2334, end: -330, type: "Empire", description: "Centralized rule over diverse peoples (e.g., Akkadian, Persian)." },
+            { name: "Classical Republics", start: -509, end: -27, type: "Republic", description: "Public affair governance with some representation (e.g., Roman Republic)." },
+            { name: "Direct Democracy", start: -508, end: -322, type: "Democracy", description: "Citizens vote directly on legislation (e.g., Athens)." },
+            { name: "Imperial Bureaucracy", start: -221, end: 1911, type: "Empire", description: "Meritocratic or centralized civil service rule (e.g., Imperial China)." },
+            { name: "Feudalism", start: 800, end: 1500, type: "Feudal", description: "Hierarchy of land ownership and service duties." },
+            { name: "Merchant Republics", start: 1000, end: 1797, type: "Republic", description: "Oligarchic city-states run by merchant families (e.g., Venice)." },
+            { name: "Absolute Monarchy", start: 1450, end: 1789, type: "Monarchy", description: "Monarch holds supreme autocratic authority." },
+            { name: "Westphalian Nation-State", start: 1648, end: 2035, type: "State", description: "Sovereignty based on territorial borders and non-interference." },
+            { name: "Constitutional Monarchy", start: 1688, end: 2035, type: "Mixed", description: "Monarch acts as head of state within parameters of a constitution." },
+            { name: "Liberal Democracy", start: 1776, end: 2035, type: "Democracy", description: "Representative democracy protecting individual liberty." },
+            { name: "Federalism", start: 1787, end: 2035, type: "System", description: "Power divided between central authority and constituent units." },
+            { name: "Fascism", start: 1922, end: 1945, type: "Authoritarian", description: "Far-right, authoritarian ultranationalism." },
+            { name: "Communism (State)", start: 1917, end: 1991, type: "Authoritarian", description: "Single-party state planning aimed at common ownership." },
+            { name: "Welfare State", start: 1945, end: 2035, type: "System", description: "State plays key role in protection of economic and social well-being." },
+            { name: "Supranational Unions", start: 1952, end: 2035, type: "Global", description: "Member states delegate power to a central authority (e.g., EU)." }
         ];
 
         // --- HELPERS ---
@@ -252,52 +655,255 @@
             });
         };
 
+        const MODE_OPTIONS = [
+            { id: 'tech', label: 'Tech', icon: Cpu },
+            { id: 'pol', label: 'Politics', icon: Landmark },
+            { id: 'merged-overlap', label: 'Unified', icon: Layers },
+            { id: 'merged-split', label: 'Split', icon: Split }
+        ];
+
+        const itemKey = (type, data) => `${type}:${data.name}`;
+
+        const getTechGlyph = (name) => {
+            const value = name.toLowerCase();
+            if (/agriculture|domestication|irrigation/.test(value)) return 'sprout';
+            if (/pottery|glass/.test(value)) return 'vessel';
+            if (/boat|wheel|chariot|locomotive|automobile|airplane|rocket/.test(value)) return value.includes('rocket') ? 'rocket' : 'transport';
+            if (/writing|papyrus|paper|alphabet|printing|type/.test(value)) return 'document';
+            if (/bronze|iron|crane|concrete|plastics|spinning/.test(value)) return 'tools';
+            if (/battery|lightning|bulb|reactor|fusion|engine/.test(value)) return 'energy';
+            if (/vaccin|anesthesia|x-rays|penicillin|dna|cloning|crispr/.test(value)) return 'health';
+            if (/telegraph|telephone|radio|television|internet|web|mobile|social/.test(value)) return 'signal';
+            if (/transistor|circuit|processor|computer|smartphone|blockchain|ai/.test(value)) return 'chip';
+            if (/microscope|telescope|laser/.test(value)) return 'science';
+            if (/satellite|moon landing/.test(value)) return 'rocket';
+            return 'spark';
+        };
+
+        const getPoliticalGlyph = (type) => {
+            if (type === 'Tribal') return 'users';
+            if (type === 'City-State' || type === 'State') return 'building';
+            if (type === 'Empire' || type === 'Monarchy') return 'crown';
+            if (type === 'Republic' || type === 'Democracy' || type === 'Mixed') return 'ballot';
+            if (type === 'Authoritarian') return 'shield';
+            if (type === 'Feudal') return 'castle';
+            if (type === 'Global') return 'globe';
+            return 'network';
+        };
+
+        const getItemGlyph = (item) => {
+            if (item.type === 'tech') return getTechGlyph(item.data.name);
+            if (item.type === 'pol') return getPoliticalGlyph(item.data.type);
+            return 'spark';
+        };
+
+        const getItemCategory = (item) => {
+            if (item.type === 'era') return 'Historical era';
+            if (item.type === 'pol') return item.data.type;
+            return 'Innovation';
+        };
+
+        const getItemDate = (item) => {
+            if (item.type === 'tech') return formatYear(item.data.year);
+            const end = item.type === 'pol' && item.data.end > 2024 ? 'Present' : formatYear(item.data.end);
+            return `${formatYear(item.data.start)} - ${end}`;
+        };
+
+        const getItemDescription = (item) => {
+            if (item.data.description) return item.data.description;
+            return 'A milestone on the technology timeline. Explore nearby events to see how innovation accelerates across eras.';
+        };
+
+        const ToolbarButton = ({ label, children, onClick }) => (
+            <button type="button" className="icon-button" aria-label={label} title={label} onClick={onClick}>
+                {children}
+            </button>
+        );
+
+        const ModeButton = ({ option, mode, onChange }) => {
+            const Icon = option.icon;
+            const active = mode === option.id;
+            return (
+                <button
+                    type="button"
+                    className={`mode-button ${active ? 'is-active' : ''}`}
+                    aria-pressed={active}
+                    onClick={() => onChange(option.id)}
+                >
+                    <Icon size={16} />
+                    <span>{option.label}</span>
+                </button>
+            );
+        };
+
+        const DetailContent = ({ item }) => (
+            <>
+                <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
+                    <TimelineGlyph kind={getItemGlyph(item)} size={15} />
+                    <span>{getItemCategory(item)}</span>
+                </div>
+                <h3 className="mt-2 text-xl font-extrabold tracking-tight">{item.data.name}</h3>
+                <div className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{getItemDate(item)}</div>
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{getItemDescription(item)}</p>
+            </>
+        );
+
         function TimelineApp() {
-            // Modes: 'tech' | 'pol' | 'merged-overlap' | 'merged-split'
             const [mode, setMode] = useState('tech');
             const [zoom, setZoom] = useState(1);
             const [isDarkMode, setIsDarkMode] = useState(false);
             const [hoveredItem, setHoveredItem] = useState(null);
+            const [selectedItem, setSelectedItem] = useState(null);
             const [cursorYear, setCursorYear] = useState(null);
             const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+            const [showHelp, setShowHelp] = useState(false);
+            const [isTouchDevice, setIsTouchDevice] = useState(false);
+            const [isDragging, setIsDragging] = useState(false);
 
             const containerRef = useRef(null);
             const nextScrollLeft = useRef(null);
-            const layoutPolData = useMemo(() => layoutPoliticalLanes(POLITICAL_SYSTEMS), []);
+            const zoomRef = useRef(1);
+            const activePointersRef = useRef(new Map());
+            const gestureRef = useRef({ lastMidpoint: null, lastDistance: 0, moved: false });
+            const suppressClickUntilRef = useRef(0);
+            const lastTapRef = useRef({ time: 0, x: 0, y: 0 });
 
-            // --- CONFIGURATION CONSTANTS ---
             const startYear = -10000;
             const endYear = 2035;
             const totalYears = endYear - startYear;
             const PADDING_LEFT = 50;
-            const TIMELINE_HEIGHT = 900;
+            const TIMELINE_HEIGHT = 820;
+            const MIN_ZOOM = 0.025;
+            const MAX_ZOOM = 12;
             const timelineWidth = totalYears * zoom;
+            const canvasWidth = timelineWidth + PADDING_LEFT + 280;
 
-            // Dynamic layout properties based on mode
+            const layoutPolData = useMemo(() => layoutPoliticalLanes(POLITICAL_SYSTEMS), []);
+
             const layout = useMemo(() => {
                 const isSplit = mode === 'merged-split';
                 const isOverlap = mode === 'merged-overlap';
                 const centerY = TIMELINE_HEIGHT / 2;
 
-                // Shifted down by ~40px to allow room for era labels at the top
                 return {
-                    techAxisY: isSplit ? TIMELINE_HEIGHT * 0.65 : (isOverlap ? centerY + 20 : 290),
-                    polAxisY: isSplit ? TIMELINE_HEIGHT * 0.35 : (isOverlap ? centerY + 20 : 240),
-                    polDirection: isSplit ? -1 : (isOverlap ? -1 : 1), // -1 means bars grow/stack upwards
-                    techDirection: 1, // 1 means labels drop downwards
+                    techAxisY: isSplit ? TIMELINE_HEIGHT * 0.66 : (isOverlap ? centerY + 34 : 292),
+                    polAxisY: isSplit ? TIMELINE_HEIGHT * 0.36 : (isOverlap ? centerY + 34 : 242),
+                    polDirection: isSplit || isOverlap ? -1 : 1,
                     showTech: mode === 'tech' || isOverlap || isSplit,
                     showPol: mode === 'pol' || isOverlap || isSplit,
                     eraSet: mode === 'pol' ? POL_ERAS : TECH_ERAS
                 };
             }, [mode]);
 
-            // --- EFFECTS ---
-            useEffect(() => {
-                if (containerRef.current) {
-                    const modernStart = 1700;
-                    const pixelsToModern = (modernStart - startYear) * zoom;
-                    containerRef.current.scrollLeft = pixelsToModern - containerRef.current.clientWidth / 2;
+            const layoutTechData = useMemo(() => {
+                const laneCount = mode === 'tech' ? 16 : 11;
+                const laneEnds = Array.from({ length: laneCount }, () => -Infinity);
+
+                return INVENTIONS.map((invention) => {
+                    const x = (invention.year - startYear) * zoom + PADDING_LEFT;
+                    let lane = laneEnds.findIndex((laneEnd) => x - laneEnd > 176);
+                    if (lane === -1) lane = laneEnds.indexOf(Math.min(...laneEnds));
+                    laneEnds[lane] = x;
+                    return { ...invention, lane };
+                });
+            }, [mode, zoom]);
+
+            const clampZoom = (value) => Math.max(MIN_ZOOM, Math.min(value, MAX_ZOOM));
+            const yearToX = (year, zoomValue = zoomRef.current) => (year - startYear) * zoomValue + PADDING_LEFT;
+
+            const screenXToYear = (clientX, zoomValue = zoomRef.current) => {
+                const container = containerRef.current;
+                if (!container) return startYear;
+                const rect = container.getBoundingClientRect();
+                return (container.scrollLeft + clientX - rect.left - PADDING_LEFT) / zoomValue + startYear;
+            };
+
+            const commitZoom = (newZoom, targetScrollLeft) => {
+                const safeZoom = clampZoom(newZoom);
+                const container = containerRef.current;
+                if (!container) return;
+
+                zoomRef.current = safeZoom;
+                if (Math.abs(safeZoom - zoom) < 0.0001) {
+                    container.scrollLeft = Math.max(0, targetScrollLeft);
+                    return;
                 }
+
+                nextScrollLeft.current = Math.max(0, targetScrollLeft);
+                setZoom(safeZoom);
+            };
+
+            const zoomAtClientX = (newZoom, clientX) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const rect = container.getBoundingClientRect();
+                const viewportOffset = clientX - rect.left;
+                const yearAtPoint = screenXToYear(clientX);
+                const safeZoom = clampZoom(newZoom);
+                commitZoom(safeZoom, yearToX(yearAtPoint, safeZoom) - viewportOffset);
+            };
+
+            const handleZoom = (newZoom, centerRatio = 0.5) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const rect = container.getBoundingClientRect();
+                zoomAtClientX(newZoom, rect.left + rect.width * centerRatio);
+            };
+
+            const panByDelta = (deltaX) => {
+                if (containerRef.current) containerRef.current.scrollLeft -= deltaX;
+            };
+
+            const focusYear = (year, requestedZoom = zoomRef.current) => {
+                const container = containerRef.current;
+                if (!container) return;
+                const safeZoom = clampZoom(requestedZoom);
+                commitZoom(safeZoom, yearToX(year, safeZoom) - container.clientWidth / 2);
+            };
+
+            const fitTimeline = () => {
+                const container = containerRef.current;
+                if (!container) return;
+                const fitZoom = clampZoom((container.clientWidth - 74) / totalYears);
+                commitZoom(fitZoom, 0);
+            };
+
+            const resetView = () => focusYear(1800, 1);
+            const jumpToModern = () => focusYear(1950, Math.max(zoomRef.current, 1.15));
+
+            useEffect(() => {
+                zoomRef.current = zoom;
+            }, [zoom]);
+
+            useEffect(() => {
+                const updatePointerMode = () => {
+                    setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+                };
+                updatePointerMode();
+                const query = window.matchMedia('(pointer: coarse)');
+                query.addEventListener?.('change', updatePointerMode);
+                window.addEventListener('resize', updatePointerMode);
+                return () => {
+                    query.removeEventListener?.('change', updatePointerMode);
+                    window.removeEventListener('resize', updatePointerMode);
+                };
+            }, []);
+
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    if (event.key !== 'Escape') return;
+                    if (showHelp) setShowHelp(false);
+                    else setSelectedItem(null);
+                };
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, [showHelp]);
+
+            useEffect(() => {
+                const applyInitialFocus = () => focusYear(1800, 1);
+                applyInitialFocus();
+                const retry = window.setTimeout(applyInitialFocus, 60);
+                return () => window.clearTimeout(retry);
             }, []);
 
             useLayoutEffect(() => {
@@ -305,223 +911,298 @@
                     containerRef.current.scrollLeft = nextScrollLeft.current;
                     nextScrollLeft.current = null;
                 }
-            });
+            }, [zoom, mode]);
 
-            // --- EVENT HANDLERS ---
-            const handleZoom = (newZoom, centerRatio = 0.5) => {
-                const safeZoom = Math.max(0.05, Math.min(newZoom, 100));
-                if (containerRef.current) {
-                    const container = containerRef.current;
-                    const currentScroll = container.scrollLeft;
-                    const containerWidth = container.clientWidth;
-                    const viewportOffset = containerWidth * centerRatio;
-                    const totalOffset = currentScroll + viewportOffset;
-                    const yearAtCenter = (totalOffset - PADDING_LEFT) / zoom;
-                    const newTotalOffset = yearAtCenter * safeZoom + PADDING_LEFT;
-                    nextScrollLeft.current = newTotalOffset - viewportOffset;
+            const makeItem = (type, data, x = 0, y = 0) => ({ type, data, x, y, key: itemKey(type, data) });
+            const isSelected = (type, data) => selectedItem?.key === itemKey(type, data);
+
+            const selectTimelineItem = (event, type, data) => {
+                if (Date.now() < suppressClickUntilRef.current) return;
+                event.stopPropagation();
+                setSelectedItem(makeItem(type, data));
+            };
+
+            const selectItemWithKeyboard = (event, type, data) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                setSelectedItem(makeItem(type, data));
+            };
+
+            const showHover = (event, type, data) => {
+                if (isTouchDevice || activePointersRef.current.size) return;
+                setHoveredItem(makeItem(type, data, event.clientX, event.clientY));
+            };
+
+            const getPointerMetrics = () => {
+                const points = Array.from(activePointersRef.current.values());
+                if (!points.length) return { midpoint: null, distance: 0 };
+                if (points.length === 1) return { midpoint: points[0], distance: 0 };
+                const first = points[0];
+                const second = points[1];
+                return {
+                    midpoint: { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 },
+                    distance: Math.hypot(second.x - first.x, second.y - first.y)
+                };
+            };
+
+            const updateMouseCursor = (event) => {
+                if (event.pointerType !== 'mouse' || activePointersRef.current.size) return;
+                setCursorYear(screenXToYear(event.clientX));
+                setMousePos({ x: event.clientX, y: event.clientY });
+            };
+
+            const handlePointerDown = (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                const metrics = getPointerMetrics();
+                gestureRef.current = { lastMidpoint: metrics.midpoint, lastDistance: metrics.distance, moved: false };
+                setIsDragging(true);
+            };
+
+            const handlePointerMove = (event) => {
+                if (!activePointersRef.current.has(event.pointerId)) {
+                    updateMouseCursor(event);
+                    return;
                 }
-                setZoom(safeZoom);
+
+                const previous = activePointersRef.current.get(event.pointerId);
+                activePointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                const metrics = getPointerMetrics();
+                const gesture = gestureRef.current;
+                const traveled = Math.hypot(event.clientX - previous.x, event.clientY - previous.y);
+                if (traveled > 2 && !gesture.moved) {
+                    gesture.moved = true;
+                    try {
+                        event.currentTarget.setPointerCapture?.(event.pointerId);
+                    } catch {
+                        // Some embedded browsers do not expose capture for synthetic pointers.
+                    }
+                }
+
+                if (metrics.midpoint && gesture.lastMidpoint) {
+                    panByDelta(metrics.midpoint.x - gesture.lastMidpoint.x);
+                }
+
+                if (activePointersRef.current.size >= 2 && gesture.lastDistance > 0 && metrics.distance > 0) {
+                    const ratio = metrics.distance / gesture.lastDistance;
+                    if (Math.abs(ratio - 1) > 0.002) zoomAtClientX(zoomRef.current * ratio, metrics.midpoint.x);
+                }
+
+                gesture.lastMidpoint = metrics.midpoint;
+                gesture.lastDistance = metrics.distance;
+
+                if (gesture.moved) suppressClickUntilRef.current = Date.now() + 160;
+                event.preventDefault();
             };
 
-            const handleWheel = (e) => {
-                if (e.altKey) {
-                    e.preventDefault();
-                    const direction = e.deltaY > 0 ? 0.9 : 1.1;
-                    const rect = containerRef.current.getBoundingClientRect();
-                    const mouseX = e.clientX - rect.left;
-                    const ratio = mouseX / rect.width;
-                    handleZoom(zoom * direction, ratio);
+            const finishPointer = (event, cancelled = false) => {
+                const wasSinglePointer = activePointersRef.current.size === 1;
+                const gesture = gestureRef.current;
+                const targetIsItem = event.target.closest?.('[data-timeline-item="true"]');
+
+                activePointersRef.current.delete(event.pointerId);
+                try {
+                    event.currentTarget.releasePointerCapture?.(event.pointerId);
+                } catch {
+                    // Capture may already be released after a cancelled gesture.
+                }
+
+                if (activePointersRef.current.size) {
+                    const metrics = getPointerMetrics();
+                    gestureRef.current = { lastMidpoint: metrics.midpoint, lastDistance: metrics.distance, moved: true };
+                    return;
+                }
+
+                setIsDragging(false);
+                if (gesture.moved) {
+                    suppressClickUntilRef.current = Date.now() + 160;
+                    return;
+                }
+
+                if (!cancelled && wasSinglePointer && !targetIsItem) {
+                    const now = Date.now();
+                    const lastTap = lastTapRef.current;
+                    const isDoubleTap = now - lastTap.time < 320 && Math.hypot(event.clientX - lastTap.x, event.clientY - lastTap.y) < 26;
+                    setSelectedItem(null);
+                    if (isDoubleTap) {
+                        zoomAtClientX(zoomRef.current * 1.45, event.clientX);
+                        lastTapRef.current = { time: 0, x: 0, y: 0 };
+                    } else {
+                        lastTapRef.current = { time: now, x: event.clientX, y: event.clientY };
+                    }
                 }
             };
 
-            const handleMouseMove = (e) => {
-                if (!containerRef.current) return;
-                const rect = containerRef.current.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const scrollLeft = containerRef.current.scrollLeft;
-                const totalX = x + scrollLeft;
-                const year = (totalX - PADDING_LEFT) / zoom + startYear;
-                setCursorYear(year);
-                setMousePos({ x: e.clientX, y: e.clientY });
+            const handleWheel = (event) => {
+                if (event.altKey) {
+                    event.preventDefault();
+                    zoomAtClientX(zoomRef.current * (event.deltaY > 0 ? 0.9 : 1.1), event.clientX);
+                    return;
+                }
+
+                if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+                    event.preventDefault();
+                    if (containerRef.current) containerRef.current.scrollLeft += event.deltaY;
+                }
             };
 
-            const handleMouseLeave = () => {
-                setCursorYear(null);
-            };
+            useEffect(() => {
+                const container = containerRef.current;
+                if (!container) return;
+                const wheelListener = (event) => handleWheel(event);
+                container.addEventListener('wheel', wheelListener, { passive: false });
+                return () => container.removeEventListener('wheel', wheelListener);
+            }, []);
 
-            // --- RENDER HELPERS ---
-            const yearToX = (year) => (year - startYear) * zoom + PADDING_LEFT;
-
-            const getTechLabelY = (index) => {
-                const base = layout.techAxisY + 50; // Push down slightly for connector lines
-                const step = 25;
-                const levels = 12;
-                return base + (index % levels) * step;
-            };
+            const getTechLabelY = (lane) => layout.techAxisY + 48 + lane * 27;
 
             const getPolBarY = (lane) => {
-                const laneHeight = 30;
-                if (layout.polDirection === -1) {
-                    return layout.polAxisY - 50 - (lane * laneHeight);
-                }
-                return layout.polAxisY + 40 + (lane * laneHeight);
+                const laneHeight = 31;
+                if (layout.polDirection === -1) return layout.polAxisY - 50 - lane * laneHeight;
+                return layout.polAxisY + 40 + lane * laneHeight;
             };
 
-            // --- COMPONENT UI ---
+            const gridStep = zoom < 0.12 ? 2000 : zoom < 0.45 ? 1000 : zoom < 2 ? 500 : 100;
+            const showTechLabels = zoom > 0.17;
+
             const theme = isDarkMode ? {
-                bg: 'bg-slate-900',
-                panel: 'bg-slate-800 border-slate-700',
+                bg: 'bg-slate-950',
                 text: 'text-slate-100',
                 subText: 'text-slate-400',
-                axis: '#94a3b8',
+                axis: '#cbd5e1',
                 grid: '#1e293b',
-                gridText: '#64748b',
-                hoverBg: 'bg-slate-700',
-                shadow: 'shadow-black/50'
+                gridText: '#64748b'
             } : {
                 bg: 'bg-slate-50',
-                panel: 'bg-white border-slate-200',
                 text: 'text-slate-900',
                 subText: 'text-slate-500',
-                axis: '#334155',
+                axis: '#475569',
                 grid: '#e2e8f0',
-                gridText: '#94a3b8',
-                hoverBg: 'bg-slate-100',
-                shadow: 'shadow-xl'
+                gridText: '#94a3b8'
             };
 
+            const renderToolbar = (mobile = false) => (
+                <div className={`toolbar-shell ${mobile ? 'mobile-toolbar' : 'desktop-toolbar'}`} aria-label="Timeline navigation controls">
+                    <ToolbarButton label="Zoom out" onClick={() => handleZoom(zoomRef.current * 0.82)}>
+                        <ZoomOut size={18} />
+                    </ToolbarButton>
+                    <span className={`w-12 text-center font-mono text-[11px] font-bold ${theme.subText}`}>{Math.round(zoom * 100)}%</span>
+                    <ToolbarButton label="Zoom in" onClick={() => handleZoom(zoomRef.current * 1.22)}>
+                        <ZoomIn size={18} />
+                    </ToolbarButton>
+                    <div className="toolbar-divider" />
+                    <ToolbarButton label="Fit full timeline" onClick={fitTimeline}>
+                        <Maximize2 size={17} />
+                    </ToolbarButton>
+                    <ToolbarButton label="Jump to modern era" onClick={jumpToModern}>
+                        <Navigation size={17} />
+                    </ToolbarButton>
+                    <ToolbarButton label="Reset view" onClick={resetView}>
+                        <RefreshCcw size={17} />
+                    </ToolbarButton>
+                </div>
+            );
+
             return (
-                <div className={`flex flex-col h-screen ${theme.bg} font-sans transition-colors duration-300 overflow-hidden select-none`}>
-
-                    {/* HEADER */}
-                    <div className={`flex-none p-4 border-b ${theme.panel} shadow-sm z-20 flex flex-col xl:flex-row justify-between items-center gap-4`}>
-                        <div className="flex flex-wrap justify-center items-center gap-4">
-                            <div className={`flex ${isDarkMode ? 'bg-slate-900' : 'bg-slate-100'} p-1 rounded-lg border ${isDarkMode ? 'border-slate-700' : 'border-slate-200'}`}>
-                                <button onClick={() => setMode('tech')} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === 'tech' ? `${theme.panel} shadow ${theme.text}` : `${theme.subText} hover:${theme.text}`}`}>
-                                    <Cpu size={16} /> Tech
-                                </button>
-                                <button onClick={() => setMode('pol')} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === 'pol' ? `${theme.panel} shadow ${theme.text}` : `${theme.subText} hover:${theme.text}`}`}>
-                                    <Landmark size={16} /> Politics
-                                </button>
-                                <div className={`w-px h-5 mx-1 self-center ${isDarkMode ? 'bg-slate-700' : 'bg-slate-300'}`}></div>
-                                <button onClick={() => setMode('merged-overlap')} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === 'merged-overlap' ? `${theme.panel} shadow text-purple-500` : `${theme.subText} hover:${theme.text}`}`}>
-                                    <Layers size={16} /> Unified
-                                </button>
-                                <button onClick={() => setMode('merged-split')} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === 'merged-split' ? `${theme.panel} shadow text-purple-500` : `${theme.subText} hover:${theme.text}`}`}>
-                                    <Split size={16} /> Split
-                                </button>
-                            </div>
-
-                            <h1 className={`text-xl font-bold ${theme.text} hidden xl:block`}>
-                                {mode === 'tech' && 'Innovation Timeline'}
-                                {mode === 'pol' && 'Political Evolution'}
-                                {mode.includes('merged') && 'Civilization Timeline'}
-                            </h1>
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsDarkMode(!isDarkMode)}
-                                className={`p-2 rounded-full transition-colors ${theme.subText} hover:${theme.text} hover:${theme.hoverBg}`}
-                            >
-                                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
-
-                            <div className={`hidden md:flex items-center gap-2 text-xs ${theme.subText}`}>
-                                <MousePointer2 size={12} />
-                                <span>Hold <span className={`font-bold ${theme.text} px-1 rounded border ${isDarkMode ? 'border-slate-600 bg-slate-800' : 'border-slate-300 bg-slate-100'}`}>Alt</span> + Scroll</span>
-                            </div>
-
-                            <div className={`flex items-center gap-2 ${theme.panel} p-1.5 rounded-lg border shadow-sm`}>
-                                <button onClick={() => handleZoom(zoom * 0.8)} className={`p-2 rounded-md ${theme.subText} hover:${theme.hoverBg}`}><ZoomOut size={18} /></button>
-                                <span className={`w-12 text-center font-mono text-xs ${theme.subText}`}>{(zoom * 100).toFixed(0)}%</span>
-                                <button onClick={() => handleZoom(zoom * 1.2)} className={`p-2 rounded-md ${theme.subText} hover:${theme.hoverBg}`}><ZoomIn size={18} /></button>
-                                <div className={`w-px h-5 mx-1 ${isDarkMode ? 'bg-slate-700' : 'bg-slate-200'}`}></div>
-                                <button
-                                    onClick={() => {
-                                        setZoom(1);
-                                        if (containerRef.current) {
-                                            const modernStart = 1800;
-                                            nextScrollLeft.current = (modernStart - startYear) * 1 + PADDING_LEFT - containerRef.current.clientWidth / 2;
-                                        }
-                                    }}
-                                    className={`p-2 rounded-md ${theme.subText} hover:${theme.hoverBg}`}
-                                >
-                                    <RefreshCcw size={16} />
-                                </button>
+                <div className={`flex h-screen flex-col overflow-hidden font-sans transition-colors duration-300 ${theme.bg} ${isDarkMode ? 'dark' : ''}`}>
+                    <header className="app-header z-30">
+                        <div className="flex min-w-0 items-center gap-3">
+                            <div className="atlas-mark"><Sparkles size={19} /></div>
+                            <div className="min-w-0">
+                                <div className={`brand-title truncate text-sm font-extrabold uppercase tracking-[0.14em] ${theme.text}`}>Civilization Atlas</div>
+                                <div className={`brand-subtitle mt-0.5 text-[11px] font-medium ${theme.subText}`}>
+                                    {mode === 'tech' && 'Innovation timeline'}
+                                    {mode === 'pol' && 'Political evolution'}
+                                    {mode === 'merged-overlap' && 'Unified civilization view'}
+                                    {mode === 'merged-split' && 'Split civilization view'}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* MAIN CANVAS */}
-                    <div
-                        className="flex-1 overflow-x-auto overflow-y-hidden relative cursor-crosshair active:cursor-grabbing"
+                        <nav className="mode-strip" aria-label="Timeline mode">
+                            {MODE_OPTIONS.map((option) => (
+                                <ModeButton key={option.id} option={option} mode={mode} onChange={setMode} />
+                            ))}
+                        </nav>
+
+                        <div className="flex items-center justify-end gap-1">
+                            <div className={`desktop-hint mr-1 flex items-center gap-2 text-[11px] font-semibold ${theme.subText}`}>
+                                <Hand size={15} />
+                                <span>Drag to move</span>
+                                <span className="opacity-50">/</span>
+                                <span>Alt + scroll to zoom</span>
+                            </div>
+                            <ToolbarButton label="Open gesture help" onClick={() => setShowHelp(true)}>
+                                <HelpCircle size={19} />
+                            </ToolbarButton>
+                            <ToolbarButton label={isDarkMode ? 'Use light theme' : 'Use dark theme'} onClick={() => setIsDarkMode(!isDarkMode)}>
+                                {isDarkMode ? <Sun size={19} /> : <Moon size={19} />}
+                            </ToolbarButton>
+                            {renderToolbar()}
+                        </div>
+                    </header>
+
+                    <main
                         ref={containerRef}
-                        onWheel={handleWheel}
-                        onMouseMove={handleMouseMove}
-                        onMouseLeave={handleMouseLeave}
+                        className={`timeline-canvas relative flex-1 overflow-x-auto overflow-y-hidden ${isDragging ? 'is-dragging' : ''}`}
+                        aria-label="Interactive civilization timeline"
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={(event) => finishPointer(event)}
+                        onPointerCancel={(event) => finishPointer(event, true)}
+                        onPointerLeave={(event) => {
+                            if (event.pointerType === 'mouse' && !activePointersRef.current.size) setCursorYear(null);
+                        }}
                     >
-                        <div
-                            style={{ width: `${timelineWidth + 1000}px`, height: '100%' }}
-                            className="relative"
-                        >
-                            <svg width={timelineWidth + 1000} height={TIMELINE_HEIGHT} className="absolute top-0 left-0 block">
+                        <div className="pointer-events-none sticky left-0 top-0 z-20 flex h-0 w-screen justify-center">
+                            <div className={`mt-3 hidden items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-bold shadow-sm backdrop-blur-md md:flex ${isDarkMode ? 'border-slate-700 bg-slate-900/75 text-slate-300' : 'border-slate-200 bg-white/80 text-slate-600'}`}>
+                                <Hand size={14} />
+                                <span>{isTouchDevice ? 'Drag, pinch, or tap to explore' : 'Drag or scroll to explore the timeline'}</span>
+                            </div>
+                        </div>
 
-                                {/* 1. GRID & ERAS */}
-                                {/* Grid Lines */}
-                                {Array.from({ length: Math.ceil(totalYears / (zoom < 0.5 ? 2000 : zoom < 5 ? 500 : 50)) }).map((_, i) => {
-                                    const step = zoom < 0.5 ? 2000 : zoom < 5 ? 500 : 50;
-                                    const year = startYear + i * step;
-                                    const x = yearToX(year);
-                                    if (x < 0) return null;
+                        <div className="relative" style={{ width: `${canvasWidth}px`, height: `${TIMELINE_HEIGHT}px` }}>
+                            <svg width={canvasWidth} height={TIMELINE_HEIGHT} className="absolute left-0 top-0 block">
+                                {Array.from({ length: Math.ceil(totalYears / gridStep) + 1 }).map((_, index) => {
+                                    const year = startYear + index * gridStep;
+                                    if (year > endYear) return null;
+                                    const x = yearToX(year, zoom);
                                     return (
                                         <g key={year}>
-                                            <line x1={x} y1={0} x2={x} y2={TIMELINE_HEIGHT} stroke={theme.grid} strokeWidth={1} strokeDasharray="4 4" />
-                                            <text x={x + 5} y={layout.techAxisY + 15} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.7}>{formatYear(year)}</text>
+                                            <line x1={x} y1={0} x2={x} y2={TIMELINE_HEIGHT} stroke={theme.grid} strokeWidth={1} strokeDasharray="4 5" />
+                                            <text x={x + 6} y={layout.techAxisY + 17} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.78}>{formatYear(year)}</text>
                                             {mode === 'merged-split' && (
-                                                <text x={x + 5} y={layout.polAxisY - 10} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.7}>{formatYear(year)}</text>
+                                                <text x={x + 6} y={layout.polAxisY - 12} fontSize={10} fill={theme.gridText} fontFamily="monospace" opacity={0.78}>{formatYear(year)}</text>
                                             )}
                                         </g>
                                     );
                                 })}
 
-                                {/* Era Backgrounds */}
-                                {layout.eraSet.map((era, index) => {
-                                    const startX = yearToX(era.start);
-                                    const endX = yearToX(era.end);
-                                    const width = endX - startX;
+                                {layout.eraSet.map((era) => {
+                                    const startX = yearToX(era.start, zoom);
+                                    const endX = yearToX(era.end, zoom);
+                                    const width = Math.max(endX - startX, 1);
                                     const colorHex = hexColors[era.color];
-                                    // Shifted down to y=80 to give room for labels
                                     const ERA_Y = 80;
+                                    const selected = isSelected('era', era);
 
                                     return (
                                         <g key={era.name}>
-                                            {/* Background Rect (Non-interactive) */}
-                                            <rect
-                                                x={startX}
-                                                y={ERA_Y}
-                                                width={Math.max(width, 1)}
-                                                height={TIMELINE_HEIGHT - ERA_Y}
-                                                fill={colorHex}
-                                                fillOpacity={isDarkMode ? 0.15 : 0.3}
-                                            />
-                                            <line x1={endX} y1={0} x2={endX} y2={TIMELINE_HEIGHT} stroke={theme.grid} strokeWidth={1} strokeOpacity={0.5} />
-
-                                            {/* Era Label "Chip" - Interactive */}
-                                            {width > 60 ? (
-                                                <foreignObject x={startX} y={ERA_Y + 10} width={width} height={40} style={{ overflow: 'visible' }}>
+                                            <rect x={startX} y={ERA_Y} width={width} height={TIMELINE_HEIGHT - ERA_Y} fill={colorHex} fillOpacity={isDarkMode ? 0.12 : 0.25} />
+                                            <line x1={endX} y1={0} x2={endX} y2={TIMELINE_HEIGHT} stroke={theme.grid} strokeWidth={1} strokeOpacity={0.65} />
+                                            {width > 86 ? (
+                                                <foreignObject x={startX} y={ERA_Y + 12} width={width} height={38} style={{ overflow: 'visible' }}>
                                                     <div className="flex justify-center">
                                                         <div
-                                                            className={`
-                                        px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm border border-black/10
-                                        cursor-help transition-transform hover:scale-105 hover:z-20
-                                        ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}
-                                        `}
-                                                            style={{
-                                                                backgroundColor: isDarkMode ? colorHex + '60' : colorHex, // Add transparency in dark mode
-                                                                boxShadow: `0 2px 4px ${colorHex}60`
-                                                            }}
-                                                            onMouseEnter={(e) => setHoveredItem({ type: 'era', data: era, x: e.clientX, y: e.clientY })}
+                                                            role="button"
+                                                            tabIndex="0"
+                                                            data-timeline-item="true"
+                                                            aria-label={`Open ${era.name} details`}
+                                                            className={`era-chip ${selected ? 'is-selected' : ''}`}
+                                                            style={{ backgroundColor: isDarkMode ? `${colorHex}66` : colorHex }}
+                                                            onClick={(event) => selectTimelineItem(event, 'era', era)}
+                                                            onKeyDown={(event) => selectItemWithKeyboard(event, 'era', era)}
+                                                            onMouseEnter={(event) => showHover(event, 'era', era)}
                                                             onMouseLeave={() => setHoveredItem(null)}
                                                         >
                                                             {era.name}
@@ -529,70 +1210,61 @@
                                                     </div>
                                                 </foreignObject>
                                             ) : (
-                                                /* Rotated Label for small eras - Positioned above the era rect */
-                                                <g transform={`translate(${startX + width / 2}, ${ERA_Y - 5})`}>
-                                                    <text
-                                                        transform="rotate(-45)"
-                                                        textAnchor="start"
-                                                        fontSize={10}
-                                                        fontWeight="bold"
-                                                        fill={isDarkMode ? '#cbd5e1' : '#475569'}
-                                                        className="cursor-help uppercase tracking-wider"
-                                                        onMouseEnter={(e) => setHoveredItem({ type: 'era', data: era, x: e.clientX, y: e.clientY })}
-                                                        onMouseLeave={() => setHoveredItem(null)}
-                                                    >
-                                                        {era.name}
-                                                    </text>
-                                                </g>
+                                                <text
+                                                    data-timeline-item="true"
+                                                    role="button"
+                                                    tabIndex="0"
+                                                    aria-label={`Open ${era.name} details`}
+                                                    transform={`translate(${startX + width / 2}, ${ERA_Y - 5}) rotate(-48)`}
+                                                    textAnchor="start"
+                                                    fontSize={10}
+                                                    fontWeight="800"
+                                                    fill={selected ? '#2563eb' : (isDarkMode ? '#cbd5e1' : '#475569')}
+                                                    className="cursor-pointer uppercase tracking-wider"
+                                                    onClick={(event) => selectTimelineItem(event, 'era', era)}
+                                                    onKeyDown={(event) => selectItemWithKeyboard(event, 'era', era)}
+                                                    onMouseEnter={(event) => showHover(event, 'era', era)}
+                                                    onMouseLeave={() => setHoveredItem(null)}
+                                                >
+                                                    {era.name}
+                                                </text>
                                             )}
                                         </g>
                                     );
                                 })}
 
-
-                                {/* 2. POLITICAL LAYER */}
                                 {layout.showPol && (
                                     <g>
-                                        <line x1={PADDING_LEFT} y1={layout.polAxisY} x2={yearToX(endYear)} y2={layout.polAxisY} stroke={theme.axis} strokeWidth={2} />
+                                        <line x1={PADDING_LEFT} y1={layout.polAxisY} x2={yearToX(endYear, zoom)} y2={layout.polAxisY} stroke={theme.axis} strokeWidth={2} />
                                         {mode.includes('merged') && (
-                                            <text x={PADDING_LEFT} y={layout.polAxisY - 10} fill={theme.axis} fontWeight="bold" fontSize={12}>POLITICAL</text>
+                                            <text x={PADDING_LEFT} y={layout.polAxisY - 12} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">POLITICS</text>
                                         )}
-
-                                        {layoutPolData.map((sys, index) => {
-                                            const startX = yearToX(sys.start);
-                                            const endX = yearToX(sys.end);
-                                            const width = Math.max(endX - startX, 2);
-                                            const y = getPolBarY(sys.lane);
-                                            const color = polColors[sys.type] || '#64748b';
-                                            const fillOpacity = isDarkMode ? 0.3 : 0.2;
-
+                                        {layoutPolData.map((system, index) => {
+                                            const startX = yearToX(system.start, zoom);
+                                            const endX = yearToX(system.end, zoom);
+                                            const width = Math.max(endX - startX, 3);
+                                            const y = getPolBarY(system.lane);
+                                            const color = polColors[system.type] || '#64748b';
+                                            const selected = isSelected('pol', system);
                                             return (
                                                 <g
-                                                    key={`${sys.name}-${index}`}
-                                                    className="cursor-pointer group"
-                                                    onMouseEnter={(e) => {
-                                                        const rect = e.target.getBoundingClientRect();
-                                                        setHoveredItem({ type: 'pol', data: sys, x: rect.left + rect.width / 2, y: rect.top, width: width });
-                                                    }}
+                                                    key={`${system.name}-${index}`}
+                                                    data-timeline-item="true"
+                                                    role="button"
+                                                    tabIndex="0"
+                                                    aria-label={`Open ${system.name} details`}
+                                                    className="cursor-pointer"
+                                                    onClick={(event) => selectTimelineItem(event, 'pol', system)}
+                                                    onKeyDown={(event) => selectItemWithKeyboard(event, 'pol', system)}
+                                                    onMouseEnter={(event) => showHover(event, 'pol', system)}
                                                     onMouseLeave={() => setHoveredItem(null)}
                                                 >
-                                                    <rect
-                                                        x={startX} y={y} width={width} height={24} rx={4}
-                                                        fill={color} fillOpacity={fillOpacity} stroke={color} strokeWidth={1}
-                                                        className="hover:fill-opacity-50 transition-all"
-                                                    />
-                                                    <line
-                                                        x1={startX} y1={layout.polDirection === -1 ? y + 24 : y}
-                                                        x2={startX} y2={layout.polAxisY}
-                                                        stroke={color} strokeWidth={1} strokeDasharray="2 2" opacity={0.3}
-                                                    />
-                                                    <foreignObject x={startX} y={y} width={width} height={24} style={{ pointerEvents: 'none' }}>
-                                                        <div className={`w-full h-full flex items-center justify-center overflow-hidden ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`} style={{ textShadow: isDarkMode ? '0 1px 2px black' : '0 1px 2px white' }}>
-                                                            {/* Always show icon. If width is small, just icon. If large, icon + text */}
-                                                            <span className="flex-shrink-0 text-sm mr-1">{sys.icon}</span>
-                                                            {width > 60 && (
-                                                                <span className="text-[11px] font-semibold truncate">{sys.name}</span>
-                                                            )}
+                                                    <rect x={startX} y={y} width={width} height={25} rx={7} fill={color} fillOpacity={selected ? 0.44 : (isDarkMode ? 0.28 : 0.2)} stroke={color} strokeWidth={selected ? 3 : 1.4} />
+                                                    <line x1={startX} y1={layout.polDirection === -1 ? y + 25 : y} x2={startX} y2={layout.polAxisY} stroke={color} strokeWidth={1} strokeDasharray="2 3" opacity={0.38} />
+                                                    <foreignObject x={startX} y={y} width={width} height={25} style={{ pointerEvents: 'none' }}>
+                                                        <div className={`flex h-full w-full items-center justify-center gap-1 overflow-hidden px-1 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>
+                                                            <TimelineGlyph kind={getPoliticalGlyph(system.type)} size={13} className="shrink-0" />
+                                                            {width > 74 && <span className="truncate text-[11px] font-bold">{system.name}</span>}
                                                         </div>
                                                     </foreignObject>
                                                 </g>
@@ -601,111 +1273,111 @@
                                     </g>
                                 )}
 
-
-                                {/* 3. TECH LAYER */}
                                 {layout.showTech && (
                                     <g>
-                                        <line x1={PADDING_LEFT} y1={layout.techAxisY} x2={yearToX(endYear)} y2={layout.techAxisY} stroke={theme.axis} strokeWidth={2} />
+                                        <line x1={PADDING_LEFT} y1={layout.techAxisY} x2={yearToX(endYear, zoom)} y2={layout.techAxisY} stroke={theme.axis} strokeWidth={2} />
                                         {mode.includes('merged') && (
-                                            <text x={PADDING_LEFT} y={layout.techAxisY + 20} fill={theme.axis} fontWeight="bold" fontSize={12}>TECHNOLOGY</text>
+                                            <text x={PADDING_LEFT} y={layout.techAxisY + 24} fill={theme.axis} fontWeight="800" fontSize={11} letterSpacing="1.4">TECHNOLOGY</text>
                                         )}
-
-                                        {INVENTIONS.map((inv, index) => {
-                                            const x = yearToX(inv.year);
-                                            const yEnd = getTechLabelY(index);
-
+                                        {layoutTechData.map((invention, index) => {
+                                            const x = yearToX(invention.year, zoom);
+                                            const yEnd = getTechLabelY(invention.lane);
+                                            const selected = isSelected('tech', invention);
                                             return (
                                                 <g
-                                                    key={`${inv.name}-${index}`}
-                                                    className="group"
-                                                    onMouseEnter={(e) => {
-                                                        const rect = e.target.getBoundingClientRect();
-                                                        setHoveredItem({ type: 'tech', data: inv, x: rect.left, y: rect.top });
-                                                    }}
+                                                    key={`${invention.name}-${index}`}
+                                                    data-timeline-item="true"
+                                                    role="button"
+                                                    tabIndex="0"
+                                                    aria-label={`Open ${invention.name} details`}
+                                                    className="cursor-pointer"
+                                                    onClick={(event) => selectTimelineItem(event, 'tech', invention)}
+                                                    onKeyDown={(event) => selectItemWithKeyboard(event, 'tech', invention)}
+                                                    onMouseEnter={(event) => showHover(event, 'tech', invention)}
                                                     onMouseLeave={() => setHoveredItem(null)}
                                                 >
-                                                    {/* Simpler line style */}
-                                                    <path d={`M ${x} ${layout.techAxisY} L ${x} ${yEnd}`} stroke={theme.gridText} strokeWidth={1} />
-                                                    <circle cx={x} cy={layout.techAxisY} r={3} fill={theme.axis} className="group-hover:fill-blue-500 transition-colors" />
-
-                                                    {/* Floating pill cards */}
-                                                    <foreignObject x={x - 75} y={yEnd} width={150} height={60} style={{ overflow: 'visible', pointerEvents: 'none' }}>
-                                                        <div className={`flex flex-col items-center text-center transition-transform duration-200 group-hover:scale-110 group-hover:z-50 relative`}>
-                                                            <div className={`${theme.panel} border shadow-sm px-2 py-1 rounded text-xs font-medium ${theme.text} whitespace-nowrap group-hover:bg-slate-800 group-hover:text-white group-hover:border-slate-800 pointer-events-auto cursor-default flex items-center gap-1`}>
-                                                                <span>{inv.icon}</span>
-                                                                {inv.name}
-                                                            </div>
-                                                            {zoom > 0.5 && (
-                                                                <div className="text-[10px] font-mono mt-0.5 opacity-60 text-center bg-white/50 dark:bg-black/50 px-1 rounded">
-                                                                    {formatYear(inv.year)}
+                                                    <path d={`M ${x} ${layout.techAxisY} L ${x} ${yEnd}`} stroke={selected ? '#2563eb' : theme.gridText} strokeWidth={selected ? 2 : 1} opacity={selected ? 0.95 : 0.7} />
+                                                    <circle cx={x} cy={layout.techAxisY} r={selected ? 5 : 3.5} fill={selected ? '#2563eb' : theme.axis} />
+                                                    {showTechLabels ? (
+                                                        <foreignObject x={x - 85} y={yEnd} width={170} height={58} style={{ overflow: 'visible' }}>
+                                                            <div className="flex flex-col items-center text-center">
+                                                                <div className={`timeline-label flex items-center gap-1.5 whitespace-nowrap px-2 py-1 text-[11px] font-bold ${theme.text} ${selected ? 'is-selected' : ''}`}>
+                                                                    <TimelineGlyph kind={getTechGlyph(invention.name)} size={13} className="shrink-0 text-blue-500" />
+                                                                    <span>{invention.name}</span>
                                                                 </div>
-                                                            )}
-                                                        </div>
-                                                    </foreignObject>
+                                                                {zoom > 0.48 && <div className={`mt-0.5 rounded px-1 font-mono text-[9px] ${theme.subText}`}>{formatYear(invention.year)}</div>}
+                                                            </div>
+                                                        </foreignObject>
+                                                    ) : (
+                                                        <circle cx={x} cy={yEnd} r={selected ? 5 : 4} fill={selected ? '#2563eb' : theme.gridText} opacity={0.82} />
+                                                    )}
                                                 </g>
                                             );
                                         })}
                                     </g>
                                 )}
-
                             </svg>
                         </div>
-                    </div>
+                    </main>
 
-                    {/* OVERLAYS */}
-                    {cursorYear !== null && (
-                        <div
-                            className="fixed pointer-events-none z-50 px-2 py-1 rounded bg-blue-600 text-white text-xs font-bold shadow-md transform -translate-x-1/2 -translate-y-full mb-2"
-                            style={{ left: mousePos.x, top: mousePos.y - 10 }}
-                        >
+                    {!isTouchDevice && cursorYear !== null && !isDragging && (
+                        <div className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-full bg-blue-600 px-2 py-1 text-[11px] font-bold text-white shadow-md" style={{ left: mousePos.x, top: mousePos.y - 10 }}>
                             {formatYear(cursorYear)}
                         </div>
                     )}
 
-                    {hoveredItem && (
-                        <div
-                            className={`fixed z-50 p-4 rounded-xl border shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150 max-w-xs pointer-events-none
-                        ${isDarkMode ? 'bg-slate-800/95 border-slate-600 text-slate-100' : 'bg-white/95 border-slate-200 text-slate-800'}
-                    `}
-                            style={{
-                                left: hoveredItem.x,
-                                top: hoveredItem.y + (hoveredItem.type === 'pol' ? 30 : -10),
-                                transform: 'translate(-50%, -100%)'
-                            }}
-                        >
-                            {hoveredItem.type === 'era' && (
-                                <>
-                                    <div className="text-xs font-bold uppercase tracking-wider opacity-50 mb-1">Historical Era</div>
-                                    <h3 className="font-bold text-lg mb-1">{hoveredItem.data.name}</h3>
-                                    <div className="font-mono text-xs opacity-70 mb-2">{formatYear(hoveredItem.data.start)} — {formatYear(hoveredItem.data.end)}</div>
-                                    <p className="text-sm opacity-90">{hoveredItem.data.description}</p>
-                                </>
-                            )}
-                            {hoveredItem.type === 'pol' && (
-                                <>
-                                    <div className="text-xs font-bold uppercase tracking-wider opacity-50 mb-1">Political System</div>
-                                    <h3 className="font-bold text-lg mb-1" style={{ color: polColors[hoveredItem.data.type] }}>
-                                        <span className="mr-2">{hoveredItem.data.icon}</span>
-                                        {hoveredItem.data.name}
-                                    </h3>
-                                    <div className="font-mono text-xs opacity-70 mb-2">{formatYear(hoveredItem.data.start)} — {hoveredItem.data.end > 2024 ? 'Present' : formatYear(hoveredItem.data.end)}</div>
-                                    <p className="text-sm opacity-90">{hoveredItem.data.description}</p>
-                                    <div className="mt-2 text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-700 inline-block font-mono">Type: {hoveredItem.data.type}</div>
-                                </>
-                            )}
-                            {hoveredItem.type === 'tech' && (
-                                <>
-                                    <div className="text-xs font-bold uppercase tracking-wider opacity-50 mb-1">Innovation</div>
-                                    <h3 className="font-bold text-lg mb-1 text-blue-500">
-                                        <span className="mr-2">{hoveredItem.data.icon}</span>
-                                        {hoveredItem.data.name}
-                                    </h3>
-                                    <div className="font-mono text-xs opacity-70 mb-2">{formatYear(hoveredItem.data.year)}</div>
-                                </>
-                            )}
+                    {!isTouchDevice && hoveredItem && !selectedItem && (
+                        <div className={`pointer-events-none fixed z-50 w-72 -translate-x-1/2 -translate-y-full rounded-2xl border p-4 shadow-2xl backdrop-blur-md ${isDarkMode ? 'border-slate-600 bg-slate-800/95 text-slate-100' : 'border-slate-200 bg-white/95 text-slate-800'}`} style={{ left: hoveredItem.x, top: hoveredItem.y - 12 }}>
+                            <DetailContent item={hoveredItem} />
                         </div>
                     )}
 
+                    {selectedItem && (
+                        <aside className="detail-sheet" role="dialog" aria-label={`${selectedItem.data.name} details`}>
+                            <button type="button" className="icon-button absolute right-2 top-2" aria-label="Close details" title="Close details" onClick={() => setSelectedItem(null)}>
+                                <X size={18} />
+                            </button>
+                            <div className="pr-8"><DetailContent item={selectedItem} /></div>
+                        </aside>
+                    )}
+
+                    {!selectedItem && renderToolbar(true)}
+
+                    {showHelp && (
+                        <div className="help-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) setShowHelp(false); }}>
+                            <section className="help-panel" role="dialog" aria-modal="true" aria-labelledby="gesture-help-title">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                        <div className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-500">Timeline guide</div>
+                                        <h2 id="gesture-help-title" className="mt-1 text-2xl font-extrabold tracking-tight">Explore like a map</h2>
+                                    </div>
+                                    <button type="button" className="icon-button -mr-2 -mt-2" aria-label="Close help" title="Close help" onClick={() => setShowHelp(false)}>
+                                        <X size={19} />
+                                    </button>
+                                </div>
+                                <div className="mt-5 grid gap-5 md:grid-cols-2">
+                                    <div>
+                                        <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Desktop</h3>
+                                        <ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300">
+                                            <li>Hover for a quick preview.</li>
+                                            <li>Click an item to pin its details.</li>
+                                            <li>Drag or scroll to move through time.</li>
+                                            <li>Hold Alt while scrolling to zoom.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Touch</h3>
+                                        <ul className="mt-2 space-y-2 text-sm leading-5 text-slate-600 dark:text-slate-300">
+                                            <li>Drag with one finger to pan.</li>
+                                            <li>Pinch or drag with two fingers to zoom and move.</li>
+                                            <li>Tap an item for a detail sheet.</li>
+                                            <li>Double tap empty space to zoom in.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    )}
                 </div>
             );
         }
